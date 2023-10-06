@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import Masonry from "react-masonry-css";
-
 import PostCard from "./postCard.js";
 import ProductCard from "./productCard";
-
 import AppContext from "../../globalState";
-
 import Loader from "./loader.js";
 
 export default function Projects({
@@ -19,6 +15,7 @@ export default function Projects({
   columnAmountOn390,
 }) {
   const myContext = useContext(AppContext);
+
   if (!projectList) {
     projectList = myContext.projectList;
   }
@@ -206,41 +203,18 @@ export default function Projects({
         </div>
       )}
 
-      {postcard ? (
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid fullWidthPadded"
-          columnClassName="my-masonry-grid_column"
-        >
-          {sortedPosts &&
-            sortedPosts.map((post, index) => (
-              <>
-                {" "}
-                {post.categories[0].title === "Creative" ? (
-                  <></>
-                ) : (
-                  <PostCard post={post} key={index} />
-                )}
-              </>
-            ))}
-        </Masonry>
-      ) : (
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid fullWidthPadded griddedMasonry categoryGrid"
-          columnClassName="my-masonry-grid_column"
-        >
-          {sortedPosts &&
-            sortedPosts.map((post, index) => (
-              <ProductCard
-                post={post}
-                key={index}
-                mainFirst={true}
-                shouldHaveFreebieSign={shouldHaveFreebieSign}
-              />
-            ))}
-        </Masonry>
-      )}
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid fullWidthPadded"
+        columnClassName="my-masonry-grid_column"
+      >
+        {sortedPosts &&
+          sortedPosts.map((post, index) => (
+            <>
+              <PostCard post={post} key={index} />
+            </>
+          ))}
+      </Masonry>
     </div>
   );
 }

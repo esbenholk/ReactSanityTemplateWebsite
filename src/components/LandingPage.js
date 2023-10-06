@@ -39,152 +39,17 @@ export default function LandingPage() {
   }, [myContext.hasFeaturedPosts, projectList, info]);
 
   return (
-    <motion.div
-    // layout
-    // initial={{ opacity: 0 }}
-    // animate={{ opacity: 1 }}
-    // exit={{ opacity: 0 }}
-    >
+    <motion.div>
       {info.greeting && (
         <motion.h1 className="headline flex-column fullWidthPadded">
           {info.greeting}
         </motion.h1>
       )}
 
-      {info && (
-        <HeadTags
-          title={info.title}
-          description={info.greeting}
-          image={info.mainImage.asset.url}
-        />
-      )}
-
-      <>
-        {info.mainImages ? (
-          <div className={width > 900 ? "fullWidthPadded" : ""}>
-            {width > 900 ? (
-              <CustomCarousel
-                arrows={true}
-                swipe={true}
-                classsss={""}
-                autoplay={true}
-                currentIndex={0}
-              >
-                {info.mainImages.map((image, index) => (
-                  <>
-                    {info.mainImageLinks[index].includes("http") ? (
-                      <a
-                        href={info.mainImageLinks[index]}
-                        key={index}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <div key={index}>
-                          <Image image={image} class={"mainImage fullwidth"} />
-                        </div>
-                      </a>
-                    ) : (
-                      <Link to={info.mainImageLinks[index]} key={index}>
-                        <div key={index}>
-                          <Image image={image} class={"mainImage fullwidth"} />
-                        </div>
-                      </Link>
-                    )}{" "}
-                  </>
-                ))}
-              </CustomCarousel>
-            ) : (
-              <CustomCarousel
-                arrows={false}
-                swipe={true}
-                classsss={""}
-                autoplay={true}
-                currentIndex={0}
-              >
-                {info.mainImages.map((image, index) => (
-                  <>
-                    {info.mainImageLinks[index].includes("http") ? (
-                      <a
-                        href={info.mainImageLinks[index]}
-                        key={index}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <div key={index}>
-                          <Image image={image} class={"mainImage fullwidth"} />
-                        </div>
-                      </a>
-                    ) : (
-                      <Link to={info.mainImageLinks[index]} key={index}>
-                        <div key={index}>
-                          <Image image={image} class={"mainImage fullwidth"} />
-                        </div>
-                      </Link>
-                    )}{" "}
-                  </>
-                ))}
-              </CustomCarousel>
-            )}
-          </div>
-        ) : (
-          <>
-            {info.mainImage ? (
-              <div className="fullWidthPadded">
-                <Image image={info.mainImage} class={"mainImage fullwidth"} />
-              </div>
-            ) : null}{" "}
-          </>
-        )}
-      </>
-
-      {myContext.hasFeaturedPosts && featuredProjects ? (
-        <div
-          className={
-            info.mainImage || info.mainImages.length > 0
-              ? "regContainer"
-              : "regContainer no-top"
-          }
-        >
-          {info.featured_project_title ? (
-            <motion.h1 className="headline flex-column fullWidthPadded">
-              {info.featured_project_title}
-            </motion.h1>
-          ) : null}
-
-          {width > 1050 ? (
-            <div className="fullWidthPadded">
-              <CustomCarousel
-                arrows={true}
-                classsss={"featured_post_container"}
-              >
-                {featuredProjects.map((post, index) => (
-                  <FeaturedCard post={post} key={index} />
-                ))}
-              </CustomCarousel>
-            </div>
-          ) : (
-            <div className="horizontalScroll overscrollPadded">
-              {featuredProjects.map((post, index) => (
-                <FeaturedCard post={post} key={index} />
-              ))}
-            </div>
-          )}
-        </div>
-      ) : null}
+      {info && <HeadTags title={info.title} description={info.greeting} />}
 
       {projectList ? (
         <div className="regContainer">
-          {info.More_skills_and_ideas && (
-            <motion.h1 className="flex-column fullWidthPadded noMargin">
-              {info.More_skills_and_ideas}{" "}
-            </motion.h1>
-          )}
-          {info.More_skills_and_ideas2 && (
-            <motion.h1 className="subheadline flex-column fullWidthPadded">
-              {info.More_skills_and_ideas2}{" "}
-            </motion.h1>
-          )}
-
           <Projects
             projectList={projectList}
             show_categories={true}

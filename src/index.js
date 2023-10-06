@@ -11,7 +11,6 @@ import "./fonts/Galvji-01.ttf";
 
 ReactDOM.render(
   <React.StrictMode>
-    <h1>hej</h1>
     <App />
   </React.StrictMode>,
   document.getElementById("root")

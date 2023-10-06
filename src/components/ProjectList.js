@@ -29,20 +29,7 @@ export default function Projects({ projectList }) {
   const info = myContext.siteSettings;
 
   return (
-    <motion.div
-      className="projectList fullWidthPadded"
-      // layout
-      // initial={{ opacity: 0 }}
-      // animate={{ opacity: 1 }}
-      // exit={{ opacity: 0 }}
-    >
-      {info && (
-        <HeadTags
-          title={info.title}
-          description={info.description}
-          image={info.mainImage.asset.url}
-        />
-      )}
+    <motion.div className="projectList fullWidthPadded">
       <div className="projectList-item">
         <h1 className={width > 900 ? "categories" : "categories headline"}>
           Projects

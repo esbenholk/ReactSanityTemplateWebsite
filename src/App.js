@@ -32,61 +32,34 @@ const Category = lazy(() => import("./components/Category.js"));
 function App() {
   const [siteSettings, setSiteSettings] = useState();
   const [projectList, setProjectList] = useState();
-  const [shouldShowPopUp, setshouldShowPopUp] = useState(true);
-
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-
-  const [basket, setBasket] = useState([]);
-  const [isBasketOpen, setIsBasketOpen] = useState(false);
-
-  const [basket_message, setBasket_message] = useState("Your cart is empty.");
-
-  const [hasFeaturedPosts, setHasFeaturedPosts] = useState(false);
-
   const mainRef = createRef();
-
   const { width } = useWindowDimensions();
 
-  ///get data from website and so
   useEffect(() => {
-    ///get the site settings and basic info
-    // sanityClient
-    //   .fetch(
-    //     '*[_type == "siteSettings"]{title, greeting, More_skills_and_ideas, More_skills_and_ideas2, featured_project_title, mainImage{asset->{_id,url}, hotspot, alt}, mainImages, mainImageLinks, authorImage{asset->{_id,url}, hotspot, alt}, shouldpopup, popupimage{asset->{_id,url}},  logo{asset->{_id,url}}, footerlogo{asset->{_id,url}}, desktopfooterlogo{asset->{_id,url}},featuredProjects, about, contact, socialMediaHandles[]{logo{asset->{_id,url}},url, URLName}, contactDetails, contactHours, email}'
-    //   )
-    //   .then((data) => {
-    //     setSiteSettings(data[0]);
-    //     if (data[0].featuredProjects && data[0].featuredProjects.length > 0) {
-    //       setHasFeaturedPosts(true);
-    //     }
-    //   })
-    //   .catch(console.error);
-    ////get all the projects
     sanityClient
       .fetch(
-        '*[_type == "Post"]{title,mainImage{asset->{_id,url}, hotspot, alt}, productImage{asset->{_id,url}, hotspot, alt}, year, abbreviated_year, abbreviated_year2, star_rating ,slug, categories[]->{title, slug}, tags, color, recap,description, yearString}'
+        '*[_type == "siteSettings"]{title, greeting,logo{asset->{_id,url}}, socialMediaHandles[]{logo{asset->{_id,url}},url, URLName}}'
       )
       .then((data) => {
-        console.log("CMS DATA:" + data);
+        console.log("CMS SITE DATA:", data);
+        setSiteSettings(data[0]);
+      })
+      .catch(console.error);
+  }, []);
+  ///get data from website and so
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        ' *[_type == "project"]{ title, slug, mainImage, tags, categories[]->{title, slug}, pageBuilder[]{ _type == "hero" => { _type, heading, tagline, image}, _type == "gallery" => { _type, heading,images}, _type == "breadContent" => { _type, heading, content}, _type == "connectedProjects" => {_type, heading, projects[]->{title, slug}}},}'
+      )
+      .then((data) => {
+        console.log("CMS PROJECT DATA:", data[0]);
         data.sort((a, b) => b.year - a.year);
         setProjectList(data);
       })
       .catch(console.error);
-    // sanityClient
-    //   .fetch('*[_type == "category"]{ title, slug, description, priority}')
-    //   .then((data) => {
-    //     data.sort((a, b) => a.priority - b.priority);
-    //     console.log("has categories", data);
-    //     // for (let index = 0; index < data.length; index++) {
-    //     //   const category = data[index];
-    //     //   if (category.title !== "Freebie") {
-    //     //     categories.push(category);
-    //     //   }
-    //     // }
-    //     setCategories(data);
-    //   })
-    //   .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -110,27 +83,14 @@ function App() {
   const globalContext = {
     siteSettings: siteSettings,
     projectList: projectList,
-    basket: basket,
     tags: tags,
     categories: categories,
-    hasFeaturedPosts: hasFeaturedPosts,
     mainRef: mainRef,
     setSiteSettings,
     setProjectList,
-    setBasket,
     setTags,
     setCategories,
-    setHasFeaturedPosts,
   };
-
-  function updatebasket(string) {
-    if (string !== "remove") {
-      if (string !== "Thanks for shopping with us") {
-        setIsBasketOpen(!isBasketOpen);
-      }
-    }
-    setBasket_message(string);
-  }
 
   return (
     <>
@@ -138,43 +98,7 @@ function App() {
         <Suspense fallback={<Loader />}>
           <AppContext.Provider value={globalContext}>
             <BrowserRouter>
-              {siteSettings && (
-                <>
-                  {" "}
-                  {width > 1050 ? (
-                    <nav className="fullWidthPadded normPaddingMobile">
-                      <Header />
-                      <div className="flex-row" style={{ minWidth: "40%" }}>
-                        <Dropdown categories={categories} mainRef={mainRef} />
-                        <Basket
-                          basket={basket}
-                          basket_message={basket_message}
-                          isBasketOpen={isBasketOpen}
-                          updatebasket={updatebasket}
-                        />
-                      </div>
-                    </nav>
-                  ) : (
-                    <>
-                      <nav
-                        className="fullWidthPadded"
-                        style={{ width: "100%" }}
-                      >
-                        <div className="flex-row" style={{ width: "100%" }}>
-                          <Header />
-                          <Basket
-                            basket={basket}
-                            isBasketOpen={isBasketOpen}
-                            basket_message={basket_message}
-                            updatebasket={updatebasket}
-                          />
-                        </div>
-                        <Dropdown categories={categories} mainRef={mainRef} />
-                      </nav>
-                    </>
-                  )}
-                </>
-              )}
+              {siteSettings && <Header />}
 
               <AnimatePresence>
                 <motion.div
@@ -211,45 +135,13 @@ function App() {
                         <PressList />
                       </Route>
                       <Route exact path="/:slug">
-                        <SinglePost updatebasket={updatebasket} />
+                        <SinglePost />
                       </Route>
                     </Switch>
                   </ScrollToTop>
                 </motion.div>
               </AnimatePresence>
-              {siteSettings && <Footer />}
-              {siteSettings &&
-              siteSettings.shouldpopup &&
-              siteSettings.popupimage &&
-              shouldShowPopUp ? (
-                <>
-                  <div className="overlay popupcontainer"></div>
-                  <div className="popup">
-                    <img
-                      src={siteSettings.popupimage.asset.url}
-                      style={{
-                        width: "100%",
-                      }}
-                      alt="popupimage"
-                    ></img>
-                    <div className="popupheader">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setshouldShowPopUp(false);
-                        }}
-                      >
-                        <img
-                          alt="closeicon"
-                          src="../assets/CloseCross.svg"
-                        ></img>
-                      </button>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <></>
-              )}
+              {/* {siteSettings && <Footer />} */}
             </BrowserRouter>
           </AppContext.Provider>
         </Suspense>

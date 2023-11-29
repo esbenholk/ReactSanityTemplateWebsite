@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import sanityClient from "../../client";
-
 import { Link } from "react-router-dom";
-
-import imageUrlBuilder from "@sanity/image-url";
 import useWindowDimensions from "../functions/useWindowDimensions";
 
+import imageUrlBuilder from "@sanity/image-url";
 // Get a pre-configured url-builder from your sanity client
 const builder = imageUrlBuilder(sanityClient);
 
@@ -13,10 +11,8 @@ function urlFor(source) {
   return builder.image(source);
 }
 
-export default function PostCard({ post }) {
-  const [isShown, setIsShown] = useState(false);
-
-  const { width } = useWindowDimensions();
+export default function PostCard({ post, card }) {
+  const { height } = useWindowDimensions();
 
   var color;
   if (post.color) {
@@ -26,57 +22,31 @@ export default function PostCard({ post }) {
   }
 
   return (
-    <div className="post_card">
-      <div>
-        <div className="details">
-          <Link
-            to={post.slug.current}
-            key={post.slug.current}
-            className="w-full teaser-link"
-          >
-            <h1 className="noMargin">{post.title}</h1>
-          </Link>
-
-          <div className="flex-row">
-            {post.tags &&
-              post.tags.map((tag, index) => (
-                <p className="tag postCardTag" key={index}>
-                  {tag}
-                  {index + 1 !== post.tags.length ? "," : null}
-                </p>
-              ))}
-          </div>
-        </div>
-        <div className="flex-row post_card_overlay_buttons">
-          {post.categories &&
-            post.categories.map((category, index) => (
-              <>
-                {category.title === "Freebie" ||
-                  (category.title === "Freebie" ? (
-                    <></>
-                  ) : (
-                    <a
-                      className="standardTransparent-button"
-                      key={index}
-                      href={"/category/" + category.slug.current}
-                    >
-                      {" "}
-                      {category.title}{" "}
-                    </a>
-                  ))}
-              </>
-            ))}
-          <Link
-            to={post.slug.current}
-            key={post.slug.current}
-            className="w-full teaser-link standard-button tag active extraBorder"
-          >
-            See project
-          </Link>
-        </div>
+    <div
+      className={
+        post.classes ? "post_card card " + post.classes : "post_card card "
+      }
+    >
+      <Link to={post.slug.current} className="w-full teaser-link">
+        <h1 className="noMargin">{post.title}</h1>
+      </Link>
+      <div className="flex-row">
+        {post.tags &&
+          post.tags.map((tag, index) => (
+            <p className="tag postCardTag" key={index}>
+              {tag}
+            </p>
+          ))}
       </div>
-
-      <Link to={post.slug.current} key={post.slug.current}>
+      <div className="flex-row">
+        {post.categories &&
+          post.categories.map((category, index) => (
+            <p className="tag postCardTag" key={index}>
+              {category.title}
+            </p>
+          ))}
+      </div>
+      <Link to={post.slug.current}>
         {post.mainImage.hotspot ? (
           <img
             src={urlFor(post.mainImage).width(200).url()}

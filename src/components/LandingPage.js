@@ -1,65 +1,64 @@
-import React, { useContext, useEffect, useState } from "react";
-
-import { motion } from "framer-motion";
-
-import Projects from "./blocks/Projects";
-
+import React, { useContext } from "react";
 import AppContext from "../globalState";
-
-import FeaturedCard from "./blocks/featuredCard";
-
-import CustomCarousel from "./blocks/Carousel";
-import Image from "./blocks/image";
-
-import { Link } from "react-router-dom";
-import { HeadTags } from "./blocks/helmetHeaderTags";
-
-import useWindowDimensions from "./functions/useWindowDimensions";
+import PageBuilder from "./pageBuilder";
+import Jungle from "./jungle";
+import { MenuImage } from "./menuItem";
+import { NavLink } from "react-router-dom";
 
 export default function LandingPage() {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
-  const projectList = myContext.projectList;
-  const { width } = useWindowDimensions();
-  console.log(info);
-
-  const [featuredProjects, setFeaturedProjects] = useState([]);
-
-  useEffect(() => {
-    if (myContext.hasFeaturedPosts === true && projectList) {
-      const featuredProjects = [];
-      for (let index = 0; index < projectList.length; index++) {
-        const post = projectList[index];
-        if (info.featuredProjects.includes(post.title)) {
-          featuredProjects.push(post);
-        }
-      }
-      setFeaturedProjects(featuredProjects);
-    }
-  }, [myContext.hasFeaturedPosts, projectList, info]);
 
   return (
-    <motion.div>
-      {info.greeting && (
-        <motion.h1 className="headline flex-column fullWidthPadded">
-          {info.greeting}
-        </motion.h1>
-      )}
-
-      {info && <HeadTags title={info.title} description={info.greeting} />}
-
-      {projectList ? (
-        <div className="regContainer">
-          <Projects
-            projectList={projectList}
-            show_categories={true}
-            postcard={true}
-            columns={3}
-            shouldHaveFreebieSign={false}
-            columnAmountOn390={1}
-          />
-        </div>
-      ) : null}
-    </motion.div>
+    <div>
+      <div className="jungleContainer">
+        {info.cubeMap && <Jungle cubeMap={info.cubeMap} />}
+        {info.leftButtonLink && (
+          <div className="absolute bottom left icon header-padding">
+            {" "}
+            <NavLink
+              to={
+                info.leftButtonLink.url
+                  ? info.leftButtonLink.url
+                  : info.leftButtonLink.page
+                  ? info.leftButtonLink.page.slug.current
+                  : info.leftButtonLink.project
+                  ? info.leftButtonLink.project.slug.current
+                  : null
+              }
+            >
+              {info.leftButtonLink.image ? (
+                <MenuImage width={80} image={info.leftButtonLink.image} />
+              ) : (
+                <p>{info.leftButtonLink.title}</p>
+              )}
+            </NavLink>{" "}
+          </div>
+        )}
+        {info.rightButtonLink && (
+          <div className="absolute bottom right icon header-padding">
+            {" "}
+            <NavLink
+              to={
+                info.rightButtonLink.url
+                  ? info.rightButtonLink.url
+                  : info.rightButtonLink.page
+                  ? info.rightButtonLink.page.slug.current
+                  : info.rightButtonLink.project
+                  ? info.rightButtonLink.project.slug.current
+                  : null
+              }
+            >
+              {info.rightButtonLink.image ? (
+                <MenuImage width={80} image={info.rightButtonLink.image} />
+              ) : (
+                <p>{info.rightButtonLink.title}</p>
+              )}
+            </NavLink>{" "}
+          </div>
+        )}
+      </div>
+      {info.pageBuilder && <PageBuilder pageBuilder={info.pageBuilder} />}
+    </div>
   );
 }

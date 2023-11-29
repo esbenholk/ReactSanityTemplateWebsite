@@ -1,0 +1,3 @@
+const pageBlockQueeries =
+  '_type =="connectedPress" =>{heading, category, pressOccurances, type}, _type == "ticker" => {_type, showTicker, color}, _type == "hero" => { _type, heading, tagline, image{alt, type, asset->{_id,url}, hotspot}}, _type == "gallery" => { _type, heading,images}, _type == "sortedProjects" => { _type, heading,categories}, _type == "breadContent" => { _type, heading, content}, _type == "connectedProjects" => {_type, heading,type, projects[]->{title, year, time, place, slug, logoImage, mainImage, heroImage}}';
+export const pageBuilderquerystring = `pageBuilder[]{_type=="pageBlock" =>{_type, color1, color2, title, pageBuilder[]{ ${pageBlockQueeries}}}, ${pageBlockQueeries}}`;

@@ -9,11 +9,9 @@ export default class VideoPlayer extends React.Component {
     super(props);
 
     this.state = {
-      video: props.video,
       display: "block",
-      showThumb: props.showThumb,
-      shouldPlay: props.isPlaying,
-      url: props.video.embedID,
+      thumbnail: props.videoContent.cover,
+      url: props.videoContent.url,
     };
   }
 
@@ -34,11 +32,11 @@ export default class VideoPlayer extends React.Component {
 
     return (
       <>
-        {this.state.video.thumbnail && this.state.showThumb ? (
+        {this.thumbnail ? (
           <div className="videoContainer">
             <ReactPlayer
               width="100%"
-              height="100%"
+              height="10vh"
               style={{ transform: "translate(0,50%);" }}
               url={this.state.url}
               // playing={this.state.shouldPlay}
@@ -75,16 +73,16 @@ export default class VideoPlayer extends React.Component {
                 // e.target.classList.add("hidden")
               }}
             >
-              <Image image={this.state.video.thumbnail} class={"cover"} />
+              <Image image={this.state.thumbnail} class={"cover"} />
             </div>
           </div>
         ) : (
           <div className="videoContainer">
             <ReactPlayer
               width="100%"
-              height="100%"
+              height="100vh"
               url={this.state.url}
-              playing={this.state.shouldPlay}
+              playing={true}
               controls
               onPause={handleThumbnail}
               playsinline

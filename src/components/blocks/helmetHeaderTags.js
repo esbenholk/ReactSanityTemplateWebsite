@@ -5,6 +5,7 @@ export const HeadTags = (props) => {
   return (
     <Helmet>
       <title>{props.title}</title>
+      <link rel="icon" type="image/png" href={props.faviconUrl} sizes="16x16" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="description" key="description" content={props.description} />
@@ -18,7 +19,7 @@ export const HeadTags = (props) => {
         key="og:description"
         content={props.description}
       />
-      <meta property="og:image" key="og:image" content={props.image} />
+      <meta property="og:image" key="og:image" content={props.imageUrl} />
 
       <meta property="og:title" content={props.title} />
       <meta property="og:url" content="" />
@@ -26,7 +27,7 @@ export const HeadTags = (props) => {
       <meta property="twitter:title" content={props.title} />
       <meta property="twitter:description" content={props.description} />
 
-      <meta property="twitter:image" content={props.image} />
+      <meta property="twitter:image" content={props.imageUrl} />
       <meta name="twitter:card" content="summary_large_image" />
     </Helmet>
   );

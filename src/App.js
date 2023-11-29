@@ -4,30 +4,21 @@ import React, { Suspense, lazy, useEffect, useState, createRef } from "react";
 // import NavBar from "./components/NavBar.js";
 import "./App.css";
 import sanityClient from "./client";
-import Header from "./components/Header_function";
+import Header from "./components/Header";
+import AppContext from "./globalState";
 
 import { AnimatePresence, motion } from "framer-motion";
+import useWindowDimensions from "./components/functions/useWindowDimensions";
+import { HeadTags } from "./components/blocks/helmetHeaderTags";
+import { pageBuilderquerystring } from "./components/queeries.js";
+
+import SlugContext from "./components/slugContext";
 
 import Footer from "./components/Footer";
 
-import AppContext from "./globalState";
-
 import ScrollToTop from "./components/blocks/scrollToTop";
 
-import Basket from "./components/blocks/basket";
-import Dropdown from "./components/blocks/dropdown";
-
-import useWindowDimensions from "./components/functions/useWindowDimensions";
-
-import Loader from "./components/blocks/loader";
-
-const SinglePost = lazy(() => import("./components/stickyScrollComponent.js"));
 const LandingPage = lazy(() => import("./components/LandingPage.js"));
-const ProjectList = lazy(() => import("./components/ProjectList.js"));
-const PressList = lazy(() => import("./components/PressList.js"));
-
-const Category = lazy(() => import("./components/Category.js"));
-// const Home = lazy(() => import("./components/Home.js"));
 
 function App() {
   const [siteSettings, setSiteSettings] = useState();
@@ -36,50 +27,62 @@ function App() {
   const [categories, setCategories] = useState([]);
   const mainRef = createRef();
   const { width } = useWindowDimensions();
+  const [categoryNames, setCategoryNames] = useState([]);
+  const [pageNames, setPageNames] = useState([]);
 
+  // get sitesettings and page names (for slug redirection)
   useEffect(() => {
     sanityClient
       .fetch(
-        '*[_type == "siteSettings"]{title, greeting,logo{asset->{_id,url}}, socialMediaHandles[]{logo{asset->{_id,url}},url, URLName}}'
+        `*[_type == "siteSettings" ]{mainImage{asset->{_id,url}, hotspot}, title,favicon{asset->{_id,url}}, title,  greeting, logo{asset->{_id,url}, hotspot}, institutions, breadContent,footerMenuSocials[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, ${pageBuilderquerystring}, burgerTop, burgerBottom, leftButtonLink{page->{slug}, project->{slug},url, title, image}, rightButtonLink{page->{slug}, project->{slug},url, title, image}, cubeMap, headerMenu[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, footerMenu {_type == "linkArrayColumns" => { _type,heading, columns[]{heading, links{external_links[]{title, image, url, page->{slug}, project->{slug}}}}}}}`
       )
       .then((data) => {
-        console.log("CMS SITE DATA:", data);
         setSiteSettings(data[0]);
+        console.log(data);
+      })
+      .catch(console.error);
+
+    sanityClient
+      .fetch('*[_type == "page" ]{title, slug}')
+      .then((data) => {
+        setPageNames(data);
       })
       .catch(console.error);
   }, []);
-  ///get data from website and so
+
+  ///get project data, set category names
   useEffect(() => {
     sanityClient
       .fetch(
-        ' *[_type == "project"]{ title, slug, mainImage, tags, categories[]->{title, slug}, pageBuilder[]{ _type == "hero" => { _type, heading, tagline, image}, _type == "gallery" => { _type, heading,images}, _type == "breadContent" => { _type, heading, content}, _type == "connectedProjects" => {_type, heading, projects[]->{title, slug}}},}'
+        ' *[_type == "project"]{ title, slug, mainImage, heroImage, buttons, tags, categories[]->{title, slug}}'
       )
       .then((data) => {
-        console.log("CMS PROJECT DATA:", data[0]);
+        console.log(data);
         data.sort((a, b) => b.year - a.year);
+
         setProjectList(data);
-      })
-      .catch(console.error);
-  }, []);
 
-  useEffect(() => {
-    var tags = [];
-    if (projectList) {
-      for (let index = 0; index < projectList.length; index++) {
-        const post = projectList[index];
+        var categories = [];
+        var tempCategoryNames = [];
+        for (let index = 0; index < data.length; index++) {
+          const post = data[index];
+          if (post.categories != null && Array.isArray(post.categories)) {
+            for (let index = 0; index < post.categories.length; index++) {
+              const category = post.categories[index];
 
-        if (post.tags != null && Array.isArray(post.tags)) {
-          for (let index = 0; index < post.tags.length; index++) {
-            const tag = post.tags[index];
-            tags.push(tag);
+              if (!tempCategoryNames.includes(category.title)) {
+                tempCategoryNames.push(category.title);
+                categories.push(category);
+              }
+            }
           }
         }
-      }
-      let sortedTags = [...new Set(tags)];
-      setTags(sortedTags);
-    }
-  }, [projectList]);
+        setCategoryNames(tempCategoryNames);
+      })
+      .catch(console.error);
+  }, []);
 
+  ///set global context available
   const globalContext = {
     siteSettings: siteSettings,
     projectList: projectList,
@@ -94,13 +97,19 @@ function App() {
 
   return (
     <>
-      <main>
-        <Suspense fallback={<Loader />}>
-          <AppContext.Provider value={globalContext}>
-            <BrowserRouter>
-              {siteSettings && <Header />}
+      {siteSettings && (
+        <>
+          <HeadTags
+            title={siteSettings.title}
+            description={siteSettings.greeting}
+            imageUrl={siteSettings.logo.asset.url}
+            faviconUrl={siteSettings.logo.asset.url}
+          />
+          <Suspense fallback={<div className="loader"></div>}>
+            <AppContext.Provider value={globalContext}>
+              <BrowserRouter>
+                {siteSettings && <Header />}
 
-              <AnimatePresence>
                 <motion.div
                   className="mainContainer"
                   ref={mainRef}
@@ -111,41 +120,26 @@ function App() {
                   <ScrollToTop>
                     <Switch>
                       <Route exact path="/">
-                        {siteSettings && (
-                          <LandingPage
-                            info={siteSettings}
-                            projectList={projectList}
-                          />
-                        )}
-                      </Route>
-
-                      <Route path="/projects">
-                        <ProjectList projectList={projectList} />
-                      </Route>
-                      {/* <Route path="/about">
-                        <Home info={siteSettings} projectList={projectList} />
-                      </Route> */}
-                      <Route path="/loader">
-                        <Loader />
-                      </Route>
-                      <Route path="/category/:slug">
-                        <Category />
-                      </Route>
-                      <Route exact path="/press">
-                        <PressList />
+                        {siteSettings && <LandingPage />}
                       </Route>
                       <Route exact path="/:slug">
-                        <SinglePost />
+                        {categoryNames && (
+                          <SlugContext
+                            CategoryNames={categoryNames}
+                            PageNames={pageNames}
+                          />
+                        )}
                       </Route>
                     </Switch>
                   </ScrollToTop>
                 </motion.div>
-              </AnimatePresence>
-              {/* {siteSettings && <Footer />} */}
-            </BrowserRouter>
-          </AppContext.Provider>
-        </Suspense>
-      </main>
+
+                {siteSettings && <Footer />}
+              </BrowserRouter>
+            </AppContext.Provider>
+          </Suspense>
+        </>
+      )}
     </>
   );
 }

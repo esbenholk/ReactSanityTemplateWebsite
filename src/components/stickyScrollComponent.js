@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import sanityClient from "../client";
 import { useParams, useHistory } from "react-router-dom";
-// import BlockContent from "@sanity/block-content-to-react";
-import ProductCard from "./blocks/productCard";
-import AddToCartButton from "./blocks/addToCart";
 import { motion } from "framer-motion";
 import Image from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
@@ -418,21 +415,6 @@ export default function SinglePost({ updatebasket, basket }) {
                     </div>
 
                     <BlockContent blocks={singlePost.body} />
-
-                    {/* {singlePost.videos && singlePost.videos.length >= 0 ? (
-                      <>
-                        {singlePost.videos.map((video, index) => (
-                          <VideoPlayer
-                            video={video}
-                            key={index}
-                            showThumb={true}
-                            isPlaying={isPlaying}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <></>
-                    )} */}
                   </div>
                 )}
               </div>
@@ -446,18 +428,6 @@ export default function SinglePost({ updatebasket, basket }) {
           <div ref={fixedRef} className={"flex-column details"}>
             <header className="flex-row check justifyBetween no-wrap">
               <h2 className="projectTitle">{singlePost.title}</h2>
-              {singlePost.abbreviated_year ? (
-                <>
-                  <div className=" year_price flex-row align-top no-wrap">
-                    {singlePost.abbreviated_year2 ? (
-                      <p>{singlePost.abbreviated_year2}</p>
-                    ) : (
-                      <p>20</p>
-                    )}
-                    <p>{singlePost.abbreviated_year}</p>
-                  </div>
-                </>
-              ) : null}
             </header>
 
             <div className="flex-row align-left project_tags">
@@ -469,56 +439,6 @@ export default function SinglePost({ updatebasket, basket }) {
                   </p>
                 ))}
             </div>
-
-            {singlePost.star_rating ? (
-              <p className="stars singelPageStars">{singlePost.star_rating}</p>
-            ) : null}
-
-            <AddToCartButton
-              project={singlePost}
-              updatebasket={updatebasket}
-              basket={basket}
-            />
-            {singlePost.freebie && (
-              <>
-                {singlePost.Link ? (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.location.href = singlePost.Link;
-                      }}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="addToCartButton yellow"
-                      style={{ backgroundColor: singlePost.FreebieButtonColor }}
-                    >
-                      {singlePost.FreebieButtonText ? (
-                        <>{singlePost.FreebieButtonText}</>
-                      ) : (
-                        "get this freebie"
-                      )}
-                    </button>
-                  </>
-                ) : null}
-                {singlePost.downloadfile ? (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.location.href = `${singlePost.downloadfile.asset.url}?dl=`;
-                    }}
-                    className="addToCartButton yellow"
-                    style={{ backgroundColor: singlePost.FreebieButtonColor }}
-                  >
-                    {singlePost.FreebieButtonText ? (
-                      <>{singlePost.FreebieButtonText}</>
-                    ) : (
-                      "get this freebie"
-                    )}
-                  </button>
-                ) : null}
-              </>
-            )}
 
             <div className="flex-column project_details ">
               {singlePost.year && (
@@ -621,20 +541,6 @@ export default function SinglePost({ updatebasket, basket }) {
             </div>
           </div>
         </div>
-      </div>
-      <div className="regContainer cover" ref={endOfProject}>
-        {relatedPost && relatedPost.length !== 0 ? (
-          <>
-            <motion.h2 className="flex-column fullWidthPadded segmentHeadline">
-              Related Projects
-            </motion.h2>
-            <div className="overscrollPadded horizontalScroll2">
-              {relatedPost.map((post, index) => (
-                <ProductCard post={post} key={index} />
-              ))}
-            </div>
-          </>
-        ) : null}
       </div>
     </>
   );

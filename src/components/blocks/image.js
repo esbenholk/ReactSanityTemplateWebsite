@@ -1,49 +1,63 @@
 import React from "react";
 import sanityClient from "../../client";
-import { motion } from "framer-motion";
-
 import imageUrlBuilder from "@sanity/image-url";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 // Get a pre-configured url-builder from your sanity client
 const builder = imageUrlBuilder(sanityClient);
 
-function urlFor(source) {
+export function urlFor(source) {
   return builder.image(source);
 }
 
 export default function Image(props) {
   const image = props.image;
   const classs = props.class;
-
+  const width = props.width;
+  const maxHeight = props.height;
   return (
     <>
       {image && (
         <>
           {image.hotspot ? (
-            <motion.img
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              src={urlFor(image.asset)}
-              key={image.asset._ref}
-              alt={image.alt}
-              style={{
-                objectPosition: `${image.hotspot.x * 100}% ${
-                  image.hotspot.y * 100
-                }%`,
-              }}
-              className={classs}
-            />
+            <div style={{ maxHeight: maxHeight }}>
+              <LazyLoadImage
+                loading="lazy"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                src={urlFor(image.asset).width(width).url()}
+                placeholdersrc={urlFor(image.asset).height(2).url()}
+                key={image.asset._ref}
+                alt={image.alt}
+                style={{
+                  objectPosition: `${image.hotspot.x * 100}% ${
+                    image.hotspot.y * 100
+                  }%`,
+                  height: maxHeight,
+                  objectFit: "cover",
+                }}
+                className={classs}
+                effect="blur"
+              />
+            </div>
           ) : (
-            <motion.img
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              src={urlFor(image.asset)}
-              key={image.asset._ref}
-              alt={image.alt}
-              className={classs}
-            />
+            <div style={{ height: maxHeight }}>
+              <LazyLoadImage
+                loading="lazy"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                src={urlFor(image.asset).width(width).url()}
+                placeholdersrc={urlFor(image.asset).height(2).url()}
+                key={image.asset._ref}
+                alt={image.alt}
+                className={classs}
+                effect="blur"
+                style={{ maxHeight: maxHeight }}
+              />
+            </div>
           )}
         </>
       )}

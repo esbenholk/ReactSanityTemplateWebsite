@@ -35,7 +35,7 @@ function ConnectedPress({ press, heading, type }) {
           .catch(console.error);
       }
     }
-  }, []);
+  }, [press.category, press.pressOccurances]);
 
   console.log("Connected press", connectedPressInstances, heading);
   return (

@@ -28,15 +28,6 @@ const objUrl = "../assets/jungle/jungle.obj";
 
 const particleUrl = "../assets/jungle/particleTexture.png";
 
-const skyBoxTextureUrls = [
-  "../assets/jungle/cubemaps/posx.jpg",
-  "../assets/jungle/cubemaps/negx.jpg ",
-  "../assets/jungle/cubemaps/posy.jpg",
-  "../assets/jungle/cubemaps/negy.jpg",
-  "../assets/jungle/cubemaps/posz.jpg",
-  "../assets/jungle/cubemaps/negz.jpg",
-];
-
 const PermissionButton = styled.div`
   width: 144.5px;
   height: 139px;
@@ -63,7 +54,7 @@ function Jungle({ cubeMap }) {
       window.DeviceOrientationEvent &&
         typeof window.DeviceOrientationEvent.requestPermission === "function"
     );
-  });
+  }, []);
 
   console.log(cubeMap);
 
@@ -79,7 +70,14 @@ function Jungle({ cubeMap }) {
     SetCubeMapTxtureUrls(tempArray);
 
     console.log("temp array", tempArray);
-  }, []);
+  }, [
+    cubeMap.posx.asset,
+    cubeMap.negx.asset,
+    cubeMap.posy.asset,
+    cubeMap.negy.asset,
+    cubeMap.posz.asset,
+    cubeMap.negz.asset,
+  ]);
   return (
     <>
       {orientationRequestPermission && !orientationPermissionGranted && (
@@ -101,11 +99,11 @@ function Jungle({ cubeMap }) {
         linear
         camera={{ position: [0, 0, 25], near: 0.1, far: 10000000 }}
       >
-        {/* {isMobile ? (
+        {isMobile ? (
           <DeviceOrientationControls />
         ) : (
           <FirstPersonControls activeLook={true} lookSpeed={0.03} />
-        )} */}
+        )}
         <FirstPersonControls activeLook={true} lookSpeed={0.03} />
 
         <Suspense fallback={null}>
@@ -171,7 +169,7 @@ function SkyBox({ cubeMapTextureUrls }) {
     const mat = loader.load(cubeMapTextureUrls);
     scene.background = mat;
     scene.environment = mat;
-  }, [scene]);
+  }, [scene, cubeMapTextureUrls]);
 
   return null;
 }

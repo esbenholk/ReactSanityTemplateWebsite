@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import BlockContent from "./blocks/BlockContent";
-import useWindowDimensions from "./functions/useWindowDimensions";
+// import useWindowDimensions from "./functions/useWindowDimensions";
 import AppContext from "../globalState";
 import MenuItem from "./menuItem";
 import TickerComp from "./blocks/ticker";
@@ -9,7 +9,7 @@ export default function Footer() {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
 
-  const { width } = useWindowDimensions();
+  // const { width } = useWindowDimensions();
 
   // const scrollToTop = () => {
   //   window.scrollTo({

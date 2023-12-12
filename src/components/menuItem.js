@@ -10,13 +10,24 @@ export const MenuImage = ({ height, width, image }) => {
           ? urlFor(image.asset).width(width).url()
           : urlFor(image.asset).height(height).url()
       }
+      alt="menu icon"
       style={{
         minHeight: height,
-
         objectFit: "contain",
         maxWidth: "none",
       }}
     />
+  );
+};
+export const Button = ({ url, name, color }) => {
+  return (
+    <a
+      className="standardButton interactable"
+      href={url}
+      style={{ backgroundColor: color }}
+    >
+      {name}
+    </a>
   );
 };
 export default function MenuItem({ menuItem, imageInline, imagesize }) {

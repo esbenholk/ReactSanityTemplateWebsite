@@ -3,7 +3,6 @@ import AppContext from "../../globalState";
 import { urlFor } from "./image";
 import denseCapColors from "../denseCapColors";
 import useWindowDimensions from "../functions/useWindowDimensions";
-
 import Marquee from "react-marquee-slider";
 
 let speed = 100;
@@ -15,7 +14,6 @@ const TickerComp = () => {
   const marqueeRef = useRef();
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
-
   let { width } = useWindowDimensions();
 
   useEffect(() => {
@@ -34,15 +32,21 @@ const TickerComp = () => {
     setVelocity(speed);
   }, 3000);
 
-  console.log("render ticker comp");
   const TickerContent = () => {
     return (
       <>
         {links.map((link, index) => (
-          <a key={index} href={link.url} id={index}>
+          <a
+            key={index}
+            href={link.url}
+            id={index}
+            target="_blank"
+            rel="noreferrer"
+          >
             {link.image != null ? (
               <img
                 src={urlFor(link.image.asset).height(64).url()}
+                alt={link.image.alt}
                 style={{
                   minHeight: "64px",
                   objectFit: "contain",
@@ -52,8 +56,8 @@ const TickerComp = () => {
             ) : (
               <>
                 {" "}
-                {link.name != null ? (
-                  <h1 className="standardButton">{link.name}</h1>
+                {link.title != null ? (
+                  <h1 className="standardButton">{link.title}</h1>
                 ) : (
                   <h1 className="standardButton">content incoming</h1>
                 )}

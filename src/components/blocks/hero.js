@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "./image";
 import useWindowDimensions from "../functions/useWindowDimensions";
 
-function Hero({ image, tagLine, heading }) {
-  let { height, width } = useWindowDimensions();
+function Hero({ image, tagLine, type, heading }) {
+  let { height } = useWindowDimensions();
 
   return (
-    <div className={`hero ${image.type === "contain" ? "contain" : "cover"}`}>
+    <div className={`hero ${type === "contain" ? "contain" : "cover"}`}>
       <Image
         image={image}
-        width={width > 1000 ? 1000 : width}
+        // width={width}
         height={height}
       />
 

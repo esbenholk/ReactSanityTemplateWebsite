@@ -7,8 +7,8 @@ import sanityClient from "./client";
 import Header from "./components/Header";
 import AppContext from "./globalState";
 
-import { AnimatePresence, motion } from "framer-motion";
-import useWindowDimensions from "./components/functions/useWindowDimensions";
+import { motion } from "framer-motion";
+
 import { HeadTags } from "./components/blocks/helmetHeaderTags";
 import { pageBuilderquerystring } from "./components/queeries.js";
 
@@ -23,12 +23,21 @@ const LandingPage = lazy(() => import("./components/LandingPage.js"));
 function App() {
   const [siteSettings, setSiteSettings] = useState();
   const [projectList, setProjectList] = useState();
+
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
   const mainRef = createRef();
-  const { width } = useWindowDimensions();
   const [categoryNames, setCategoryNames] = useState([]);
   const [pageNames, setPageNames] = useState([]);
+  const [pageTitle, setPageTitle] = useState();
+  const [projectTitle, setProjectTitle] = useState();
+
+  const updatePageTitle = (newTitle) => {
+    setPageTitle(newTitle);
+  };
+  const updateProjectTitle = (newTitle) => {
+    setProjectTitle(newTitle);
+  };
 
   // get sitesettings and page names (for slug redirection)
   useEffect(() => {
@@ -108,7 +117,9 @@ function App() {
           <Suspense fallback={<div className="loader"></div>}>
             <AppContext.Provider value={globalContext}>
               <BrowserRouter>
-                {siteSettings && <Header />}
+                {siteSettings && (
+                  <Header pageName={pageTitle} projectName={projectTitle} />
+                )}
 
                 <motion.div
                   className="mainContainer"
@@ -127,6 +138,8 @@ function App() {
                           <SlugContext
                             CategoryNames={categoryNames}
                             PageNames={pageNames}
+                            updatePageTitle={updatePageTitle}
+                            updateProjectTitle={updateProjectTitle}
                           />
                         )}
                       </Route>

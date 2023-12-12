@@ -1,71 +1,58 @@
-import React, { useState } from "react";
-import sanityClient from "../../client";
-import { Link } from "react-router-dom";
-import useWindowDimensions from "../functions/useWindowDimensions";
+import React from "react";
 
-import imageUrlBuilder from "@sanity/image-url";
-// Get a pre-configured url-builder from your sanity client
-const builder = imageUrlBuilder(sanityClient);
+import Image from "./image";
+import BlockContent from "./BlockContent";
+import { Button } from "../menuItem";
 
-function urlFor(source) {
-  return builder.image(source);
-}
-
-export default function PostCard({ post, card }) {
-  const { height } = useWindowDimensions();
-
-  var color;
-  if (post.color) {
-    color = post.color;
-  } else {
-    color = "#FFFFFF";
-  }
-
+export default function PostCard({ post }) {
   return (
-    <div
-      className={
-        post.classes ? "post_card card " + post.classes : "post_card card "
-      }
-    >
-      <Link to={post.slug.current} className="w-full teaser-link">
-        <h1 className="noMargin">{post.title}</h1>
-      </Link>
-      <div className="flex-row">
-        {post.tags &&
-          post.tags.map((tag, index) => (
-            <p className="tag postCardTag" key={index}>
-              {tag}
-            </p>
-          ))}
-      </div>
-      <div className="flex-row">
-        {post.categories &&
-          post.categories.map((category, index) => (
-            <p className="tag postCardTag" key={index}>
-              {category.title}
-            </p>
-          ))}
-      </div>
-      <Link to={post.slug.current}>
-        {post.mainImage.hotspot ? (
-          <img
-            src={urlFor(post.mainImage).width(200).url()}
-            alt={post.mainImage.alt}
-            style={{
-              objectPosition: `${post.mainImage.hotspot.x * 100}% ${
-                post.mainImage.hotspot.y * 100
-              }%`,
-            }}
-            className="post_card_image"
-          />
-        ) : (
-          <img
-            src={urlFor(post.mainImage).width(200).url()}
-            alt={post.mainImage.alt}
-            className="post_card_image"
-          />
+    <div className="pressCard">
+      {post.source && <p className="smallp">{post.source}</p>}
+
+      <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
+        {post.year && <p className="year standardButton minip">{post.year}</p>}
+        <Image image={post.mainImage} width={596} />
+      </a>
+
+      <div className="pressCardContent">
+        <h1 className="boldh1">{post.title}</h1>
+        {post.description && (
+          <div className="smallp">
+            <BlockContent blocks={post.description} />
+          </div>
         )}
-      </Link>
+
+        <div className="flex-row">
+          {post.categories &&
+            post.categories.map((category, index) => (
+              <p className="minip tag" key={index}>
+                {category.title}
+                {index !== post.categories.length - 1 && ", "}
+                {index === post.categories.length - 1 && " —"}
+              </p>
+            ))}
+          {post.tags &&
+            post.tags.map((tag, index) => (
+              <p className="minip tag" key={index}>
+                {tag}
+                {index !== post.tags.length - 1 && ", "}
+              </p>
+            ))}
+        </div>
+      </div>
+
+      {post.buttons && (
+        <div className="flex-column">
+          {post.buttons.buttons.map((button, index) => (
+            <Button
+              key={index}
+              name={button.name}
+              url={button.external_link}
+              color={button.color}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

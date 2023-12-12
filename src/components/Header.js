@@ -1,11 +1,11 @@
 import React, { useContext, useState, useRef } from "react";
 import AppContext from "../globalState";
 import { urlFor } from "./blocks/image";
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, useHistory } from "react-router-dom";
 import { MenuImage } from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
-export default function Header() {
+export default function Header({ pageName, projectName }) {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +14,8 @@ export default function Header() {
   const location = useLocation();
   const logoUrl = urlFor(info.logo.asset).width(60).url();
   const { width } = useWindowDimensions();
+
+  let history = useHistory();
 
   const mobileMenu = useRef(null);
 
@@ -58,33 +60,106 @@ export default function Header() {
   return (
     <div className="menu">
       {/* top left corner shows logo if not */}
-      {info.logo ? (
-        <NavLink
-          to="/"
-          className={
-            location.pathname === "/"
-              ? "logo top fixed left header-padding"
-              : "logo circleIcon top fixed left header-padding"
-          }
-          style={{
-            objectPosition:
-              info.logo && info.logo.hotspot
-                ? `${info.logo.hotspot.x * 100}% ${info.logo.hotspot.y * 100}%`
-                : "none",
-            objectFit: "cover",
-            backgroundImage: `url(${logoUrl})`,
-          }}
-          onClick={() => {
-            if (width < 600 && mobileMenuOpen) {
-              ToggleMobileMenu(false);
-            }
-          }}
-        >
-          {" "}
-        </NavLink>
-      ) : (
-        <h1>{info.title}</h1>
-      )}
+      <div
+        className="flex-row top fixed left align-center space-between"
+        style={{ width: "100%" }}
+      >
+        <div className="flex-row align-center">
+          {location.pathname !== "/" &&
+          projectName !== null &&
+          projectName !== "" ? (
+            <>
+              <div
+                className="circleIcon logo header-padding interactable"
+                style={{
+                  backgroundImage: `url(${
+                    process.env.PUBLIC_URL + "/assets/returnArrow.png"
+                  })`,
+                }}
+                onClick={() => {
+                  history.goBack();
+
+                  if (width < 600 && mobileMenuOpen) {
+                    ToggleMobileMenu(false);
+                  }
+                }}
+              >
+                {" "}
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              {info.logo ? (
+                <NavLink
+                  to="/"
+                  className={
+                    location.pathname === "/"
+                      ? "logo header-padding"
+                      : "logo circleIcon header-padding"
+                  }
+                  style={{
+                    objectPosition:
+                      info.logo && info.logo.hotspot
+                        ? `${info.logo.hotspot.x * 100}% ${
+                            info.logo.hotspot.y * 100
+                          }%`
+                        : "none",
+                    objectFit: "cover",
+                    backgroundImage:
+                      location.pathname !== "/" &&
+                      projectName !== null &&
+                      projectName !== ""
+                        ? `url(${
+                            process.env.PUBLIC_URL + "/assets/returnArrow.png"
+                          }`
+                        : `url(${logoUrl}`,
+                  }}
+                  onClick={() => {
+                    if (width < 600 && mobileMenuOpen) {
+                      ToggleMobileMenu(false);
+                    }
+                  }}
+                >
+                  {" "}
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/"
+                  onClick={() => {
+                    if (width < 600 && mobileMenuOpen) {
+                      ToggleMobileMenu(false);
+                    }
+                  }}
+                >
+                  <h1>{info.title}</h1>
+                </NavLink>
+              )}
+              {location.pathname !== "/" &&
+              pageName !== null &&
+              pageName !== "" ? (
+                <div className="standardButton">
+                  <p>{pageName}</p>
+                </div>
+              ) : null}
+            </>
+          )}
+        </div>
+
+        {location.pathname !== "/" &&
+        projectName !== null &&
+        projectName !== "" ? (
+          <>
+            <div className="standardButton">
+              <p>{projectName}</p>
+            </div>
+
+            <div className="header-padding" style={{ width: "60px" }}>
+              {" "}
+            </div>
+          </>
+        ) : null}
+      </div>
 
       {info.headerMenu && (
         <div
@@ -120,7 +195,7 @@ export default function Header() {
                 style={{ zIndex: 10 }}
               >
                 <MenuImage
-                  width={location.pathname != "/" ? 50 : 80}
+                  width={location.pathname !== "/" ? 50 : 80}
                   image={info.burgerTop}
                 />
               </div>
@@ -155,7 +230,7 @@ export default function Header() {
                   }
                 }}
                 className={`flex-row burgerLayer  ${
-                  location.pathname != "/" ? "smallBurger" : "bigBurger"
+                  location.pathname !== "/" ? "smallBurger" : "bigBurger"
                 } ${menuOpen ? " open" : "closed"} ${
                   userCanInteract ? " interactable" : "notInteractable"
                 }`}
@@ -165,7 +240,7 @@ export default function Header() {
               >
                 <p>{menuItem.title}</p>
                 <MenuImage
-                  width={location.pathname != "/" ? 40 : 56}
+                  width={location.pathname !== "/" ? 40 : 56}
                   image={menuItem.image}
                 />
               </NavLink>
@@ -178,7 +253,7 @@ export default function Header() {
                 style={{ zIndex: 10 }}
               >
                 <MenuImage
-                  width={location.pathname != "/" ? 50 : 80}
+                  width={location.pathname !== "/" ? 50 : 80}
                   image={info.burgerBottom}
                 />
               </div>
@@ -186,6 +261,7 @@ export default function Header() {
           </div>
         </div>
       )}
+      {/* mobile menu background */}
       <div
         ref={mobileMenu}
         className="mobileMenu"
@@ -206,7 +282,10 @@ export default function Header() {
             ToggleMobileMenu(false);
           }}
         >
-          <img src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}></img>
+          <img
+            alt="closing icon for mobile menu"
+            src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}
+          ></img>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import sanityClient from "../client";
 import { useParams, useHistory } from "react-router-dom";
-import { motion } from "framer-motion";
 import Image from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
 import { Link } from "react-router-dom";

@@ -11,7 +11,8 @@ body {
   --text-color: #d9d4af;
   --font-size: 15px;
   --margin-size: 15px;
-  --padding: 59px 51px;
+  --paddingValue: 50px;
+  --padding: var(--paddingValue) var(--paddingValue);
 }
 body.light {
   --primary-color: white;
@@ -20,13 +21,12 @@ body.light {
   --font-size: 15px;
   --margin-size: 15px;
 }
-@import url("https://fonts.cdnfonts.com/css/helvetica-neue-55");
 body {
   margin: 0;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Arial", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 * {
@@ -44,16 +44,19 @@ code {
 .flex-column {
   flex-direction: column;
   display: flex;
+  gap: 10px;
 }
 
 .align-center {
   align-items: center;
+  justify-content: center;
 }
 .align-right {
   align-items: flex-end;
 }
 .space-between {
   justify-content: space-between;
+  align-items: space-between;
 }
 img {
   max-width: 100%;
@@ -68,9 +71,20 @@ h1,
 a,
 button,
 span {
-  font-family: Helvetica Neue;
+  color: var(--primary-color);
+  margin: 0;
+}
+footer p,
+footer h2,
+footer h3,
+footer h4,
+footer h1,
+footer a,
+footer button,
+footer span {
   color: var(--secondary-color);
 }
+
 span {
   display: inline-block;
 }
@@ -95,45 +109,115 @@ strong {
 a.flex-row {
   align-items: center;
 }
-h1 {
-  font-size: 24px;
-  font-weight: 200;
-  line-height: 29px;
-  letter-spacing: 0em;
-}
 
 .textblock {
-  padding: var(--padding);
+  /* padding: var(--padding); */
   padding-bottom: 90px;
+}
+.blockItem {
+  padding: var(--padding);
+}
+.blockItem h1,
+.blockItem p,
+.blockItem h2 {
+  max-width: 70%;
+}
+.blockItem .bigH1 {
+  padding-left: 23px;
+}
+.blockItem p {
+  padding-left: 10px;
+}
+.blockItem:is(:first-child) {
+  padding-bottom: 0;
+}
+.projectDetails .blockItem:is(:last-child) {
+  padding-top: 20px;
 }
 p {
   margin: 0;
   min-height: var(--font-size);
-  font-family: Helvetica Neue;
   font-size: 32px;
   font-weight: 400;
   line-height: 40px;
   letter-spacing: 0em;
   text-align: left;
+  white-space: normal;
+}
+.smallp p,
+.smallp {
+  font-size: 20px;
+  line-height: normal;
+}
+
+.minip p,
+.minip {
+  font-size: 15px;
+  line-height: normal;
+}
+h1 {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.boldh1 {
+  color: #262312;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%; /* 31.2px */
+  letter-spacing: -0.48px;
+}
+.bigH1 {
+  color: #000;
+  font-family: Arial;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 50px;
+}
+.smallh1 {
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 31.2px */
+  letter-spacing: -0.48px;
+  padding-left: var(--paddingValue);
 }
 
 .standardButton {
-  margin: var(--margin-size);
-  padding-left: var(--margin-size);
-  padding-right: var(--margin-size);
-
-  display: flex;
-
-  align-items: center;
+  border-radius: 40px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(27.5px);
+  display: inline-flex;
+  padding: 12px 22px;
+  gap: 10px;
   justify-content: center;
-  text-align: center;
-  border-radius: 35px;
-  height: 45px;
-  font: inherit;
-  font-size: var(--font-size);
-  color: var(--secondary-color);
-  background-color: var(--button-color);
+  align-items: center;
+  gap: 12px;
+  color: #000;
+  width: fit-content;
+  transition: all 0.2s ease-in-out;
+}
+
+.interactable:hover {
   box-shadow: 0px -4px 14px 0px #000000b2 inset, 0px 4px 7px 0px #000000b2;
+  filter: drop-shadow(0px 10px 4px rgba(0, 0, 0, 0.25));
+  transition: all 0.2s ease-in-out;
+}
+.standardButton a,
+.standardButton p {
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+  padding-left: 0;
+  line-height: normal;
 }
 .active {
   /* box-shadow: 0px -4px 14px 0px #000000b2 inset;
@@ -161,6 +245,7 @@ p {
   height: 60px;
   background-size: 45px 45px;
   background-color: var(--cluster-yellow);
+  transition: all 0.2s ease-in-out;
 }
 
 .circleIcon:hover {
@@ -272,7 +357,6 @@ footer {
   color: var(--primary-color);
   width: 0;
   max-width: 0;
-  font-family: Helvetica Neue;
   font-size: 17px;
   font-weight: 100;
   line-height: 21px;
@@ -282,9 +366,7 @@ footer {
   overflow: hidden;
   white-space: nowrap;
 }
-.interactable {
-  filter: drop-shadow(0px 10px 4px rgba(0, 0, 0, 0.25));
-}
+
 .burgerLayer.interactable:hover p {
   color: var(--primary-color);
   margin-right: 12px;
@@ -325,6 +407,9 @@ footer {
 .right {
   right: 0;
 }
+.top {
+  top: 0;
+}
 .header-padding {
   margin-top: 22px;
   margin-left: 27px;
@@ -336,20 +421,30 @@ footer {
 
 .hero {
   position: relative;
-  width: 100%;
 }
-.hero span,
-.hero span img {
+.pillContent span,
+.hero span {
   position: relative;
   width: 100%;
-  object-fit: cover;
   height: 100%;
+}
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero.contain span img {
   max-width: 100%;
   object-fit: contain;
   max-height: 100%;
+}
+.timeText,
+.placeText {
+  margin: 22px 0;
+}
+.heroContent img {
+  object-fit: contain;
 }
 
 .heroContent {
@@ -368,7 +463,7 @@ footer {
 .pill {
   width: 100%;
   height: 179px;
-  padding: 11px 0px 11px 0px;
+  padding: 11px 11px 11px 11px;
   border-radius: 140px;
   gap: 3px;
   background-color: var(--third-color);
@@ -392,9 +487,13 @@ footer {
 }
 .timeText h1,
 .timeText p,
-.pillContent h2 {
-  color: var(--primary-color);
-  font-size: 10px;
+.heroContent p {
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px; /* 125% */
 }
 .pillContent img {
   filter: invert(1);
@@ -412,7 +511,17 @@ footer {
   overflow-x: scroll;
   white-space: nowrap;
   display: flex;
-  padding: 10px; /* Adjust as needed */
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.horizontalScroll {
+  overflow-x: scroll;
+  white-space: nowrap;
+  display: flex;
+  padding: var(--padding);
+  gap: 59px;
   -webkit-overflow-scrolling: touch;
   &::-webkit-scrollbar {
     display: none;
@@ -426,6 +535,57 @@ footer {
   border: 1px solid #ccc;
   padding: 10px;
   box-sizing: border-box;
+}
+
+.pressCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 596px;
+}
+.pressCard span {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.pressCard img {
+  opacity: 0;
+}
+.pressCard span,
+.pressCard img {
+  height: 376px;
+  width: 596px;
+  object-fit: cover;
+  border-radius: 5px;
+  background: linear-gradient(0deg, #d7d7d7 0%, #d7d7d7 100%),
+    lightgray -544.476px -137.788px / 113.296% 198.698% no-repeat, #f3c4ea;
+}
+.pressCard img:hover {
+  box-shadow: -8px 4px 17px 0px rgba(0, 0, 0, 0.25);
+}
+.pressCardContent {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 20px;
+}
+.pressCardContent .smallp {
+  margin-top: 9px;
+  margin-bottom: 9px;
+}
+
+.pressCard .year {
+  position: absolute;
+  z-index: 1;
+  top: 61px;
+  left: 21px;
+}
+.pressCard a,
+.pressCard h1,
+.pressCard div {
+  max-width: 100%;
+}
+
+.pressCard .tag {
+  margin-right: 5px;
 }
 
 .loader {

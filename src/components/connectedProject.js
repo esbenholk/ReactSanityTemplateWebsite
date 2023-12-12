@@ -1,6 +1,5 @@
 import React from "react";
 import PostCard from "./blocks/postCard";
-import Hero from "./blocks/hero";
 import HeroProjectGrid from "./blocks/heroProjectGrid";
 
 function ConnectedProjects({ projects, heading, type }) {
@@ -20,6 +19,7 @@ function ConnectedProjects({ projects, heading, type }) {
                 logo={project.logoImage}
                 time={project.time}
                 place={project.place}
+                slug={project.slug.current}
               />
             ) : (
               <PostCard post={project} key={index} />

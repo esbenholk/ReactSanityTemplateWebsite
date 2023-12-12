@@ -3,7 +3,7 @@ import Image from "./image";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import BlockContent from "./BlockContent";
 
-function HeroProjectGrid({ image, logo, time, place }) {
+function HeroProjectGrid({ image, logo, time, place, slug }) {
   let { height, width } = useWindowDimensions();
   const [isActive, setIsActive] = useState(false);
 
@@ -18,29 +18,32 @@ function HeroProjectGrid({ image, logo, time, place }) {
         >
           <Image
             image={image}
-            width={width > 1000 ? 1000 : width}
+            width={width}
             height={height}
             class={isActive ? "hero-image blur" : "hero-image "}
           />
-          {isActive && (
-            <div className="heroContent">
-              <div className="timeText">
-                <BlockContent blocks={time} />
-              </div>
-              <Image image={logo} height={height / 4} class={"hero-image"} />
-              <h2>{place}</h2>
+
+          <a
+            className="heroContent flex-column"
+            href={slug}
+            style={{ visibility: isActive ? "visible" : "hidden" }}
+          >
+            <div className="timeText">
+              <BlockContent blocks={time} />
             </div>
-          )}
+            <Image image={logo} height={height / 5} class={"hero-image"} />
+            <p className="placeText">{place}</p>
+          </a>
         </div>
       ) : (
         <div className="pill">
-          <div className="pillContent">
+          <a className="pillContent" href={slug}>
             <div className="timeText">
               <BlockContent blocks={time} />
             </div>
             <Image image={logo} height={179 / 2.5} class={"hero-image"} />
-            <h2>{place}</h2>
-          </div>
+            <p>{place}</p>
+          </a>
         </div>
       )}
     </>

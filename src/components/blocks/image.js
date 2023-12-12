@@ -27,7 +27,11 @@ export default function Image(props) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                src={urlFor(image.asset).width(width).url()}
+                src={
+                  width
+                    ? urlFor(image.asset).width(width).url()
+                    : urlFor(image.asset).url()
+                }
                 placeholdersrc={urlFor(image.asset).height(2).url()}
                 key={image.asset._ref}
                 alt={image.alt}
@@ -36,6 +40,7 @@ export default function Image(props) {
                     image.hotspot.y * 100
                   }%`,
                   height: maxHeight,
+                  width: width ? width : "100%",
                   objectFit: "cover",
                 }}
                 className={classs}
@@ -49,13 +54,17 @@ export default function Image(props) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                src={urlFor(image.asset).width(width).url()}
+                src={
+                  width
+                    ? urlFor(image.asset).width(width).url()
+                    : urlFor(image.asset).url()
+                }
                 placeholdersrc={urlFor(image.asset).height(2).url()}
                 key={image.asset._ref}
                 alt={image.alt}
                 className={classs}
                 effect="blur"
-                style={{ maxHeight: maxHeight }}
+                style={{ height: maxHeight, width: width }}
               />
             </div>
           )}

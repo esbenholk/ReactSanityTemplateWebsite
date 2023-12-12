@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import sanityClient from "../client";
 import { useParams } from "react-router-dom";
 import { HeadTags } from "./blocks/helmetHeaderTags";
-import Loader from "./blocks/loader";
+// import Loader from "./blocks/loader";
 import PageBuilder from "./pageBuilder";
 import { pageBuilderquerystring } from "./queeries";
 
-export default function SinglePage({}) {
+export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   const { slug } = useParams();
   const [singlePage, setSinglePage] = useState();
 
@@ -20,9 +20,11 @@ export default function SinglePage({}) {
       .then((data) => {
         console.log("page details", data, slug);
         setSinglePage(data[0]);
+        updatePageTitle(data[0].title);
+        updateProjectTitle("");
       })
       .catch(console.error);
-  }, [slug]);
+  }, [slug, updatePageTitle, updateProjectTitle]);
 
   // if (!singlePage) return <Loader />;
 

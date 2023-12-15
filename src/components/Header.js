@@ -59,6 +59,26 @@ export default function Header({ pageName, projectName }) {
   }
   return (
     <div className="menu">
+      {mobileMenuOpen && (
+        <div
+          className="header-padding fixed absolute right"
+          onClick={() => {
+            ToggleMobileMenu(false);
+          }}
+          style={{
+            zIndex: 9999999,
+            position: "fixed",
+            top: "0",
+            right: "0",
+          }}
+        >
+          <img
+            alt="closing icon for mobile menu"
+            src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}
+          ></img>
+        </div>
+      )}
+
       {/* top left corner shows logo if not */}
       <div
         className="flex-row top fixed left align-center space-between"
@@ -154,9 +174,7 @@ export default function Header({ pageName, projectName }) {
               <p>{projectName}</p>
             </div>
 
-            <div className="header-padding" style={{ width: "60px" }}>
-              {" "}
-            </div>
+            <div className="header-padding circleIcon empty"> </div>
           </>
         ) : null}
       </div>
@@ -194,56 +212,86 @@ export default function Header({ pageName, projectName }) {
                 }`}
                 style={{ zIndex: 10 }}
               >
-                <MenuImage
-                  width={location.pathname !== "/" ? 50 : 80}
-                  image={info.burgerTop}
-                />
+                <MenuImage width={80} image={info.burgerTop} />
               </div>
             )}
 
             {info.headerMenu.map((menuItem, index) => (
-              <NavLink
-                key={
-                  menuItem.url
-                    ? menuItem.url
-                    : menuItem.page
-                    ? menuItem.page.slug.current
-                    : menuItem.project
-                    ? menuItem.project.slug.current
-                    : null + index
-                }
-                to={
-                  menuItem.url
-                    ? menuItem.url
-                    : menuItem.page
-                    ? menuItem.page.slug.current
-                    : menuItem.project
-                    ? menuItem.project.slug.current
-                    : null
-                }
-                onClick={(e) => {
-                  handleclick(e);
-                  if (width < 600) {
-                    ToggleMobileMenu(false);
-                  } else {
-                    ToggleMenu(false);
-                  }
-                }}
-                className={`flex-row burgerLayer  ${
-                  location.pathname !== "/" ? "smallBurger" : "bigBurger"
-                } ${menuOpen ? " open" : "closed"} ${
-                  userCanInteract ? " interactable" : "notInteractable"
-                }`}
-                style={{
-                  zIndex: 10 + index,
-                }}
-              >
-                <p>{menuItem.title}</p>
-                <MenuImage
-                  width={location.pathname !== "/" ? 40 : 56}
-                  image={menuItem.image}
-                />
-              </NavLink>
+              <>
+                {menuItem.url ? (
+                  <>
+                    {" "}
+                    <a
+                      key={menuItem.url + index}
+                      href={menuItem.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(e) => {
+                        handleclick(e);
+                        if (width < 600) {
+                          ToggleMobileMenu(false);
+                        } else {
+                          ToggleMenu(false);
+                        }
+                      }}
+                      className={`flex-row burgerLayer  ${
+                        location.pathname !== "/" ? "smallBurger" : "bigBurger"
+                      } ${menuOpen ? " open" : "closed"} ${
+                        userCanInteract ? " interactable" : "notInteractable"
+                      }`}
+                      style={{
+                        zIndex: 10 + index,
+                      }}
+                    >
+                      <p className="link">{menuItem.title}</p>
+                      <MenuImage height={35} image={menuItem.image} />
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <NavLink
+                      key={
+                        menuItem.url
+                          ? menuItem.url
+                          : menuItem.page
+                          ? menuItem.page.slug.current
+                          : menuItem.project
+                          ? menuItem.project.slug.current
+                          : null + index
+                      }
+                      to={
+                        menuItem.url
+                          ? { pathname: menuItem.url }
+                          : menuItem.page
+                          ? menuItem.page.slug.current
+                          : menuItem.project
+                          ? menuItem.project.slug.current
+                          : null
+                      }
+                      onClick={(e) => {
+                        handleclick(e);
+                        if (width < 600) {
+                          ToggleMobileMenu(false);
+                        } else {
+                          ToggleMenu(false);
+                        }
+                      }}
+                      className={`flex-row burgerLayer  ${
+                        location.pathname !== "/" ? "smallBurger" : "bigBurger"
+                      } ${menuOpen ? " open" : "closed"} ${
+                        userCanInteract ? " interactable" : "notInteractable"
+                      }`}
+                      style={{
+                        zIndex: 10 + index,
+                      }}
+                    >
+                      <p className="link">{menuItem.title}</p>
+                      <MenuImage height={35} image={menuItem.image} />
+                    </NavLink>
+                  </>
+                )}
+              </>
             ))}
             {info.burgerBottom && (
               <div
@@ -252,10 +300,7 @@ export default function Header({ pageName, projectName }) {
                 }`}
                 style={{ zIndex: 10 }}
               >
-                <MenuImage
-                  width={location.pathname !== "/" ? 50 : 80}
-                  image={info.burgerBottom}
-                />
+                <MenuImage width={80} image={info.burgerBottom} />
               </div>
             )}
           </div>
@@ -275,19 +320,7 @@ export default function Header({ pageName, projectName }) {
           display: "none",
           zIndex: 999,
         }}
-      >
-        <div
-          className="header-padding top absolute right"
-          onClick={() => {
-            ToggleMobileMenu(false);
-          }}
-        >
-          <img
-            alt="closing icon for mobile menu"
-            src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}
-          ></img>
-        </div>
-      </div>
+      ></div>
     </div>
   );
 }

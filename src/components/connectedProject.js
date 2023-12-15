@@ -5,7 +5,6 @@ import HeroProjectGrid from "./blocks/heroProjectGrid";
 function ConnectedProjects({ projects, heading, type }) {
   const connectedProjects = projects;
 
-  console.log("Connected projects", connectedProjects);
   return (
     <div className="grid">
       {connectedProjects &&

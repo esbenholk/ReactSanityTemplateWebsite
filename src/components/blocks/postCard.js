@@ -15,7 +15,9 @@ export default function PostCard({ post }) {
       </a>
 
       <div className="pressCardContent">
-        <h1 className="boldh1">{post.title}</h1>
+        <h4>
+          <strong>{post.title}</strong>
+        </h4>
         {post.description && (
           <div className="smallp">
             <BlockContent blocks={post.description} />
@@ -39,20 +41,20 @@ export default function PostCard({ post }) {
               </p>
             ))}
         </div>
-      </div>
 
-      {post.buttons && (
-        <div className="flex-column">
-          {post.buttons.buttons.map((button, index) => (
-            <Button
-              key={index}
-              name={button.name}
-              url={button.external_link}
-              color={button.color}
-            />
-          ))}
-        </div>
-      )}
+        {post.buttons && (
+          <div className="flex-column buttons">
+            {post.buttons.buttons.map((button, index) => (
+              <Button
+                key={index}
+                name={button.name}
+                url={button.external_link}
+                color={button.color}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

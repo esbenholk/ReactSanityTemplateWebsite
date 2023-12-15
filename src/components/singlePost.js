@@ -4,23 +4,21 @@ import { useParams } from "react-router-dom";
 
 import { HeadTags } from "./blocks/helmetHeaderTags";
 
-import useWindowDimensions from "./functions/useWindowDimensions";
-
 import Loader from "./blocks/loader";
 import PageBuilder from "./pageBuilder";
 import { pageBuilderquerystring } from "./queeries";
 import BlockContent from "./blocks/BlockContent";
 import Hero from "./blocks/hero";
+import { NavLink } from "react-router-dom";
 
 export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
   const { slug } = useParams();
   const [project, setProject] = useState();
-  let { width } = useWindowDimensions();
   ///get project data, set category names
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "project" && slug.current == "${slug}"]{ title, headline, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
+        `*[_type == "project" && slug.current == "${slug}"]{ title, introduction, place, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
       )
       .then((data) => {
         console.log("project details", data, slug);
@@ -54,55 +52,51 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
             </>
           ) : null}
 
-          <div style={{ position: "relative" }}>
-            <div className="projectDetails">
-              {project.headline && (
-                <div className="blockItem">
-                  <h1 className="bigH1">{project.headline}</h1>
-                </div>
-              )}
-
-              {project.description && (
-                <div className="blockItem">
-                  <BlockContent blocks={project.description} />
-                </div>
-              )}
-            </div>
-
-            <div
-              className={`projectData blockItem flex-column ${
-                width > 600 ? "absolute top right align-right" : null
-              }`}
-            >
-              {project.categories &&
-                project.categories.map((category, index) => (
-                  <div
-                    className="standardButton interactable"
-                    style={{ backgroundColor: category.color }}
-                    key={index}
-                  >
-                    <p>{category.title}</p>
+          <div className="projectPage">
+            {project.introduction && (
+              <div className="blockItem">
+                <div className="textBlock">
+                  <BlockContent blocks={project.introduction} />
+                  <div className={`flex-row projectDetails`}>
+                    {project.time ? (
+                      <div>
+                        <BlockContent blocks={project.time} />
+                      </div>
+                    ) : project.year ? (
+                      <p>{project.year} </p>
+                    ) : null}
+                    {project.place && <p>{project.place}</p>}
+                    {project.categories &&
+                      project.categories.map((category, index) => (
+                        <NavLink
+                          className="interactable category"
+                          to={"/timeline?" + category.slug.current}
+                          style={{ backgroundColor: category.color }}
+                          key={index}
+                        >
+                          <p>{category.title}</p>
+                        </NavLink>
+                      ))}
+                    {project.tags &&
+                      project.tags.map((tag, index) => (
+                        <NavLink
+                          className="interactable tag"
+                          to={"/timeline?" + tag}
+                          key={index}
+                        >
+                          <p href="">{tag}</p>{" "}
+                        </NavLink>
+                      ))}
                   </div>
-                ))}
-              {project.tags &&
-                project.tags.map((tag, index) => (
-                  <div className="standardButton interactable" key={index}>
-                    <p href="">{tag}</p>{" "}
-                  </div>
-                ))}
-              {project.time ? (
-                <div className="standardButton">
-                  <BlockContent blocks={project.time} />
                 </div>
-              ) : project.year ? (
-                <p className="standardButton">{project.year} </p>
-              ) : null}
-            </div>
+              </div>
+            )}
+
+            {}
+            {project.pageBuilder && (
+              <PageBuilder pageBuilder={project.pageBuilder} />
+            )}
           </div>
-          {}
-          {project.pageBuilder && (
-            <PageBuilder pageBuilder={project.pageBuilder} />
-          )}
         </>
       )}
     </>

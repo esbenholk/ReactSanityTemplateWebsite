@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 
@@ -13,6 +13,10 @@ export default function SlugContext({
   updateProjectTitle,
 }) {
   const { slug } = useParams();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       {PageNames.find((name) => name.slug.current.toLowerCase() === slug) ? (

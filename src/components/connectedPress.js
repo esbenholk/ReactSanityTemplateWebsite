@@ -40,15 +40,15 @@ function ConnectedPress({ press, heading, type }) {
   console.log("Connected press", connectedPressInstances, heading);
   return (
     <>
-      {heading ? <h1 className="smallh1">{heading}</h1> : null}
+      {heading ? <h4 className="fullWidthBlock blockTop ">{heading}</h4> : null}
       {type === "list" ? (
-        <div className="list blockItem">
+        <div className="list fullWidthBlock blockTop blockBottom">
           <div className="flex-column">
             {" "}
             {connectedPressInstances &&
               connectedPressInstances.map((press, index) => (
                 // <PostCard post={press} key={index} />
-                <div className="flex-row align-center space-between">
+                <div className="flex-row">
                   {" "}
                   <div className="flex-row align-center">
                     <p>{press.year}</p>
@@ -62,7 +62,7 @@ function ConnectedPress({ press, heading, type }) {
           </div>
         </div>
       ) : type === "card" ? (
-        <div className="horizontalScroll blockItem">
+        <div className="horizontalScroll fullWidthBlock blockItemOpenRight blockTop ">
           {" "}
           {connectedPressInstances &&
             connectedPressInstances.map((press, index) => (

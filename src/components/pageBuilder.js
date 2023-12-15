@@ -3,12 +3,11 @@ import BlockContent from "./blocks/BlockContent";
 import Hero from "./blocks/hero";
 import Video from "./blocks/videoPlayer";
 import ConnectedProjects from "./connectedProject";
-// import HorizontalScroll from "./blocks/HorizontalScroll";
 import Projects from "./blocks/ProjectSorting";
 import TickerComp from "./blocks/ticker";
 import ConnectedPress from "./connectedPress";
 import Image from "./blocks/image";
-import Masonry from "react-masonry-css";
+import CustomCarousel from "./blocks/Carousel";
 
 function PageBlock({ pageBlock }) {
   return (
@@ -20,21 +19,14 @@ function PageBlock({ pageBlock }) {
       {/* {page.projects ? <HorizontalScroll projects={page.projects} /> : null} */}
       {pageBlock._type === "gallery" && (
         <>
-          {pageBlock.images ? (
-            <Masonry
-              breakpointCols={{
-                default: 2,
-              }}
-              className="my-masonry-grid"
-              columnClassName="my-masonry-grid_column singleProjectMasonry"
-            >
-              {pageBlock.images.map((image, index) => (
-                <div className="squareImage" key={index}>
-                  <Image image={image} width={790} />
-                </div>
-              ))}
-            </Masonry>
-          ) : null}
+          <div className="block">
+            {pageBlock.images ? (
+              <CustomCarousel
+                images={pageBlock.images}
+                description={pageBlock.imageDescription}
+              ></CustomCarousel>
+            ) : null}
+          </div>
         </>
       )}
       {pageBlock._type === "hero" && (
@@ -46,11 +38,21 @@ function PageBlock({ pageBlock }) {
         />
       )}
       {pageBlock._type === "connectedProjects" && (
-        <ConnectedProjects
-          projects={pageBlock.projects}
-          heading={pageBlock.heading}
-          type={pageBlock.type}
-        />
+        <>
+          {pageBlock.projects && pageBlock.projects.length > 0 ? (
+            <ConnectedProjects
+              projects={pageBlock.projects}
+              heading={pageBlock.heading}
+              type={pageBlock.type}
+              categories={pageBlock.category}
+            />
+          ) : (
+            <>
+              <h1>sorting projects</h1>
+              <Projects />
+            </>
+          )}
+        </>
       )}
       {pageBlock._type === "connectedPress" && (
         <ConnectedPress
@@ -63,7 +65,7 @@ function PageBlock({ pageBlock }) {
         <>
           {pageBlock.content && (
             <div className="blockItem">
-              <div className="textblock">
+              <div className="textBlock">
                 <BlockContent
                   blocks={pageBlock.content}
                   heading={pageBlock.heading}
@@ -75,7 +77,7 @@ function PageBlock({ pageBlock }) {
       )}
 
       {pageBlock._type === "customImage" && (
-        <div className="flex-row align-center" style={{ width: "100%" }}>
+        <div className="flex-row align-center block" style={{ width: "100%" }}>
           <div className="flex-column align-center">
             <Image image={pageBlock.customImage} />
             {pageBlock.customImage.imageDescription && (
@@ -99,18 +101,17 @@ function PageBlockContainer({ pageBlock }) {
       style={{
         background: `linear-gradient(to bottom, ${pageBlock.color1} 0%, ${pageBlock.color2} 100%)`,
       }}
+      className="blockContainer"
     >
       {pageBlock._type !== "hero" &&
       pageBlock.title !== null &&
       pageBlock.title !== "" ? (
-        <div className="blockItem">
-          <h1>{pageBlock.title}</h1>
+        <div>
+          <h3 className="fullWidthBlock blockTop">{pageBlock.title}</h3>
         </div>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
-        <div key={index} className="block">
-          <PageBlock pageBlock={page} />
-        </div>
+        <PageBlock pageBlock={page} />
       ))}
     </div>
   );
@@ -121,13 +122,13 @@ export default function PageBuilder({ pageBuilder }) {
   return (
     <div>
       {pageBuilder.map((page, index) => (
-        <div key={index} className="block">
+        <>
           {page._type === "pageBlock" ? (
             <PageBlockContainer pageBlock={page} />
           ) : (
             <PageBlock pageBlock={page} />
           )}
-        </div>
+        </>
       ))}
     </div>
   );

@@ -37,7 +37,12 @@ export default function MenuItem({ menuItem, imageInline, imagesize }) {
       {menuItem.image !== null ? (
         <>
           {menuItem.url ? (
-            <a href={menuItem.url} className="flex-row">
+            <a
+              href={menuItem.url}
+              className="flex-row"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
               <MenuImage height={imagesize} image={menuItem.image} />
               {imageInline ? <p> {menuItem.title}</p> : null}
             </a>

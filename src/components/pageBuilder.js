@@ -2,7 +2,7 @@ import React from "react";
 import BlockContent from "./blocks/BlockContent";
 import Hero from "./blocks/hero";
 import Video from "./blocks/videoPlayer";
-import ConnectedProjects from "./connectedProject";
+// import ConnectedProjects from "./connectedProject";
 import Projects from "./blocks/ProjectSorting";
 import TickerComp from "./blocks/ticker";
 import ConnectedPress from "./connectedPress";
@@ -40,17 +40,21 @@ function PageBlock({ pageBlock }) {
       {pageBlock._type === "connectedProjects" && (
         <>
           {pageBlock.projects && pageBlock.projects.length > 0 ? (
-            <ConnectedProjects
-              projects={pageBlock.projects}
-              heading={pageBlock.heading}
-              type={pageBlock.type}
-              categories={pageBlock.category}
+            <Projects
+              projectList={pageBlock.projects}
+              displayCategoryButton={pageBlock.canBeSorted}
+              displayTagButton={pageBlock.canBeSorted}
+              displayStyle={pageBlock.type}
+              displayYearButton={pageBlock.canBeSorted}
             />
           ) : (
-            <>
-              <h1>sorting projects</h1>
-              <Projects />
-            </>
+            <Projects
+              projectList={null}
+              displayCategoryButton={pageBlock.canBeSorted}
+              displayTagButton={pageBlock.canBeSorted}
+              displayStyle={pageBlock.type}
+              displayYearButton={pageBlock.canBeSorted}
+            />
           )}
         </>
       )}
@@ -95,7 +99,6 @@ function PageBlock({ pageBlock }) {
 }
 
 function PageBlockContainer({ pageBlock }) {
-  console.log("PAGEBLOCK", pageBlock);
   return (
     <div
       style={{
@@ -111,7 +114,7 @@ function PageBlockContainer({ pageBlock }) {
         </div>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
-        <PageBlock pageBlock={page} />
+        <PageBlock key={index} pageBlock={page} />
       ))}
     </div>
   );
@@ -122,13 +125,13 @@ export default function PageBuilder({ pageBuilder }) {
   return (
     <div>
       {pageBuilder.map((page, index) => (
-        <>
+        <div key={index}>
           {page._type === "pageBlock" ? (
             <PageBlockContainer pageBlock={page} />
           ) : (
             <PageBlock pageBlock={page} />
           )}
-        </>
+        </div>
       ))}
     </div>
   );

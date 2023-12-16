@@ -1,5 +1,5 @@
 /* eslint-disable no-lone-blocks */
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { Suspense, lazy, useEffect, useState, createRef } from "react";
 // import NavBar from "./components/NavBar.js";
 import "./App.css";
@@ -15,8 +15,6 @@ import { pageBuilderquerystring } from "./components/queeries.js";
 import SlugContext from "./components/slugContext";
 
 import Footer from "./components/Footer";
-
-import ScrollToTop from "./components/blocks/scrollToTop";
 
 const LandingPage = lazy(() => import("./components/LandingPage.js"));
 
@@ -38,6 +36,10 @@ function App() {
   const updateProjectTitle = (newTitle) => {
     setProjectTitle(newTitle);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // get sitesettings and page names (for slug redirection)
   useEffect(() => {
@@ -63,7 +65,7 @@ function App() {
   useEffect(() => {
     sanityClient
       .fetch(
-        ' *[_type == "project"]{ title, slug, mainImage, heroImage, buttons, tags, categories[]->{title, slug}}'
+        ' *[_type == "project"]{ title, slug, description, year, mainImage, heroImage, buttons, tags, categories[]->{title, slug, color, isFeatured}, collaborators[]->{title, color, code}}'
       )
       .then((data) => {
         console.log(data);
@@ -117,10 +119,6 @@ function App() {
           <Suspense fallback={<div className="loader"></div>}>
             <AppContext.Provider value={globalContext}>
               <BrowserRouter>
-                {siteSettings && (
-                  <Header pageName={pageTitle} projectName={projectTitle} />
-                )}
-
                 <motion.div
                   className="mainContainer"
                   ref={mainRef}
@@ -128,25 +126,31 @@ function App() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ScrollToTop>
-                    <Switch>
-                      <Route exact path="/">
-                        {siteSettings && <LandingPage />}
-                      </Route>
-                      <Route exact path="/:slug">
-                        {categoryNames && (
+                  <Routes>
+                    <Route
+                      exact
+                      path="/"
+                      element={siteSettings && <LandingPage />}
+                    ></Route>
+                    <Route
+                      exact
+                      path="/:slug"
+                      element={
+                        categoryNames && (
                           <SlugContext
                             CategoryNames={categoryNames}
                             PageNames={pageNames}
                             updatePageTitle={updatePageTitle}
                             updateProjectTitle={updateProjectTitle}
                           />
-                        )}
-                      </Route>
-                    </Switch>
-                  </ScrollToTop>
+                        )
+                      }
+                    ></Route>
+                  </Routes>
                 </motion.div>
-
+                {siteSettings && (
+                  <Header pageName={pageTitle} projectName={projectTitle} />
+                )}
                 {siteSettings && <Footer />}
               </BrowserRouter>
             </AppContext.Provider>

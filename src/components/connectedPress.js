@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PostCard from "./blocks/postCard";
+import PostCard from "./blocks/pressCard";
 import sanityClient from ".././client";
 
 function ConnectedPress({ press, heading, type }) {

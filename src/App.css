@@ -43,6 +43,9 @@ code {
   flex-direction: row;
   display: flex;
 }
+.gap {
+  gap: 5px;
+}
 .wrap {
   max-width: 100%;
   flex-wrap: wrap;
@@ -51,7 +54,6 @@ code {
 .flex-column {
   flex-direction: column;
   display: flex;
-  gap: 10px;
 }
 
 .align-center {
@@ -162,6 +164,7 @@ a.flex-row {
   width: 100%;
   object-fit: cover;
 }
+
 a,
 p {
   margin: 0;
@@ -237,7 +240,6 @@ h4 {
   font-style: normal;
   font-weight: 400;
   line-height: 36px; /* 112.5% */
-  margin: 20px 0px 9px;
 }
 h4 strong {
   font-weight: 700;
@@ -266,9 +268,10 @@ a {
   display: inline-flex;
   padding: 12px 22px;
   color: #000;
-  text-align: right;
   width: fit-content;
+  height: fit-content;
   transition: all 0.2s ease-in-out;
+  white-space: nowrap;
 }
 .standardButton p {
   color: #000;
@@ -369,6 +372,7 @@ footer {
 .burger {
   -webkit-transition: all 2s ease-in-out;
   transition: all 2s ease-in-out;
+  gap: 10px;
 }
 .burger img {
   transition: all 1s ease-in-out;
@@ -548,12 +552,6 @@ footer {
   margin-bottom: 5px;
 }
 
-.pill:is(:first-child) {
-  margin-top: 102px;
-}
-.pill:is(:last-child) {
-  margin-bottom: 102px;
-}
 .pillContent {
   max-width: 100%;
   height: 100%;
@@ -629,6 +627,21 @@ footer {
   width: 596px;
 }
 
+.showcaseGrid {
+  position: relative;
+  padding: 10px;
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+.showcaseCard {
+  width: min-content;
+  max-width: 100%;
+}
+.showcaseCard span {
+  width: min-content;
+  max-width: 100%;
+}
+
 .pressCard img {
   opacity: 0;
 }
@@ -654,10 +667,11 @@ footer {
   margin-bottom: 9px;
 }
 
+.showcaseCard .year,
 .pressCard .year {
   position: absolute;
   z-index: 1;
-  top: 61px;
+  top: 21px;
   left: 21px;
 }
 .pressCard a,
@@ -682,6 +696,75 @@ footer {
 .blur {
   filter: blur(10px);
 }
+
+.showcaseGrid {
+  gap: 30px;
+}
+
+.sortingMenu {
+  background-color: var(--secondary-color);
+
+  padding: 10px;
+  padding-top: 150px;
+  padding-bottom: 150px;
+
+  padding-top: 102px;
+}
+
+.sortingButton.active {
+  background-color: #ffeb01 !important;
+}
+.sortingMenu .column {
+  min-width: 33%;
+  gap: 10px;
+}
+.sortingMenu .flex-row {
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.introStage .standardButton {
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sortingMenu .featured {
+  width: 100%;
+  display: flex;
+  height: 171px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  color: #000;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35.5px; /* 110.938% */
+}
+
+.fixedFilerButton {
+  left: 250px;
+  height: 60px;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+}
+.fixedFilerButton.active {
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+}
+.fixedFilerButton img {
+  margin-right: 23px;
+}
+
 @media only screen and (max-width: 1400px) {
   .cubedImage {
     height: 550px;
@@ -709,6 +792,7 @@ footer {
     --paddingValue: 50px;
     --padding: var(--paddingValue) var(--paddingValue);
   }
+
   .cubedImage {
     height: 600px;
     width: 600px;
@@ -717,6 +801,12 @@ footer {
     width: 610px !important;
   }
 
+  .fixedFilerButton.active {
+    left: 0px;
+  }
+  .fold {
+    flex-direction: column;
+  }
   a,
   p {
     font-family: Arial;
@@ -731,7 +821,6 @@ footer {
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 20px; /* 142.857% */
   }
   .minip p,
   .minip {
@@ -793,7 +882,21 @@ footer {
     --paddingValue: 20px;
     --padding: var(--paddingValue) var(--paddingValue);
   }
-
+  .fixedFilerButton {
+    left: 200px;
+    height: 50px;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+  }
+  .list {
+    padding-top: 102px;
+    padding-bottom: 102px;
+  }
   .carousel .slider {
     width: 360px !important;
   }
@@ -868,9 +971,6 @@ footer {
     --padding: var(--mobile-padding);
   }
 
-  .standardButton {
-    height: 50px;
-  }
   .standardButton a,
   .standardButton p {
     font-size: 16px;
@@ -887,9 +987,9 @@ footer {
   .header-padding {
     margin: 17px;
   }
-  .menuContainer:has(.open) {
+  /* .menuContainer:has(.open) {
     pointer-events: none;
-  }
+  } */
   .burgerLayer.interactable {
     box-shadow: 0px 4px 7px 0px #000000b2;
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import PostCard from "./blocks/postCard";
+import PostCard from "./blocks/pressCard";
 import HeroProjectGrid from "./blocks/heroProjectGrid";
 
 function ConnectedProjects({ projects, heading, type }) {

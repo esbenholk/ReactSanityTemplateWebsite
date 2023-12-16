@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from "react";
 import AppContext from "../globalState";
 import { urlFor } from "./blocks/image";
-import { useLocation, NavLink, useHistory } from "react-router-dom";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { MenuImage } from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
@@ -15,7 +15,7 @@ export default function Header({ pageName, projectName }) {
   const logoUrl = urlFor(info.logo.asset).width(60).url();
   const { width } = useWindowDimensions();
 
-  let history = useHistory();
+  let history = useNavigate();
 
   const mobileMenu = useRef(null);
 
@@ -84,7 +84,7 @@ export default function Header({ pageName, projectName }) {
         className="flex-row top fixed left align-center space-between"
         style={{ width: "100%" }}
       >
-        <div className="flex-row align-center">
+        <div className="flex-row align-center" id="header">
           {location.pathname !== "/" &&
           projectName !== null &&
           projectName !== "" ? (

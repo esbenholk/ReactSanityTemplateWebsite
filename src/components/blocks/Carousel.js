@@ -23,7 +23,7 @@ export default function CustomCarousel({ images, classsss }) {
           showThumbs={false}
           showArrows={true}
           className={`carousel ${classsss}`}
-          infiniteLoop={true}
+          infiniteLoop={false}
           // selectedItem={currentIndex}
           renderArrowPrev={(clickHandler, hasPrev, labelPrev) =>
             hasPrev && (

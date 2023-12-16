@@ -9,7 +9,10 @@ export default function PostCard({ post }) {
     <div className="pressCard">
       {post.source && <p className="smallp">{post.source}</p>}
 
-      <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
+      <a
+        style={{ position: "relative" }}
+        href={post.slug ? post.slug.current : post.url ? post.url : null}
+      >
         {post.year && <p className="year standardButton minip">{post.year}</p>}
         <Image image={post.mainImage} width={596} />
       </a>
@@ -41,20 +44,19 @@ export default function PostCard({ post }) {
               </p>
             ))}
         </div>
-
-        {post.buttons && (
-          <div className="flex-column buttons">
-            {post.buttons.buttons.map((button, index) => (
-              <Button
-                key={index}
-                name={button.name}
-                url={button.external_link}
-                color={button.color}
-              />
-            ))}
-          </div>
-        )}
       </div>
+      {post.buttons && (
+        <div className="flex-column buttons">
+          {post.buttons.buttons.map((button, index) => (
+            <Button
+              key={index}
+              name={button.name}
+              url={button.external_link}
+              color={button.color}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

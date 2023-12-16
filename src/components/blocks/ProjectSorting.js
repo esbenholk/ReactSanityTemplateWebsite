@@ -1,43 +1,98 @@
 import React, { useState, useEffect, useContext } from "react";
-
-import Masonry from "react-masonry-css";
-
-import PostCard from "./postCard.js";
-
+import HeroProjectGrid from "./heroProjectGrid.js";
 import AppContext from "../../globalState.js";
+import ShowcaseCard from "../blocks/showcaseCard.js";
+import useWindowDimensions from "../functions/useWindowDimensions.js";
+import { useParams, useSearchParams } from "react-router-dom";
 
-const breakpointColumnsObj = {
-  default: 3,
-  1300: 2,
-  600: 2,
-};
-
-export default function Projects({ sortCategories }) {
+export default function Projects({
+  projectList,
+  displayCategoryButton,
+  displayTagButton,
+  displayStyle,
+  displayYearButton,
+}) {
   const myContext = useContext(AppContext);
-  const projectList = myContext.projectList;
+  const { width } = useWindowDimensions();
+  const { slug } = useParams();
+  const [searchSlug, setSearchSlug] = useState();
+  const [searchParams] = useSearchParams();
+
+  const [sortingMenuOpen, setSortingMenuOpen] = useState(false);
+  const [shouldShowSortingMenu, setShouldShowSortingMenu] = useState(false);
 
   const [allPosts, setAllPosts] = useState(projectList);
-
   const [sortedPosts, setSortedPosts] = useState(null);
-
   const [tags, setTags] = useState(myContext.tags);
   const [currentTags, setCurrentTags] = useState([]);
-
   const [categories, setCategories] = useState(myContext.categories);
   const [currentCategories, setCurrentCategories] = useState([]);
+  const [years, setYears] = useState([]);
+  const [currentYears, setCurrentYears] = useState([]);
+  const [collaborators, setCollaborators] = useState([]);
+  const [currentCollaborators, setCurrentCollaborators] = useState([]);
+  const [filtersHasChanged, setFilterHasChanged] = useState(false);
+  const [isMenuIntro, setIsMenuIntro] = useState(true);
 
   useEffect(() => {
-    console.log("project list", projectList);
-    setAllPosts(projectList);
-    setSortedPosts(projectList);
+    const params = [];
+
+    searchParams.forEach((value, key) => {
+      params.push([key, value]);
+    });
+
+    for (let index = 0; index < params.length; index++) {
+      const element = params[index];
+      if (element.length > 1) {
+        setSearchSlug(element[0]);
+
+        console.log("SEARCH PARAMS", element[0]);
+      }
+    }
+  }, [slug, searchParams]);
+
+  useEffect(() => {
+    if (displayTagButton || displayCategoryButton || displayYearButton) {
+      setShouldShowSortingMenu(true);
+    }
+  }, [displayTagButton, displayCategoryButton, displayYearButton]);
+  useEffect(() => {
     var tags = [];
     var tagNames = [];
     var categories = [];
     var categoryNames = [];
+    var years = [];
+    var collaborators = [];
 
-    for (let index = 0; index < projectList.length; index++) {
-      const post = projectList[index];
+    var tempProjectList;
+
+    if (!projectList) {
+      setAllPosts(myContext.projectList);
+      setSortedPosts(myContext.projectList);
+      console.log("finds all projects", myContext);
+      tempProjectList = myContext.projectList;
+    } else {
+      setAllPosts(projectList);
+      setSortedPosts(projectList);
+      tempProjectList = projectList;
+    }
+
+    console.log("project list", tempProjectList);
+
+    for (let index = 0; index < tempProjectList.length; index++) {
+      const post = tempProjectList[index];
       post.value = 0;
+
+      years.push(post.year);
+
+      if (post.collaborators != null && Array.isArray(post.collaborators)) {
+        for (let index = 0; index < post.collaborators.length; index++) {
+          const collaborator = post.collaborators[index];
+          if (!collaborators.includes(collaborator.title)) {
+            collaborators.push(collaborator.title);
+          }
+        }
+      }
 
       if (post.tags != null && Array.isArray(post.tags)) {
         for (let index = 0; index < post.tags.length; index++) {
@@ -45,9 +100,22 @@ export default function Projects({ sortCategories }) {
           if (!tagNames.includes(tag)) {
             tagNames.push(tag);
             tags.push(tag);
+            if (searchSlug === tag) {
+              const tempTags = [...currentTags];
+              tempTags.push(tag);
+              setCurrentTags(tempTags);
+              let button = document.getElementById("tag_" + tag);
+              if (button) {
+                button.classList.add("active");
+              }
+              setTimeout(() => {
+                setFilterHasChanged(false);
+              }, 10);
+            }
           }
         }
       }
+
       if (post.categories != null && Array.isArray(post.categories)) {
         for (let index = 0; index < post.categories.length; index++) {
           const category = post.categories[index];
@@ -55,6 +123,21 @@ export default function Projects({ sortCategories }) {
           if (!categoryNames.includes(category.title)) {
             categoryNames.push(category.title);
             categories.push(category);
+
+            if (searchSlug === category.slug.current) {
+              const tempCategories = [...currentCategories];
+              tempCategories.push(category.title);
+              setCurrentCategories(tempCategories);
+              let button = document.getElementById(
+                "category_" + category.title
+              );
+              if (button) {
+                button.classList.add("active");
+              }
+              setTimeout(() => {
+                setFilterHasChanged(false);
+              }, 10);
+            }
           }
         }
       }
@@ -65,15 +148,32 @@ export default function Projects({ sortCategories }) {
 
     let sortedCategories = [...new Set(categories)];
     setCategories(sortedCategories);
-  }, [projectList]);
+
+    let sortedYears = [...new Set(years)];
+    setYears(sortedYears);
+
+    let sortedCollaborators = [...new Set(collaborators)];
+    setCollaborators(sortedCollaborators);
+  }, [projectList, currentTags, searchSlug, myContext, currentCategories]);
 
   useEffect(() => {
-    if (currentTags.length > 0 || currentCategories.length > 0) {
+    if (
+      currentTags.length > 0 ||
+      currentCategories.length > 0 ||
+      currentYears.length > 0 ||
+      currentCollaborators.length > 0
+    ) {
       const tempSortedPosts = [];
+
+      setFilterHasChanged(true);
+
       console.log(
         "search criteria has been updated",
+        currentTags,
+        currentCollaborators,
         currentCategories,
-        currentTags
+        currentYears,
+        allPosts
       );
 
       ///loop through all posts
@@ -107,6 +207,23 @@ export default function Projects({ sortCategories }) {
             }
           }
         }
+
+        if (post.collaborators) {
+          for (let index = 0; index < post.collaborators.length; index++) {
+            const collaborator = post.collaborators[index];
+
+            ///compare post tags to currentTags
+            if (currentCollaborators.includes(collaborator.title)) {
+              //set post_score depending on how many currentTags the post is matching
+              post_score = post_score + 2;
+              // console.log("post matches a category");
+            }
+          }
+        }
+        if (currentYears.includes(post.year.toString())) {
+          post_score = post_score + 3;
+        }
+
         if (post_score > 0) {
           post.value = post_score;
           tempSortedPosts.push(post);
@@ -117,25 +234,107 @@ export default function Projects({ sortCategories }) {
       setSortedPosts(tempSortedPosts);
     } else {
       setSortedPosts(allPosts);
-    }
-  }, [currentTags, allPosts, currentCategories]);
 
-  function setTag(tag) {
-    if (!currentTags.includes(tag.tag)) {
-      const tempTags = [...currentTags];
-      tempTags.push(tag.tag);
-      setCurrentTags(tempTags);
-      document.getElementById("tag_" + tag.tag).classList.add("active");
       console.log(
-        "should make tag active",
-        document.getElementById("tag_" + tag.tag)
+        "search is empty",
+        currentTags,
+        currentCollaborators,
+        currentCategories,
+        currentYears,
+        allPosts
       );
-    } else if (currentTags.includes(tag.tag)) {
-      var tagIndex = currentTags.indexOf(tag.tag);
+    }
+  }, [
+    currentTags,
+    allPosts,
+    currentCategories,
+    currentYears,
+    currentCollaborators,
+  ]);
+
+  function setTag(_tag) {
+    let tag;
+    if (_tag.tag) {
+      tag = _tag.tag;
+    } else {
+      tag = _tag;
+    }
+
+    if (!currentTags.includes(tag)) {
+      console.log("SETS TAG", tag);
+      const tempTags = [...currentTags];
+      tempTags.push(tag);
+      setCurrentTags(tempTags);
+      let button = document.getElementById("tag_" + tag);
+      if (button) {
+        button.classList.add("active");
+      }
+    } else if (currentTags.includes(tag)) {
+      console.log("REMOVES TAG", tag);
+      var tagIndex = currentTags.indexOf(tag);
       currentTags.splice(tagIndex, 1);
       const tempTags = [...currentTags];
-      document.getElementById("tag_" + tag.tag).classList.remove("active");
       setCurrentTags(tempTags);
+      let button = document.getElementById("tag_" + tag);
+      if (button) {
+        button.classList.remove("active");
+      }
+    }
+  }
+
+  function setYear(year) {
+    if (!currentYears.includes(year)) {
+      const tempYears = [...currentYears];
+      // the difference between being able to select several years
+      // const tempYears = [];
+
+      tempYears.push(year);
+      setCurrentYears(tempYears);
+
+      let button = document.getElementById("year_" + year.toString());
+      if (button) {
+        button.classList.add("active");
+      }
+    } else if (currentYears.includes(year)) {
+      var ndex = currentYears.indexOf(year);
+      currentYears.splice(ndex, 1);
+      const tempYears = [...currentYears];
+      let button = document.getElementById("year_" + year.toString());
+      if (button) {
+        button.classList.remove("active");
+      }
+      setCurrentYears(tempYears);
+    }
+  }
+  function setCollaborator(collaborator) {
+    if (!currentCollaborators.includes(collaborator)) {
+      const tempCollaborators = [...currentCollaborators];
+      // the difference between being able to select several years
+      // const tempYears = [];
+      console.log("sets collaborator", collaborator);
+      tempCollaborators.push(collaborator);
+      setCurrentCollaborators(tempCollaborators);
+
+      let button = document.getElementById(
+        "collaborator_" + collaborator.toString()
+      );
+      if (button) {
+        button.classList.add("active");
+      }
+    } else if (currentCollaborators.includes(collaborator)) {
+      var ndex = currentCollaborators.indexOf(collaborator);
+      currentCollaborators.splice(ndex, 1);
+      const tempCollaborators = [...currentCollaborators];
+
+      console.log("removes collaborator", collaborator);
+
+      setCurrentCollaborators(tempCollaborators);
+      let button = document.getElementById(
+        "collaborator_" + collaborator.toString()
+      );
+      if (button) {
+        button.classList.remove("active");
+      }
     }
   }
 
@@ -144,10 +343,7 @@ export default function Projects({ sortCategories }) {
       const tempCategories = [...currentCategories];
       tempCategories.push(category.category.title);
       setCurrentCategories(tempCategories);
-      console.log(
-        "should make category active",
-        document.getElementById("category_" + category.category.title)
-      );
+
       document
         .getElementById("category_" + category.category.title)
         .classList.add("active");
@@ -165,46 +361,248 @@ export default function Projects({ sortCategories }) {
 
   return (
     <div className="projects">
-      <div className="flex-row">
-        {categories &&
-          categories.map((category, index) => (
-            <button
-              className="tag_button standardButton "
-              key={index}
-              id={"category_" + category.title + ""}
-              onClick={(evt) => {
-                setCategory({ category });
-              }}
-            >
-              {category.title}
-            </button>
-          ))}
-      </div>
-      <div className="flex-row">
-        {tags.map((tag, index) => (
-          <button
-            className="tag_button standardButton"
-            key={index}
-            id={"tag_" + tag + ""}
-            onClick={() => {
-              setTag({ tag });
+      {shouldShowSortingMenu && (
+        <button
+          className={
+            sortingMenuOpen
+              ? "fixedFilerButton header-padding active standardButton"
+              : "fixedFilerButton header-padding"
+          }
+          style={{ position: "fixed", zIndex: "999999999999999999999999" }}
+          onClick={(evt) => {
+            if (sortingMenuOpen) {
+              setSortingMenuOpen(false);
+              setFilterHasChanged(false);
+              setIsMenuIntro(true);
+            } else {
+              setSortingMenuOpen(true);
+            }
+          }}
+        >
+          <img
+            alt="filer icon"
+            style={{
+              transform: filtersHasChanged && "rotate(180g)",
+              filter: filtersHasChanged && "invert(1)",
             }}
+            src={
+              sortingMenuOpen && filtersHasChanged
+                ? process.env.PUBLIC_URL + "/filter_list.png"
+                : sortingMenuOpen
+                ? process.env.PUBLIC_URL + "/close.png"
+                : process.env.PUBLIC_URL + "/filter_list.png"
+            }
+          ></img>
+          {sortingMenuOpen && filtersHasChanged
+            ? "APPLY FILTERS"
+            : sortingMenuOpen
+            ? "CLOSE FILTERS"
+            : width > 900
+            ? "FILTER BY"
+            : null}
+        </button>
+      )}
+
+      <div
+        className={
+          isMenuIntro
+            ? "introStage sortingMenu flex-column"
+            : " sortingMenu flex-column"
+        }
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          left: 0,
+          bottom: 0,
+          pointerEvents: sortingMenuOpen ? "all" : "none",
+          display: sortingMenuOpen ? "flex" : "none",
+          zIndex: 999,
+          overflow: "hidden",
+        }}
+      >
+        <div className={isMenuIntro ? "flex-column nogap" : "flex-row fold"}>
+          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
+            {" "}
+            {displayCategoryButton &&
+              categories &&
+              categories.map(
+                (category, index) =>
+                  category.isFeatured && (
+                    <>
+                      {" "}
+                      <button
+                        style={{
+                          backgroundColor: !currentCategories.includes(
+                            category.title
+                          )
+                            ? category.color
+                            : "yellow",
+                        }}
+                        className={
+                          isMenuIntro
+                            ? "sortingButton standardButton featured"
+                            : "sortingButton standardButton"
+                        }
+                        key={index}
+                        id={"category_" + category.title + ""}
+                        onClick={(evt) => {
+                          if (
+                            isMenuIntro &&
+                            !currentCategories.includes(category.title)
+                          ) {
+                            setSortingMenuOpen(false);
+                            setIsMenuIntro(true);
+                            setTimeout(() => {
+                              setFilterHasChanged(false);
+                            }, 10);
+                          } else {
+                            setFilterHasChanged(true);
+                          }
+                          setCategory({ category });
+                        }}
+                      >
+                        {category.title}
+                      </button>
+                    </>
+                  )
+              )}
+            {displayCategoryButton &&
+              categories &&
+              categories.map(
+                (category, index) =>
+                  !category.isFeatured && (
+                    <>
+                      {" "}
+                      <button
+                        style={{ backgroundColor: category.color }}
+                        className="sortingButton standardButton"
+                        key={index}
+                        id={"category_" + category.title + ""}
+                        onClick={(evt) => {
+                          setCategory({ category });
+                        }}
+                      >
+                        {category.title}
+                      </button>
+                    </>
+                  )
+              )}
+          </div>
+          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
+            {" "}
+            {displayTagButton &&
+              tags.map((tag, index) => (
+                <button
+                  className="sortingButton standardButton"
+                  key={index}
+                  id={"tag_" + tag + ""}
+                  onClick={() => {
+                    setTag(tag);
+                  }}
+                >
+                  {tag}
+                </button>
+              ))}
+          </div>
+          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
+            {" "}
+            {displayYearButton &&
+              years &&
+              years.map((year, index) => (
+                <button
+                  className="sortingButton standardButton"
+                  key={index}
+                  id={"year_" + year.toString()}
+                  onClick={() => {
+                    setYear(year);
+                  }}
+                >
+                  {year}
+                </button>
+              ))}
+          </div>
+        </div>
+        <div className={isMenuIntro ? "flex-column" : "flex-row wrap"}>
+          {displayYearButton &&
+            collaborators &&
+            collaborators.map((collaborator, index) => (
+              <button
+                className="sortingButton standardButton"
+                key={index}
+                id={"collaborator_" + collaborator.toString()}
+                onClick={() => {
+                  setCollaborator(collaborator);
+                }}
+              >
+                {collaborator}
+              </button>
+            ))}
+        </div>
+        {isMenuIntro && (
+          <button
+            className="sortingButton standardButton featured"
+            onClick={(evt) => {
+              setIsMenuIntro(false);
+            }}
+            style={{ backgroundColor: "yellow" }}
           >
-            {tag}
+            ALL FILTERS
           </button>
-        ))}
+        )}
       </div>
 
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid fullWidthPadded"
-        columnClassName="my-masonry-grid_column"
-      >
-        {sortedPosts &&
-          sortedPosts.map((post, index) => (
-            <PostCard post={post} key={index} />
-          ))}
-      </Masonry>
+      {displayStyle === "showcase" && (
+        <div className="flex-row wrap block showcaseGrid fold">
+          <>
+            {sortedPosts &&
+              sortedPosts.map((project, index) => (
+                <ShowcaseCard post={project} key={index} />
+              ))}
+          </>
+        </div>
+      )}
+      {displayStyle === "cover" && (
+        <div className="list">
+          {sortedPosts &&
+            sortedPosts.map((project, index) => (
+              <HeroProjectGrid
+                key={index}
+                image={
+                  project.heroImage ? project.heroImage : project.mainImage
+                }
+                logo={project.logoImage}
+                time={project.time}
+                place={project.place}
+                slug={project.slug.current}
+              />
+            ))}
+        </div>
+      )}
+
+      {/* {displayStyle === "list" && (
+        <div className="list">
+          {sortedPosts
+            ? sortedPosts.map((project, index) => (
+                <DBItem
+                  key={index}
+                  url={
+                    project.slug
+                      ? project.slug.current
+                      : project.link
+                      ? project.link
+                      : "/"
+                  }
+                  title={project.title}
+                  year={project.time ? project.time : project.year}
+                  description={project.description}
+                  updateVisitedLinks={updateVisitedLinks}
+                  visitedLinks={visitedLinks}
+                />
+              ))
+            : null}
+        </div>
+      )} */}
     </div>
   );
 }

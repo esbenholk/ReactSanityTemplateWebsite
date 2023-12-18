@@ -35,27 +35,11 @@ export default function Projects({
   const [isMenuIntro, setIsMenuIntro] = useState(true);
 
   useEffect(() => {
-    const params = [];
-
-    searchParams.forEach((value, key) => {
-      params.push([key, value]);
-    });
-
-    for (let index = 0; index < params.length; index++) {
-      const element = params[index];
-      if (element.length > 1) {
-        setSearchSlug(element[0]);
-
-        console.log("SEARCH PARAMS", element[0]);
-      }
-    }
-  }, [slug, searchParams]);
-
-  useEffect(() => {
     if (displayTagButton || displayCategoryButton || displayYearButton) {
       setShouldShowSortingMenu(true);
     }
   }, [displayTagButton, displayCategoryButton, displayYearButton]);
+
   useEffect(() => {
     var tags = [];
     var tagNames = [];
@@ -63,6 +47,8 @@ export default function Projects({
     var categoryNames = [];
     var years = [];
     var collaborators = [];
+
+    // const tempCategories = [...currentCategories];
 
     var tempProjectList;
 
@@ -100,18 +86,18 @@ export default function Projects({
           if (!tagNames.includes(tag)) {
             tagNames.push(tag);
             tags.push(tag);
-            if (searchSlug === tag) {
-              const tempTags = [...currentTags];
-              tempTags.push(tag);
-              setCurrentTags(tempTags);
-              let button = document.getElementById("tag_" + tag);
-              if (button) {
-                button.classList.add("active");
-              }
-              setTimeout(() => {
-                setFilterHasChanged(false);
-              }, 10);
-            }
+            // if (searchSlug === tag) {
+            //   const tempTags = [...currentTags];
+            //   tempTags.push(tag);
+            //   setCurrentTags(tempTags);
+            //   let button = document.getElementById("tag_" + tag);
+            //   if (button) {
+            //     button.classList.add("active");
+            //   }
+            //   setTimeout(() => {
+            //     setFilterHasChanged(false);
+            //   }, 10);
+            // }
           }
         }
       }
@@ -124,20 +110,16 @@ export default function Projects({
             categoryNames.push(category.title);
             categories.push(category);
 
-            if (searchSlug === category.slug.current) {
-              const tempCategories = [...currentCategories];
-              tempCategories.push(category.title);
-              setCurrentCategories(tempCategories);
-              let button = document.getElementById(
-                "category_" + category.title
-              );
-              if (button) {
-                button.classList.add("active");
-              }
-              setTimeout(() => {
-                setFilterHasChanged(false);
-              }, 10);
-            }
+            // if (searchSlug === category.slug.current) {
+            //   tempCategories.push(category.title);
+
+            //   let button = document.getElementById(
+            //     "category_" + category.title
+            //   );
+            //   if (button) {
+            //     button.classList.add("active");
+            //   }
+            // }
           }
         }
       }
@@ -148,13 +130,14 @@ export default function Projects({
 
     let sortedCategories = [...new Set(categories)];
     setCategories(sortedCategories);
+    //
 
     let sortedYears = [...new Set(years)];
     setYears(sortedYears);
 
     let sortedCollaborators = [...new Set(collaborators)];
     setCollaborators(sortedCollaborators);
-  }, [projectList, currentTags, searchSlug, myContext, currentCategories]);
+  }, [projectList, currentTags, myContext, currentCategories, searchSlug]);
 
   useEffect(() => {
     if (
@@ -251,6 +234,69 @@ export default function Projects({
     currentYears,
     currentCollaborators,
   ]);
+
+  useEffect(() => {
+    const params = [];
+
+    searchParams.forEach((value, key) => {
+      params.push([key, value]);
+    });
+
+    for (let index = 0; index < params.length; index++) {
+      const element = params[index];
+      if (element.length > 1) {
+        setSearchSlug(element[0]);
+      }
+    }
+
+    if (allPosts) {
+      for (let index = 0; index < allPosts.length; index++) {
+        const post = allPosts[index];
+        post.value = 0;
+        if (post.tags != null && Array.isArray(post.tags)) {
+          const tempTags = [];
+
+          for (let index = 0; index < post.tags.length; index++) {
+            const tag = post.tags[index];
+            if (searchSlug === tag) {
+              tempTags.push(tag);
+              setCurrentTags(tempTags);
+              // let button = document.getElementById("tag_" + tag);
+              // if (button) {
+              //   button.classList.add("active");
+              // }
+              setTimeout(() => {
+                setFilterHasChanged(false);
+              }, 10);
+            }
+          }
+        }
+
+        if (post.categories != null && Array.isArray(post.categories)) {
+          const tempCategories = [];
+          for (let index = 0; index < post.categories.length; index++) {
+            const category = post.categories[index];
+
+            if (searchSlug === category.slug.current) {
+              tempCategories.push(category.title);
+              setCurrentCategories(tempCategories);
+
+              // console.log("sets category active from url");
+              // let button = document.getElementById(
+              //   "category_" + category.title
+              // );
+              // if (button) {
+              //   button.classList.add("active");
+              // }
+              setTimeout(() => {
+                setFilterHasChanged(false);
+              }, 10);
+            }
+          }
+        }
+      }
+    }
+  }, [slug, searchParams, allPosts, searchSlug]);
 
   function setTag(_tag) {
     let tag;
@@ -441,8 +487,8 @@ export default function Projects({
                         }}
                         className={
                           isMenuIntro
-                            ? "sortingButton standardButton featured"
-                            : "sortingButton standardButton"
+                            ? "standardButton featured"
+                            : "standardButton"
                         }
                         key={index}
                         id={"category_" + category.title + ""}

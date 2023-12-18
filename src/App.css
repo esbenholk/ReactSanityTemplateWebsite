@@ -60,6 +60,9 @@ code {
   align-items: center;
   justify-content: center;
 }
+.justify-center {
+  justify-content: center;
+}
 .align-right {
   align-items: flex-end;
 }
@@ -93,8 +96,7 @@ a.flex-row {
   padding: 0 14px 0 14px;
 }
 .block {
-  padding-top: 90px;
-  padding-bottom: 90px;
+  padding: var(--paddingValue) 100px var(--paddingValue) 100px;
 }
 .blockTop {
   padding-top: var(--paddingValue);
@@ -151,7 +153,7 @@ a.flex-row {
   border: none;
 }
 .featuredCardArrow.nextArrow {
-  right: 40px;
+  right: 30px;
 }
 
 .cubedImage {
@@ -636,6 +638,11 @@ footer {
 .showcaseCard {
   width: min-content;
   max-width: 100%;
+  transition: all 1s;
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
 }
 .showcaseCard span {
   width: min-content;
@@ -764,18 +771,92 @@ footer {
 .fixedFilerButton img {
   margin-right: 23px;
 }
+.rowBlock span,
+.rowBlock span img {
+  max-width: 100% !important;
+}
+
+.rowblock:has(.textContent):is(:last-child) {
+  margin-left: 80px;
+}
+.rowblock:has(.textContent):is(:first-child) {
+  margin-right: 80px;
+}
+
+.readmorecontent {
+  margin-top: 90px;
+  transition: all 3s ease-in-out;
+  position: relative;
+}
+.readmorebutton {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  z-index: 99999999;
+}
+
+.readmorecontent.closed {
+  max-height: 150px;
+  overflow-y: hidden;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(black),
+    to(transparent)
+  );
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 50%);
+  mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(black),
+    to(transparent)
+  );
+  mask-image: linear-gradient(to bottom, black 0%, transparent 50%);
+}
+
+.readmorecontent.open {
+  height: auto;
+  max-height: 3000px;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(black),
+    to(transparent)
+  );
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(black),
+    to(transparent)
+  );
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+}
+.videoThumbnail img,
+.videoThumbnail span {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 
 @media only screen and (max-width: 1400px) {
   .cubedImage {
-    height: 550px;
-    width: 550px;
+    height: 450px;
+    width: 450px;
   }
 }
 
 @media only screen and (max-width: 1100px) {
   .cubedImage {
-    height: 450px;
-    width: 450px;
+    height: 350px;
+    width: 350px;
   }
 }
 
@@ -796,6 +877,12 @@ footer {
   .cubedImage {
     height: 600px;
     width: 600px;
+  }
+  .cubedImage:is(:first-child) {
+    margin-left: 10px;
+  }
+  .cubedImage:is(:last-child) {
+    margin-right: 10px;
   }
   .carousel .slider {
     width: 610px !important;

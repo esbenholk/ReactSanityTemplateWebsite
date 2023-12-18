@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Image from "./image";
 import BlockContent from "./BlockContent";
@@ -7,8 +7,17 @@ import useWindowDimensions from "../functions/useWindowDimensions";
 
 export default function ShowcaseCard({ post }) {
   const { width } = useWindowDimensions();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const updateSetIsLoaded = (bool) => {
+    console.log("update isloaded");
+    setIsLoaded(bool);
+  };
   return (
-    <div className="showcaseCard" style={{ position: "relative" }}>
+    <div
+      className={isLoaded ? "showcaseCard " : "showcaseCard hidden"}
+      style={{ position: "relative" }}
+    >
       <div className="flex-row year gap">
         <div className="standardButton">
           {post.time ? (
@@ -26,6 +35,7 @@ export default function ShowcaseCard({ post }) {
           image={post.mainImage}
           height={width > 600 ? 450 : null}
           width={width > 600 ? null : width - 20}
+          onLoad={updateSetIsLoaded}
         />
       </a>
       <div className="pressCardContent">

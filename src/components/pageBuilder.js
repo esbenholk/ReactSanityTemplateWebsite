@@ -7,6 +7,7 @@ import Projects from "./blocks/ProjectSorting";
 import TickerComp from "./blocks/ticker";
 import ConnectedPress from "./connectedPress";
 import Image from "./blocks/image";
+import { ConstrainedImage } from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
 
 function PageBlock({ pageBlock }) {
@@ -15,18 +16,15 @@ function PageBlock({ pageBlock }) {
       {pageBlock._type === "sortedProjects" && (
         <Projects sortCategories={pageBlock.categories} />
       )}
-
       {/* {page.projects ? <HorizontalScroll projects={page.projects} /> : null} */}
       {pageBlock._type === "gallery" && (
         <>
-          <div className="block">
-            {pageBlock.images ? (
-              <CustomCarousel
-                images={pageBlock.images}
-                description={pageBlock.imageDescription}
-              ></CustomCarousel>
-            ) : null}
-          </div>
+          {pageBlock.images ? (
+            <CustomCarousel
+              images={pageBlock.images}
+              description={pageBlock.imageDescription}
+            ></CustomCarousel>
+          ) : null}
         </>
       )}
       {pageBlock._type === "hero" && (
@@ -73,13 +71,13 @@ function PageBlock({ pageBlock }) {
                 <BlockContent
                   blocks={pageBlock.content}
                   heading={pageBlock.heading}
+                  readmore={pageBlock.readmorecontent}
                 />
               </div>
             </div>
           )}
         </>
       )}
-
       {pageBlock._type === "customImage" && (
         <div className="flex-row align-center block" style={{ width: "100%" }}>
           <div className="flex-column align-center">
@@ -90,9 +88,43 @@ function PageBlock({ pageBlock }) {
           </div>
         </div>
       )}
-
-      {pageBlock._type === "video" && <Video videoContent={pageBlock} />}
-
+      {pageBlock._type === "row" && (
+        <div
+          className="flex-row justify-center gap fold block"
+          style={{ width: "100%" }}
+        >
+          {pageBlock.rowContent.map((rowBlock, index) => (
+            <div
+              key={index}
+              className="rowblock"
+              style={{ maxWidth: 100 / pageBlock.rowContent.length + "%" }}
+            >
+              {rowBlock.customImage && (
+                <div className="flex-column align-center">
+                  <ConstrainedImage image={rowBlock.customImage} />
+                  {rowBlock.customImage.imageDescription && (
+                    <p>{rowBlock.customImage.imageDescription}</p>
+                  )}
+                </div>
+              )}
+              {rowBlock.content && (
+                <div className="textContent">
+                  <BlockContent blocks={rowBlock.content} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}{" "}
+      {pageBlock._type === "video" && (
+        <div className="block">
+          <h1>{pageBlock.title}</h1>
+          <Video url={pageBlock.url} cover={pageBlock.cover} />
+          <div>
+            <BlockContent blocks={pageBlock.description} />
+          </div>
+        </div>
+      )}
       {pageBlock._type === "ticker" && <TickerComp />}
     </>
   );

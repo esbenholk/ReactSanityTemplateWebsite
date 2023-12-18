@@ -15,7 +15,7 @@ export default function Header({ pageName, projectName }) {
   const logoUrl = urlFor(info.logo.asset).width(60).url();
   const { width } = useWindowDimensions();
 
-  let history = useNavigate();
+  const navigate = useNavigate();
 
   const mobileMenu = useRef(null);
 
@@ -97,7 +97,7 @@ export default function Header({ pageName, projectName }) {
                   })`,
                 }}
                 onClick={() => {
-                  history.goBack();
+                  navigate(-1);
 
                   if (width < 600 && mobileMenuOpen) {
                     ToggleMobileMenu(false);

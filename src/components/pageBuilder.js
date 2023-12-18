@@ -9,10 +9,18 @@ import ConnectedPress from "./connectedPress";
 import Image from "./blocks/image";
 import { ConstrainedImage } from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
+import MenuItem from "./menuItem";
+import useWindowDimensions from "./functions/useWindowDimensions";
 
-function PageBlock({ pageBlock }) {
+function PageBlock({ pageBlock, color }) {
+  const { width } = useWindowDimensions();
   return (
     <>
+      {pageBlock.heading && (
+        <div className="flex-row align-center">
+          <h4>{pageBlock.heading} </h4>
+        </div>
+      )}
       {pageBlock._type === "sortedProjects" && (
         <Projects sortCategories={pageBlock.categories} />
       )}
@@ -34,6 +42,33 @@ function PageBlock({ pageBlock }) {
           tagLine={pageBlock.tagline}
           type={pageBlock.image.type}
         />
+      )}
+      {pageBlock._type === "buttons" && (
+        <>
+          {pageBlock.external_links && (
+            <div
+              className="flex-row space-between gap fullWidthBlock"
+              style={{ width: "100%" }}
+            >
+              {pageBlock.external_links.map((link, index) => (
+                <div
+                  key={index}
+                  className="buttonblock"
+                  style={{
+                    maxWidth: 100 / pageBlock.external_links.length + "%",
+                    backgroundColor: color,
+                  }}
+                >
+                  <MenuItem
+                    menuItem={link}
+                    imageInline={true}
+                    image={link.image}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </>
       )}
       {pageBlock._type === "connectedProjects" && (
         <>
@@ -97,7 +132,10 @@ function PageBlock({ pageBlock }) {
             <div
               key={index}
               className="rowblock"
-              style={{ maxWidth: 100 / pageBlock.rowContent.length + "%" }}
+              style={{
+                maxWidth:
+                  width > 900 && 100 / pageBlock.rowContent.length + "%",
+              }}
             >
               {rowBlock.customImage && (
                 <div className="flex-column align-center">
@@ -130,7 +168,7 @@ function PageBlock({ pageBlock }) {
   );
 }
 
-function PageBlockContainer({ pageBlock }) {
+function PageBlockContainer({ pageBlock, color }) {
   return (
     <div
       style={{
@@ -146,22 +184,20 @@ function PageBlockContainer({ pageBlock }) {
         </div>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
-        <PageBlock key={index} pageBlock={page} />
+        <PageBlock key={index} pageBlock={page} color={color} />
       ))}
     </div>
   );
 }
-export default function PageBuilder({ pageBuilder }) {
-  console.log("PAGEBUILDER", pageBuilder);
-
+export default function PageBuilder({ pageBuilder, color }) {
   return (
     <div>
       {pageBuilder.map((page, index) => (
         <div key={index}>
           {page._type === "pageBlock" ? (
-            <PageBlockContainer pageBlock={page} />
+            <PageBlockContainer pageBlock={page} color={color} />
           ) : (
-            <PageBlock pageBlock={page} />
+            <PageBlock pageBlock={page} color={color} />
           )}
         </div>
       ))}

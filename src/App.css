@@ -586,7 +586,21 @@ footer {
   line-height: 15px; /* 125% */
   min-height: 0;
 }
-
+.connectedprojectpill .pill {
+  background-color: black;
+  height: 563px;
+  border-radius: 500px;
+  padding: var(--padding);
+}
+.connectedprojectpill .pill .pillContent img {
+  filter: invert(0);
+}
+.connectedprojectpill .pill .pillContent p,
+.connectedprojectpill .pill .pillContent .timeText p,
+.connectedprojectpill .pill .timeText p,
+.connectedprojectpill .pill .heroContent p {
+  color: white;
+}
 /* INFINITE HORIYONTAL SCROLL */
 
 .infinite-scroll {
@@ -846,6 +860,24 @@ footer {
   object-fit: cover;
 }
 
+.buttonblock {
+  width: 100%;
+  display: flex;
+  padding: 19px 51px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 43px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  height: 299px;
+  margin-top: 5px;
+}
+.buttonblock:only-child {
+  height: 222px;
+}
+
 @media only screen and (max-width: 1400px) {
   .cubedImage {
     height: 450px;
@@ -872,6 +904,15 @@ footer {
     --margin-size: 15px;
     --paddingValue: 50px;
     --padding: var(--paddingValue) var(--paddingValue);
+  }
+  .rowblock:has(.textContent):is(:last-child) {
+    margin: 0;
+  }
+  .rowblock:has(.textContent):is(:first-child) {
+    margin: 0;
+  }
+  .block {
+    padding: 10px 10px 10px 10px;
   }
 
   .cubedImage {

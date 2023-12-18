@@ -78,7 +78,13 @@ export default function MenuItem({ menuItem, imageInline, imagesize }) {
         <>
           {/* prioritse to check for external link */}
           {menuItem.url ? (
-            <a href={menuItem.url}>{menuItem.title}</a>
+            <a
+              href={menuItem.url}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              {menuItem.title}
+            </a>
           ) : (
             <>
               {/* else check for page reference */}

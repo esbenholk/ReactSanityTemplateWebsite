@@ -4,6 +4,7 @@ import AppContext from "../../globalState.js";
 import ShowcaseCard from "../blocks/showcaseCard.js";
 import useWindowDimensions from "../functions/useWindowDimensions.js";
 import { useParams, useSearchParams } from "react-router-dom";
+import { Pill } from "../blocks/heroProjectGrid.js";
 
 export default function Projects({
   projectList,
@@ -619,6 +620,7 @@ export default function Projects({
                 }
                 logo={project.logoImage}
                 time={project.time}
+                year={project.year}
                 place={project.place}
                 slug={project.slug.current}
               />
@@ -626,29 +628,25 @@ export default function Projects({
         </div>
       )}
 
-      {/* {displayStyle === "list" && (
-        <div className="list">
+      {displayStyle === "pill" && (
+        <div className="flex-column connectedprojectpill">
           {sortedPosts
             ? sortedPosts.map((project, index) => (
-                <DBItem
+                <Pill
                   key={index}
-                  url={
-                    project.slug
-                      ? project.slug.current
-                      : project.link
-                      ? project.link
-                      : "/"
+                  image={
+                    project.heroImage ? project.heroImage : project.mainImage
                   }
-                  title={project.title}
-                  year={project.time ? project.time : project.year}
-                  description={project.description}
-                  updateVisitedLinks={updateVisitedLinks}
-                  visitedLinks={visitedLinks}
+                  logo={project.logoImage}
+                  time={project.time}
+                  year={project.year}
+                  place={project.place}
+                  slug={project.slug.current}
                 />
               ))
             : null}
         </div>
-      )} */}
+      )}
     </div>
   );
 }

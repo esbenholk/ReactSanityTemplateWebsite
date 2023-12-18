@@ -18,7 +18,7 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "project" && slug.current == "${slug}"]{ title, introduction, place, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
+        `*[_type == "project" && slug.current == "${slug}"]{ title, color, introduction, place, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
       )
       .then((data) => {
         console.log("project details", data, slug);
@@ -94,7 +94,10 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
 
             {}
             {project.pageBuilder && (
-              <PageBuilder pageBuilder={project.pageBuilder} />
+              <PageBuilder
+                pageBuilder={project.pageBuilder}
+                color={project.color}
+              />
             )}
           </div>
         </>

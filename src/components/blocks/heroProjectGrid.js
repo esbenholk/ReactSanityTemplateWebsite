@@ -3,7 +3,7 @@ import Image from "./image";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import BlockContent from "./BlockContent";
 
-function HeroProjectGrid({ image, logo, time, place, slug }) {
+function HeroProjectGrid({ image, logo, time, place, slug, year }) {
   let { height, width } = useWindowDimensions();
   const [isActive, setIsActive] = useState(false);
 
@@ -29,7 +29,11 @@ function HeroProjectGrid({ image, logo, time, place, slug }) {
             style={{ visibility: isActive ? "visible" : "hidden" }}
           >
             <div className="timeText">
-              <BlockContent blocks={time} />
+              {time ? (
+                <BlockContent blocks={time} />
+              ) : year ? (
+                <p>{year} </p>
+              ) : null}
             </div>
             <Image image={logo} height={height / 5} class={"hero-image"} />
             <p className="placeText">{place}</p>
@@ -50,4 +54,17 @@ function HeroProjectGrid({ image, logo, time, place, slug }) {
   );
 }
 
+export function Pill({ logo, time, place, slug, year }) {
+  return (
+    <div className="pill">
+      <a className="pillContent" href={slug}>
+        <div className="timeText">
+          {time ? <BlockContent blocks={time} /> : year ? <p>{year} </p> : null}
+        </div>
+        <Image image={logo} height={179} class={"hero-image"} />
+        <p>{place}</p>
+      </a>
+    </div>
+  );
+}
 export default HeroProjectGrid;

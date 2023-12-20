@@ -29,10 +29,14 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
       .catch(console.error);
   }, [slug, updatePageTitle, updateProjectTitle]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!project) return <Loader />;
   console.log("PROJECT", project);
   return (
-    <>
+    <div className="page">
       {project && (
         <>
           <HeadTags title={project.title} image={project.mainImage.asset.url} />
@@ -46,9 +50,9 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
                 alt="arrow down"
               />
             </div>
-          ) : project.type === "image" ? (
+          ) : project.type === "Image" ? (
             <>
-              <Hero image={project.heroImage} type={"contain"} />
+              <Hero image={project.mainImage} type={"contain"} />
             </>
           ) : null}
 
@@ -102,6 +106,6 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }

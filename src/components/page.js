@@ -11,6 +11,9 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   const [singlePage, setSinglePage] = useState();
 
   console.log("loads page", slug);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   ///get project data, set category names
   useEffect(() => {
     sanityClient
@@ -29,7 +32,7 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   // if (!singlePage) return <Loader />;
 
   return (
-    <>
+    <div className="page">
       {singlePage && (
         <>
           <HeadTags
@@ -42,6 +45,6 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }

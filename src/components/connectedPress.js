@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PostCard from "./blocks/pressCard";
 import sanityClient from ".././client";
+import useWindowDimensions from "./functions/useWindowDimensions";
 
-function ConnectedPress({ press, heading, type }) {
+function ConnectedPress({ press, heading, type, color, title }) {
   const [connectedPressInstances, setPressInstances] = useState([]);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (press.pressOccurances != null) {
@@ -34,40 +36,62 @@ function ConnectedPress({ press, heading, type }) {
           })
           .catch(console.error);
       }
+    } else {
+      sanityClient
+        .fetch(
+          `*[_type == "press"] { title, year, time, mainImage, slug, description, tags, categories[]->{title, slug}}`
+        )
+        .then((data) => {
+          setPressInstances((prevArray) => [...prevArray, data[0]]);
+        })
+        .catch(console.error);
     }
   }, [press.category, press.pressOccurances]);
 
-  console.log("Connected press", connectedPressInstances, heading);
   return (
     <>
-      {heading ? <h4 className="fullWidthBlock blockTop ">{heading}</h4> : null}
       {type === "list" ? (
-        <div className="list fullWidthBlock blockTop blockBottom">
+        <div className="block">
+          {heading ? <p className="headlinep">{heading}</p> : null}
           <div className="flex-column">
             {" "}
             {connectedPressInstances &&
               connectedPressInstances.map((press, index) => (
                 // <PostCard post={press} key={index} />
-                <div className="flex-row">
-                  {" "}
-                  <div className="flex-row align-center">
-                    <p>{press.year}</p>
-                    <a to="_blank" href={press.url}>
-                      {press.title}
-                    </a>
-                  </div>
-                  <p>{press.place}</p>
+
+                <div className="flex-row" key={index}>
+                  {width > 900 ? (
+                    <div className="flex-row align-center listsentence">
+                      <p>{press.year}, </p>
+                      <a to="_blank" href={press.url} style={{ color: color }}>
+                        {press.title},
+                      </a>
+                      <p> {press.place}</p>
+                    </div>
+                  ) : (
+                    <div className="flex-column listsentence">
+                      <div className="flex-row">
+                        <p>{press.place}, </p>
+                        <p>{press.year}</p>
+                      </div>
+                      <a to="_blank" href={press.url} style={{ color: color }}>
+                        {press.title}
+                      </a>
+                    </div>
+                  )}{" "}
                 </div>
               ))}
           </div>
         </div>
       ) : type === "card" ? (
-        <div className="horizontalScroll fullWidthBlock blockItemOpenRight blockTop ">
-          {" "}
-          {connectedPressInstances &&
-            connectedPressInstances.map((press, index) => (
-              <PostCard post={press} key={index} />
-            ))}
+        <div>
+          {heading ? <p className="headlinep">{heading}</p> : null}
+          <div className="horizontalScroll fullWidthBlock blockItemOpenRight blockTop ">
+            {connectedPressInstances &&
+              connectedPressInstances.map((press, index) => (
+                <PostCard post={press} key={index} />
+              ))}
+          </div>
         </div>
       ) : null}
     </>

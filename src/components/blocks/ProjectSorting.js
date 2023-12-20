@@ -12,6 +12,7 @@ export default function Projects({
   displayTagButton,
   displayStyle,
   displayYearButton,
+  heading,
 }) {
   const myContext = useContext(AppContext);
   const { width } = useWindowDimensions();
@@ -629,7 +630,8 @@ export default function Projects({
       )}
 
       {displayStyle === "pill" && (
-        <div className="flex-column connectedprojectpill">
+        <div className="flex-column connectedprojectpill fullWidthBlock">
+          {heading ? <p className="headlinep">{heading}</p> : null}
           {sortedPosts
             ? sortedPosts.map((project, index) => (
                 <Pill

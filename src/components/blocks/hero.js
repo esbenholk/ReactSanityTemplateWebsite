@@ -7,11 +7,7 @@ function Hero({ image, tagLine, type, heading }) {
 
   return (
     <div className={`hero ${type === "contain" ? "contain" : "cover"}`}>
-      <Image
-        image={image}
-        // width={width}
-        height={height}
-      />
+      <Image image={image} height={height} />
 
       <div className="heroContent">
         {heading && <h1>{heading}</h1>}

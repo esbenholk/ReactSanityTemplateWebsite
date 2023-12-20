@@ -55,13 +55,19 @@ function HeroProjectGrid({ image, logo, time, place, slug, year }) {
 }
 
 export function Pill({ logo, time, place, slug, year }) {
+  let { width } = useWindowDimensions();
+
   return (
-    <div className="pill">
+    <div className="pill blockitem">
       <a className="pillContent" href={slug}>
         <div className="timeText">
           {time ? <BlockContent blocks={time} /> : year ? <p>{year} </p> : null}
         </div>
-        <Image image={logo} height={179} class={"hero-image"} />
+        <Image
+          image={logo}
+          height={width > 900 ? 170 : 67}
+          class={"hero-image"}
+        />
         <p>{place}</p>
       </a>
     </div>

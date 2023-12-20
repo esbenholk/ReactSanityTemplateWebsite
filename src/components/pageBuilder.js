@@ -6,21 +6,16 @@ import Video from "./blocks/videoPlayer";
 import Projects from "./blocks/ProjectSorting";
 import TickerComp from "./blocks/ticker";
 import ConnectedPress from "./connectedPress";
-import Image from "./blocks/image";
+import { ProjectImage } from "./blocks/image";
 import { ConstrainedImage } from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
 import MenuItem from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
-function PageBlock({ pageBlock, color }) {
+function PageBlock({ pageBlock, color, title }) {
   const { width } = useWindowDimensions();
   return (
     <>
-      {pageBlock.heading && (
-        <div className="flex-row align-center">
-          <h4>{pageBlock.heading} </h4>
-        </div>
-      )}
       {pageBlock._type === "sortedProjects" && (
         <Projects sortCategories={pageBlock.categories} />
       )}
@@ -47,15 +42,17 @@ function PageBlock({ pageBlock, color }) {
         <>
           {pageBlock.external_links && (
             <div
-              className="flex-row space-between gap fullWidthBlock"
+              className="flex-row fold space-between gap fullWidthBlock"
               style={{ width: "100%" }}
             >
               {pageBlock.external_links.map((link, index) => (
                 <div
                   key={index}
-                  className="buttonblock"
+                  className="buttonblock interactable"
                   style={{
-                    maxWidth: 100 / pageBlock.external_links.length + "%",
+                    maxWidth:
+                      width > 900 &&
+                      100 / pageBlock.external_links.length + "%",
                     backgroundColor: color,
                   }}
                 >
@@ -79,6 +76,7 @@ function PageBlock({ pageBlock, color }) {
               displayTagButton={pageBlock.canBeSorted}
               displayStyle={pageBlock.type}
               displayYearButton={pageBlock.canBeSorted}
+              heading={pageBlock.heading}
             />
           ) : (
             <Projects
@@ -87,16 +85,21 @@ function PageBlock({ pageBlock, color }) {
               displayTagButton={pageBlock.canBeSorted}
               displayStyle={pageBlock.type}
               displayYearButton={pageBlock.canBeSorted}
+              heading={pageBlock.heading}
             />
           )}
         </>
       )}
       {pageBlock._type === "connectedPress" && (
-        <ConnectedPress
-          press={pageBlock}
-          heading={pageBlock.heading}
-          type={pageBlock.type}
-        />
+        <>
+          <ConnectedPress
+            press={pageBlock}
+            heading={pageBlock.heading}
+            type={pageBlock.type}
+            color={color}
+            title={title}
+          />
+        </>
       )}
       {pageBlock._type === "breadContent" && (
         <>
@@ -116,10 +119,10 @@ function PageBlock({ pageBlock, color }) {
       {pageBlock._type === "customImage" && (
         <div className="flex-row align-center block" style={{ width: "100%" }}>
           <div className="flex-column align-center">
-            <Image image={pageBlock.customImage} />
-            {pageBlock.customImage.imageDescription && (
-              <p>{pageBlock.customImage.imageDescription}</p>
-            )}
+            <ProjectImage
+              image={pageBlock.customImage}
+              imageDescription={pageBlock.customImage.imageDescription}
+            />
           </div>
         </div>
       )}
@@ -139,10 +142,10 @@ function PageBlock({ pageBlock, color }) {
             >
               {rowBlock.customImage && (
                 <div className="flex-column align-center">
-                  <ConstrainedImage image={rowBlock.customImage} />
-                  {rowBlock.customImage.imageDescription && (
-                    <p>{rowBlock.customImage.imageDescription}</p>
-                  )}
+                  <ConstrainedImage
+                    image={rowBlock.customImage}
+                    imageDescription={rowBlock.customImage.imageDescription}
+                  />
                 </div>
               )}
               {rowBlock.content && (
@@ -176,12 +179,8 @@ function PageBlockContainer({ pageBlock, color }) {
       }}
       className="blockContainer"
     >
-      {pageBlock._type !== "hero" &&
-      pageBlock.title !== null &&
-      pageBlock.title !== "" ? (
-        <div>
-          <h3 className="fullWidthBlock blockTop">{pageBlock.title}</h3>
-        </div>
+      {pageBlock.title && pageBlock.title !== "" ? (
+        <h2 className="blockTop">{pageBlock.title}</h2>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
         <PageBlock key={index} pageBlock={page} color={color} />
@@ -190,6 +189,7 @@ function PageBlockContainer({ pageBlock, color }) {
   );
 }
 export default function PageBuilder({ pageBuilder, color }) {
+  console.log(pageBuilder);
   return (
     <div>
       {pageBuilder.map((page, index) => (
@@ -197,7 +197,9 @@ export default function PageBuilder({ pageBuilder, color }) {
           {page._type === "pageBlock" ? (
             <PageBlockContainer pageBlock={page} color={color} />
           ) : (
-            <PageBlock pageBlock={page} color={color} />
+            <>
+              <PageBlock pageBlock={page} color={color} />
+            </>
           )}
         </div>
       ))}

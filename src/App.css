@@ -1,6 +1,6 @@
 :root {
   --cluster-yellow: #ffeb01;
-  --mobile-padding: 17px 17px;
+  --mobile-padding: 10px 10px;
 }
 * {
   margin: 0;
@@ -14,6 +14,7 @@ body {
   --font-size: 24px;
   --margin-size: 15px;
   --paddingValue: 100px;
+  --paddingSideValue: 35px;
   --padding: var(--paddingValue) var(--paddingValue);
 }
 body.light {
@@ -86,7 +87,7 @@ a.flex-row {
 }
 
 .blockItem {
-  padding: var(--paddingValue);
+  padding: 50px 100px 100px 100px;
   justify-content: center;
   display: flex;
   align-items: center;
@@ -99,17 +100,20 @@ a.flex-row {
   padding: var(--paddingValue) 100px var(--paddingValue) 100px;
 }
 .blockTop {
-  padding-top: var(--paddingValue);
+  padding: 50px 0px 25px 0px;
 }
 .blockBottom {
   padding-bottom: var(--paddingValue);
 }
 .blockItemOpenRight {
-  padding-right: 0;
+  padding: var(--paddingValue) 0 var(--paddingValue) var(--paddingValue);
 }
-.projectPage {
+.headlinep {
+  padding-bottom: 50px;
+}
+/* .projectPage {
   margin-top: 90px;
-}
+} */
 .projectDetails {
   align-items: center;
   justify-content: flex-start;
@@ -165,6 +169,7 @@ a.flex-row {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 a,
@@ -219,7 +224,7 @@ h2 {
   font-style: normal;
   font-weight: 400;
   line-height: 52px;
-  margin: 5px 0 52px;
+  margin: 5px 0 5px;
 }
 h2 strong {
   font-weight: 700;
@@ -625,6 +630,7 @@ footer {
 }
 .buttons {
   padding-top: 20px;
+  gap: 5px;
 }
 
 .project-item {
@@ -663,9 +669,9 @@ footer {
   max-width: 100%;
 }
 
-.pressCard img {
+/* .pressCard img {
   opacity: 0;
-}
+} */
 .pressCard span,
 .pressCard img {
   height: 376px;
@@ -843,7 +849,7 @@ footer {
     from(black),
     to(transparent)
   );
-  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 99%, transparent 100%);
   mask-image: -webkit-gradient(
     linear,
     left top,
@@ -851,13 +857,19 @@ footer {
     from(black),
     to(transparent)
   );
-  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 99%, transparent 100%);
+}
+iframe,
+.videoThumbnail,
+.videoContainer {
+  border-radius: 10px;
 }
 .videoThumbnail img,
 .videoThumbnail span {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .buttonblock {
@@ -872,10 +884,23 @@ footer {
   border-radius: 43px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   height: 299px;
-  margin-top: 5px;
 }
 .buttonblock:only-child {
+  margin-top: 10px;
   height: 222px;
+}
+
+.listsentence p,
+.listsentence a {
+  margin-right: 5px;
+  font-weight: 700;
+}
+.listsentence a {
+  text-decoration: underline;
+}
+
+.page {
+  min-height: 100vh;
 }
 
 @media only screen and (max-width: 1400px) {
@@ -905,6 +930,25 @@ footer {
     --paddingValue: 50px;
     --padding: var(--paddingValue) var(--paddingValue);
   }
+  .buttonblock:is(:only-child),
+  .buttonblock {
+    min-height: 150px;
+    width: 100%;
+    margin: 0;
+  }
+  .projectDetails {
+    gap: 5px;
+  }
+  .blockItem {
+    padding: 100px var(--paddingValue) 100px var(--paddingValue);
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .connectedprojectpill .pill {
+    height: 192px;
+  }
   .rowblock:has(.textContent):is(:last-child) {
     margin: 0;
   }
@@ -912,7 +956,7 @@ footer {
     margin: 0;
   }
   .block {
-    padding: 10px 10px 10px 10px;
+    padding: 13px;
   }
 
   .cubedImage {
@@ -934,6 +978,7 @@ footer {
   }
   .fold {
     flex-direction: column;
+    gap: 10px;
   }
   a,
   p {
@@ -1007,9 +1052,13 @@ footer {
     --text-color: #d9d4af;
     --font-size: 24px;
     --margin-size: 15px;
-    --paddingValue: 20px;
+    --paddingValue: 14px;
     --padding: var(--paddingValue) var(--paddingValue);
   }
+  .fullWidthBlock {
+    padding: 0 var(--paddingValue) var(--paddingValue) var(--paddingValue);
+  }
+
   .fixedFilerButton {
     left: 200px;
     height: 50px;

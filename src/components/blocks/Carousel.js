@@ -5,10 +5,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import { SquareImage } from "./squareCard";
 
-export default function CustomCarousel({ images, classsss }) {
+export default function CustomCarousel({ images, classsss, description }) {
   const { width } = useWindowDimensions();
   return (
-    <div className="carouselContainer">
+    <div className="carouselContainer fullWidthBlock">
       {width < 900 ? (
         <Carousel
           swipeable={true}
@@ -87,6 +87,7 @@ export default function CustomCarousel({ images, classsss }) {
           </div>
         </>
       )}
+      {description && <p className="smallp">{description}</p>}{" "}
     </div>
   );
 }

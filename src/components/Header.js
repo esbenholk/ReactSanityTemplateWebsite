@@ -217,7 +217,7 @@ export default function Header({ pageName, projectName }) {
             )}
 
             {info.headerMenu.map((menuItem, index) => (
-              <>
+              <div key={index}>
                 {menuItem.url ? (
                   <>
                     {" "}
@@ -291,7 +291,7 @@ export default function Header({ pageName, projectName }) {
                     </NavLink>
                   </>
                 )}
-              </>
+              </div>
             ))}
             {info.burgerBottom && (
               <div

@@ -390,7 +390,7 @@ footer {
   width: auto;
 }
 .burger.closed {
-  /* max-height: 80px; */
+  max-height: 120px;
   width: auto;
   max-width: 100%;
 }
@@ -667,6 +667,10 @@ footer {
 .showcaseCard span {
   width: min-content;
   max-width: 100%;
+  border-radius: 10px;
+}
+.showcaseCard img {
+  border-radius: 10px;
 }
 
 /* .pressCard img {
@@ -676,6 +680,7 @@ footer {
 .pressCard img {
   height: 376px;
   width: 596px;
+  border-radius: 10px;
   object-fit: cover;
   border-radius: 5px;
   background: linear-gradient(0deg, #d7d7d7 0%, #d7d7d7 100%),
@@ -1167,9 +1172,9 @@ iframe,
   /* .menuContainer:has(.open) {
     pointer-events: none;
   } */
-  .burgerLayer.interactable {
+  /* .burgerLayer.interactable {
     box-shadow: 0px 4px 7px 0px #000000b2;
-  }
+  } */
   .burgerLayer.interactable p {
     /* margin-right: 12px; */
     width: auto;
@@ -1199,15 +1204,15 @@ iframe,
     visibility: visible;
     transition: all 0s;
   }
-  .smallBurger.burgerLayer.closed {
+  .burgerLayer.closed {
     margin-top: -20px;
     margin-bottom: -20px;
   }
   .burgerTop.closed {
-    margin-bottom: -15px;
+    margin-bottom: -20px;
   }
   .burgerBottom.closed {
-    margin-top: -15px;
+    margin-top: -20px;
   }
 
   .burger.open img:is(:first-child) {

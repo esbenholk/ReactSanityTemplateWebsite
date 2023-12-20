@@ -1,10 +1,68 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import AppContext from "../globalState";
 import { urlFor } from "./blocks/image";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { MenuImage } from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
+import { useParams } from "react-router-dom";
 
+export function HeaderLogoButton({
+  projectName,
+  mobileMenuOpen,
+  ToggleMobileMenu,
+}) {
+  const myContext = useContext(AppContext);
+  const info = myContext.siteSettings;
+  const logoUrl = urlFor(info.logo.asset).width(60).url();
+  const { width } = useWindowDimensions();
+  const location = useLocation();
+  return (
+    <>
+      {" "}
+      {info.logo ? (
+        <NavLink
+          to="/"
+          className={
+            location.pathname === "/"
+              ? "logo header-padding"
+              : "logo circleIcon header-padding"
+          }
+          style={{
+            objectPosition:
+              info.logo && info.logo.hotspot
+                ? `${info.logo.hotspot.x * 100}% ${info.logo.hotspot.y * 100}%`
+                : "none",
+            objectFit: "cover",
+            backgroundImage:
+              location.pathname !== "/" &&
+              projectName !== null &&
+              projectName !== ""
+                ? `url(${process.env.PUBLIC_URL + "/assets/returnArrow.png"}`
+                : `url(${logoUrl}`,
+          }}
+          onClick={() => {
+            if (width < 600 && mobileMenuOpen) {
+              ToggleMobileMenu(false);
+            }
+          }}
+        >
+          {" "}
+        </NavLink>
+      ) : (
+        <NavLink
+          to="/"
+          onClick={() => {
+            if (width < 600 && mobileMenuOpen) {
+              ToggleMobileMenu(false);
+            }
+          }}
+        >
+          <h1>{info.title}</h1>
+        </NavLink>
+      )}
+    </>
+  );
+}
 export default function Header({ pageName, projectName }) {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
@@ -12,12 +70,18 @@ export default function Header({ pageName, projectName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userCanInteract, setuserCanInteract] = useState(false);
   const location = useLocation();
-  const logoUrl = urlFor(info.logo.asset).width(60).url();
   const { width } = useWindowDimensions();
+  const { slug } = useParams();
 
   const navigate = useNavigate();
 
   const mobileMenu = useRef(null);
+
+  useEffect(() => {
+    ToggleMobileMenu(false);
+
+    console.log("header notices address change", slug);
+  }, [slug]);
 
   function ToggleMenu(open) {
     if (open) {
@@ -110,54 +174,15 @@ export default function Header({ pageName, projectName }) {
           ) : (
             <>
               {" "}
-              {info.logo ? (
-                <NavLink
-                  to="/"
-                  className={
-                    location.pathname === "/"
-                      ? "logo header-padding"
-                      : "logo circleIcon header-padding"
-                  }
-                  style={{
-                    objectPosition:
-                      info.logo && info.logo.hotspot
-                        ? `${info.logo.hotspot.x * 100}% ${
-                            info.logo.hotspot.y * 100
-                          }%`
-                        : "none",
-                    objectFit: "cover",
-                    backgroundImage:
-                      location.pathname !== "/" &&
-                      projectName !== null &&
-                      projectName !== ""
-                        ? `url(${
-                            process.env.PUBLIC_URL + "/assets/returnArrow.png"
-                          }`
-                        : `url(${logoUrl}`,
-                  }}
-                  onClick={() => {
-                    if (width < 600 && mobileMenuOpen) {
-                      ToggleMobileMenu(false);
-                    }
-                  }}
-                >
-                  {" "}
-                </NavLink>
-              ) : (
-                <NavLink
-                  to="/"
-                  onClick={() => {
-                    if (width < 600 && mobileMenuOpen) {
-                      ToggleMobileMenu(false);
-                    }
-                  }}
-                >
-                  <h1>{info.title}</h1>
-                </NavLink>
-              )}
+              <HeaderLogoButton
+                projectName={projectName}
+                mobileMenuOpen={mobileMenuOpen}
+                ToggleMobileMenu={ToggleMobileMenu}
+              />
               {location.pathname !== "/" &&
               pageName !== null &&
-              pageName !== "" ? (
+              pageName !== "" &&
+              pageName.toLowerCase() !== "timeline" ? (
                 <div className="standardButton">
                   <p>{pageName}</p>
                 </div>
@@ -210,14 +235,14 @@ export default function Header({ pageName, projectName }) {
                 className={`burgerTop burgerbun  ${
                   menuOpen ? " open" : "closed"
                 }`}
-                style={{ zIndex: 10 }}
+                style={{ zIndex: 20 }}
               >
                 <MenuImage width={80} image={info.burgerTop} />
               </div>
             )}
 
             {info.headerMenu.map((menuItem, index) => (
-              <div key={index}>
+              <>
                 {menuItem.url ? (
                   <>
                     {" "}
@@ -240,7 +265,7 @@ export default function Header({ pageName, projectName }) {
                         userCanInteract ? " interactable" : "notInteractable"
                       }`}
                       style={{
-                        zIndex: 10 + index,
+                        zIndex: 10 - index,
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
@@ -283,7 +308,7 @@ export default function Header({ pageName, projectName }) {
                         userCanInteract ? " interactable" : "notInteractable"
                       }`}
                       style={{
-                        zIndex: 10 + index,
+                        zIndex: 10 - index,
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
@@ -291,14 +316,14 @@ export default function Header({ pageName, projectName }) {
                     </NavLink>
                   </>
                 )}
-              </div>
+              </>
             ))}
             {info.burgerBottom && (
               <div
                 className={`burgerBottom burgerbun  ${
                   menuOpen ? " open" : "closed"
                 }`}
-                style={{ zIndex: 10 }}
+                style={{ zIndex: 0 }}
               >
                 <MenuImage width={80} image={info.burgerBottom} />
               </div>

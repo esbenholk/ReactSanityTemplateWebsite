@@ -12,7 +12,13 @@ import CustomCarousel from "./blocks/Carousel";
 import MenuItem from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
-function PageBlock({ pageBlock, color, title }) {
+function PageBlock({
+  pageBlock,
+  color,
+  title,
+  updatePageTitle,
+  updateProjectTitle,
+}) {
   const { width } = useWindowDimensions();
   return (
     <>
@@ -77,6 +83,8 @@ function PageBlock({ pageBlock, color, title }) {
               displayStyle={pageBlock.type}
               displayYearButton={pageBlock.canBeSorted}
               heading={pageBlock.heading}
+              updatePageTitle={updatePageTitle}
+              updateProjectTitle={updateProjectTitle}
             />
           ) : (
             <Projects
@@ -86,6 +94,8 @@ function PageBlock({ pageBlock, color, title }) {
               displayStyle={pageBlock.type}
               displayYearButton={pageBlock.canBeSorted}
               heading={pageBlock.heading}
+              updatePageTitle={updatePageTitle}
+              updateProjectTitle={updateProjectTitle}
             />
           )}
         </>
@@ -171,7 +181,12 @@ function PageBlock({ pageBlock, color, title }) {
   );
 }
 
-function PageBlockContainer({ pageBlock, color }) {
+function PageBlockContainer({
+  pageBlock,
+  color,
+  updatePageTitle,
+  updateProjectTitle,
+}) {
   return (
     <div
       style={{
@@ -183,22 +198,43 @@ function PageBlockContainer({ pageBlock, color }) {
         <h2 className="blockTop">{pageBlock.title}</h2>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
-        <PageBlock key={index} pageBlock={page} color={color} />
+        <PageBlock
+          key={index}
+          pageBlock={page}
+          color={color}
+          updatePageTitle={updatePageTitle}
+          updateProjectTitle={updateProjectTitle}
+        />
       ))}
     </div>
   );
 }
-export default function PageBuilder({ pageBuilder, color }) {
+export default function PageBuilder({
+  pageBuilder,
+  color,
+  updatePageTitle,
+  updateProjectTitle,
+}) {
   console.log(pageBuilder);
   return (
     <div>
       {pageBuilder.map((page, index) => (
         <div key={index}>
           {page._type === "pageBlock" ? (
-            <PageBlockContainer pageBlock={page} color={color} />
+            <PageBlockContainer
+              pageBlock={page}
+              color={color}
+              updatePageTitle={updatePageTitle}
+              updateProjectTitle={updateProjectTitle}
+            />
           ) : (
             <>
-              <PageBlock pageBlock={page} color={color} />
+              <PageBlock
+                pageBlock={page}
+                color={color}
+                updatePageTitle={updatePageTitle}
+                updateProjectTitle={updateProjectTitle}
+              />
             </>
           )}
         </div>

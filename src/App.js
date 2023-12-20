@@ -32,6 +32,7 @@ function App() {
 
   const updatePageTitle = (newTitle) => {
     setPageTitle(newTitle);
+    console.log("UPDATES PAGE TITLE", newTitle);
   };
   const updateProjectTitle = (newTitle) => {
     setProjectTitle(newTitle);
@@ -119,6 +120,9 @@ function App() {
           <Suspense fallback={<div className="loader"></div>}>
             <AppContext.Provider value={globalContext}>
               <BrowserRouter>
+                {siteSettings && (
+                  <Header pageName={pageTitle} projectName={projectTitle} />
+                )}
                 <motion.div
                   className="mainContainer"
                   ref={mainRef}
@@ -148,9 +152,7 @@ function App() {
                     ></Route>
                   </Routes>
                 </motion.div>
-                {siteSettings && (
-                  <Header pageName={pageTitle} projectName={projectTitle} />
-                )}
+
                 {siteSettings && <Footer />}
               </BrowserRouter>
             </AppContext.Provider>

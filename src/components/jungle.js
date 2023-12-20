@@ -94,17 +94,17 @@ function Jungle({ cubeMap }) {
           width: "100%",
           position: "relative",
           height: height,
-          background: "black",
+          background: "zellow",
         }}
-        linear
-        camera={{ position: [0, 0, 25], near: 0.1, far: 10000000 }}
+        // linear
+        camera={{ position: [0, 0, 25], near: 0.1, far: 10000 }}
       >
         {isMobile ? (
           <DeviceOrientationControls />
         ) : (
-          <FirstPersonControls activeLook={true} lookSpeed={0.03} />
+          <FirstPersonControls activeLook={true} lookSpeed={0.06} />
         )}
-        <FirstPersonControls activeLook={true} lookSpeed={0.03} />
+        {/* <FirstPersonControls activeLook={true} lookSpeed={0.03} /> */}
 
         <Suspense fallback={null}>
           <Frames />
@@ -112,7 +112,7 @@ function Jungle({ cubeMap }) {
             <SkyBox cubeMapTextureUrls={cubeMapTextureUrls} />
           )}
 
-          <ambientLight />
+          {/* <ambientLight /> */}
           <Particles />
         </Suspense>
       </Canvas>
@@ -174,23 +174,23 @@ function SkyBox({ cubeMapTextureUrls }) {
   return null;
 }
 function Particles() {
-  const count = 100;
+  const count = 750;
   const size = 2;
   const positionFactor = 144;
   const rotationSpeed = 0.1;
 
   const particleTexture = useTexture(particleUrl);
 
-  const particlesRef = useRef();
+  const particlesRef1 = useRef();
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
-    particlesRef.current.rotation.y = elapsedTime * rotationSpeed;
-    particlesRef.current.rotation.z = (elapsedTime * rotationSpeed) / 2;
+    particlesRef1.current.rotation.y = elapsedTime * rotationSpeed;
+    particlesRef1.current.rotation.z = (elapsedTime * rotationSpeed) / 2;
   });
 
   return (
-    <Points ref={particlesRef} limit={10000}>
+    <Points ref={particlesRef1} limit={10000}>
       <pointsMaterial
         size={size}
         transparent

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import sanityClient from "../client";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { HeadTags } from "./blocks/helmetHeaderTags";
 // import Loader from "./blocks/loader";
 import PageBuilder from "./pageBuilder";
@@ -8,6 +8,7 @@ import { pageBuilderquerystring } from "./queeries";
 
 export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   const { slug } = useParams();
+  const [searchParams] = useSearchParams();
   const [singlePage, setSinglePage] = useState();
 
   console.log("loads page", slug);
@@ -16,18 +17,26 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   }, []);
   ///get project data, set category names
   useEffect(() => {
+    const params = [];
+
+    searchParams.forEach((value, key) => {
+      params.push([key, value]);
+    });
+
     sanityClient
       .fetch(
         `*[_type == "page" && slug.current == "${slug}"]{ title, slug, mainImage, tags, categories[]->{title, slug},${pageBuilderquerystring}} `
       )
       .then((data) => {
-        console.log("page details", data, slug);
         setSinglePage(data[0]);
-        updatePageTitle(data[0].title);
+
+        if (params.length === 0) {
+          updatePageTitle(data[0].title);
+        }
         updateProjectTitle("");
       })
       .catch(console.error);
-  }, [slug, updatePageTitle, updateProjectTitle]);
+  }, [slug, updatePageTitle, updateProjectTitle, searchParams]);
 
   // if (!singlePage) return <Loader />;
 
@@ -41,7 +50,11 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
             // image={singlePage.mainImage.asset.url}
           />
           {singlePage.pageBuilder && (
-            <PageBuilder pageBuilder={singlePage.pageBuilder} />
+            <PageBuilder
+              pageBuilder={singlePage.pageBuilder}
+              updatePageTitle={updatePageTitle}
+              updateProjectTitle={updateProjectTitle}
+            />
           )}
         </>
       )}

@@ -8,7 +8,7 @@ import { SquareImage } from "./squareCard";
 export default function CustomCarousel({ images, classsss, description }) {
   const { width } = useWindowDimensions();
   return (
-    <div className="carouselContainer fullWidthBlock">
+    <div className="carouselContainer">
       {width < 900 ? (
         <Carousel
           swipeable={true}

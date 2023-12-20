@@ -5,6 +5,7 @@ import ShowcaseCard from "../blocks/showcaseCard.js";
 import useWindowDimensions from "../functions/useWindowDimensions.js";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Pill } from "../blocks/heroProjectGrid.js";
+import { HeaderLogoButton } from "../Header.js";
 
 export default function Projects({
   projectList,
@@ -36,6 +37,8 @@ export default function Projects({
   const [filtersHasChanged, setFilterHasChanged] = useState(false);
   const [isMenuIntro, setIsMenuIntro] = useState(true);
 
+  // const [timelineYears, setTimelineYears] = useState([]);
+
   useEffect(() => {
     if (displayTagButton || displayCategoryButton || displayYearButton) {
       setShouldShowSortingMenu(true);
@@ -49,9 +52,6 @@ export default function Projects({
     var categoryNames = [];
     var years = [];
     var collaborators = [];
-
-    // const tempCategories = [...currentCategories];
-
     var tempProjectList;
 
     if (!projectList) {
@@ -71,7 +71,9 @@ export default function Projects({
       const post = tempProjectList[index];
       post.value = 0;
 
-      years.push(post.year);
+      if (!years.includes(post.year)) {
+        years.push(post.year);
+      }
 
       if (post.collaborators != null && Array.isArray(post.collaborators)) {
         for (let index = 0; index < post.collaborators.length; index++) {
@@ -88,18 +90,6 @@ export default function Projects({
           if (!tagNames.includes(tag)) {
             tagNames.push(tag);
             tags.push(tag);
-            // if (searchSlug === tag) {
-            //   const tempTags = [...currentTags];
-            //   tempTags.push(tag);
-            //   setCurrentTags(tempTags);
-            //   let button = document.getElementById("tag_" + tag);
-            //   if (button) {
-            //     button.classList.add("active");
-            //   }
-            //   setTimeout(() => {
-            //     setFilterHasChanged(false);
-            //   }, 10);
-            // }
           }
         }
       }
@@ -111,17 +101,6 @@ export default function Projects({
           if (!categoryNames.includes(category.title)) {
             categoryNames.push(category.title);
             categories.push(category);
-
-            // if (searchSlug === category.slug.current) {
-            //   tempCategories.push(category.title);
-
-            //   let button = document.getElementById(
-            //     "category_" + category.title
-            //   );
-            //   if (button) {
-            //     button.classList.add("active");
-            //   }
-            // }
           }
         }
       }
@@ -151,15 +130,6 @@ export default function Projects({
       const tempSortedPosts = [];
 
       setFilterHasChanged(true);
-
-      console.log(
-        "search criteria has been updated",
-        currentTags,
-        currentCollaborators,
-        currentCategories,
-        currentYears,
-        allPosts
-      );
 
       ///loop through all posts
       for (let index = 0; index < allPosts.length; index++) {
@@ -205,6 +175,7 @@ export default function Projects({
             }
           }
         }
+
         if (currentYears.includes(post.year.toString())) {
           post_score = post_score + 3;
         }
@@ -214,8 +185,8 @@ export default function Projects({
           tempSortedPosts.push(post);
         }
       }
-      tempSortedPosts.sort((a, b) => b.value - a.value);
 
+      tempSortedPosts.sort((a, b) => b.value - a.value);
       setSortedPosts(tempSortedPosts);
     } else {
       setSortedPosts(allPosts);
@@ -246,11 +217,14 @@ export default function Projects({
 
     for (let index = 0; index < params.length; index++) {
       const element = params[index];
+      console.log("NEW PARAMS", params);
+
       if (element.length > 1) {
         setSearchSlug(element[0]);
       }
     }
 
+    console.log("NEW SLUG", slug, searchSlug);
     if (allPosts) {
       for (let index = 0; index < allPosts.length; index++) {
         const post = allPosts[index];
@@ -329,7 +303,6 @@ export default function Projects({
       }
     }
   }
-
   function setYear(year) {
     if (!currentYears.includes(year)) {
       const tempYears = [...currentYears];
@@ -385,23 +358,44 @@ export default function Projects({
       }
     }
   }
-
   function setCategory(category) {
     if (!currentCategories.includes(category.category.title)) {
       const tempCategories = [...currentCategories];
       tempCategories.push(category.category.title);
       setCurrentCategories(tempCategories);
 
-      document
-        .getElementById("category_" + category.category.title)
-        .classList.add("active");
+      let button = document.getElementById(
+        "category_" + category.category.title
+      );
+
+      if (button) {
+        button.classList.add("active");
+      }
     } else if (currentCategories.includes(category.category.title)) {
       var categoryIndex = currentCategories.indexOf(category.category.title);
       currentCategories.splice(categoryIndex, 1);
       const tempCategories = [...currentCategories];
-      document
-        .getElementById("category_" + category.category.title)
-        .classList.remove("active");
+      let button = document.getElementById(
+        "category_" + category.category.title
+      );
+
+      if (button) {
+        button.classList.remove("active");
+      }
+
+      setCurrentCategories(tempCategories);
+    }
+  }
+  function removeCategory(category) {
+    if (currentCategories.includes(category)) {
+      var categoryIndex = currentCategories.indexOf(category);
+      currentCategories.splice(categoryIndex, 1);
+      const tempCategories = [...currentCategories];
+      let button = document.getElementById("category_" + category);
+
+      if (button) {
+        button.classList.remove("active");
+      }
 
       setCurrentCategories(tempCategories);
     }
@@ -410,45 +404,130 @@ export default function Projects({
   return (
     <div className="projects">
       {shouldShowSortingMenu && (
-        <button
-          className={
-            sortingMenuOpen
-              ? "fixedFilerButton header-padding active standardButton"
-              : "fixedFilerButton header-padding"
-          }
-          style={{ position: "fixed", zIndex: "999999999999999999999999" }}
-          onClick={(evt) => {
-            if (sortingMenuOpen) {
-              setSortingMenuOpen(false);
-              setFilterHasChanged(false);
-              setIsMenuIntro(true);
-            } else {
-              setSortingMenuOpen(true);
-            }
-          }}
-        >
-          <img
-            alt="filer icon"
-            style={{
-              transform: filtersHasChanged && "rotate(180g)",
-              filter: filtersHasChanged && "invert(1)",
+        <div className="fixed top flex-row align-center gap">
+          <HeaderLogoButton projectName={""} />
+          {currentTags.length === 0 &&
+            currentCategories.length === 0 &&
+            currentYears.length === 0 &&
+            currentCollaborators.length === 0 && (
+              <div className="standardButton">
+                <p>TIMELINE</p>
+              </div>
+            )}
+          {currentCategories &&
+            currentCategories.map((category, index) => (
+              <button
+                style={{
+                  backgroundColor: categories.find((e) => e.title === category)
+                    .color,
+                }}
+                className="standardButton"
+                key={index}
+                onClick={(evt) => {
+                  removeCategory(category);
+                }}
+              >
+                {category}
+              </button>
+            ))}
+          {currentCollaborators &&
+            currentCollaborators.map((collaborator, index) => (
+              <button
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                }}
+                className="standardButton"
+                key={index}
+                onClick={() => {
+                  setCollaborator(collaborator);
+                }}
+              >
+                {collaborator}
+              </button>
+            ))}{" "}
+          {currentTags &&
+            currentTags.map((tag, index) => (
+              <button
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                }}
+                className="standardButton"
+                key={index}
+                onClick={() => {
+                  setTag(tag);
+                }}
+              >
+                {tag}
+              </button>
+            ))}
+          {currentYears &&
+            currentYears.map((year, index) => (
+              <button
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                }}
+                className="standardButton"
+                key={index}
+                onClick={() => {
+                  setYear(year);
+                }}
+              >
+                {year}
+              </button>
+            ))}
+          <button
+            style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}
+            className={sortingMenuOpen ? " active" : ""}
+            onClick={(evt) => {
+              if (sortingMenuOpen) {
+                setSortingMenuOpen(false);
+                setFilterHasChanged(false);
+                setIsMenuIntro(true);
+              } else {
+                setSortingMenuOpen(true);
+              }
             }}
-            src={
-              sortingMenuOpen && filtersHasChanged
-                ? process.env.PUBLIC_URL + "/filter_list.png"
-                : sortingMenuOpen
-                ? process.env.PUBLIC_URL + "/close.png"
-                : process.env.PUBLIC_URL + "/filter_list.png"
-            }
-          ></img>
-          {sortingMenuOpen && filtersHasChanged
-            ? "APPLY FILTERS"
-            : sortingMenuOpen
-            ? "CLOSE FILTERS"
-            : width > 900
-            ? "FILTER BY"
-            : null}
-        </button>
+          >
+            <img
+              alt="filer icon"
+              style={{
+                transform: filtersHasChanged
+                  ? "rotate(180g)"
+                  : currentTags.length > 0 ||
+                    currentCategories.length > 0 ||
+                    currentYears.length > 0 ||
+                    currentCollaborators.length > 0 + "rotate(35deg)",
+                filter: filtersHasChanged && "invert(1)",
+              }}
+              src={
+                sortingMenuOpen && filtersHasChanged
+                  ? process.env.PUBLIC_URL + "/filter_list.png"
+                  : sortingMenuOpen
+                  ? process.env.PUBLIC_URL + "/close.png"
+                  : currentTags.length > 0 ||
+                    currentCategories.length > 0 ||
+                    currentYears.length > 0 ||
+                    currentCollaborators.length > 0
+                  ? process.env.PUBLIC_URL + "/close.png"
+                  : process.env.PUBLIC_URL + "/filter_list.png"
+              }
+            ></img>
+            {sortingMenuOpen && filtersHasChanged
+              ? "APPLY FILTERS"
+              : sortingMenuOpen
+              ? "CLOSE FILTERS"
+              : currentTags.length > 0 ||
+                currentCategories.length > 0 ||
+                currentYears.length > 0 ||
+                currentCollaborators.length > 0 ||
+                width < 900
+              ? ""
+              : "FILTER BY"}
+          </button>{" "}
+        </div>
       )}
 
       <div
@@ -523,7 +602,13 @@ export default function Projects({
                     <>
                       {" "}
                       <button
-                        style={{ backgroundColor: category.color }}
+                        style={{
+                          backgroundColor: !currentCategories.includes(
+                            category.title
+                          )
+                            ? category.color
+                            : "yellow",
+                        }}
                         className="sortingButton standardButton"
                         key={index}
                         id={"category_" + category.title + ""}
@@ -543,6 +628,9 @@ export default function Projects({
               tags.map((tag, index) => (
                 <button
                   className="sortingButton standardButton"
+                  style={{
+                    backgroundColor: currentTags.includes(tag) && "yellow",
+                  }}
                   key={index}
                   id={"tag_" + tag + ""}
                   onClick={() => {
@@ -560,6 +648,9 @@ export default function Projects({
               years.map((year, index) => (
                 <button
                   className="sortingButton standardButton"
+                  style={{
+                    backgroundColor: currentYears.includes(year) && "yellow",
+                  }}
                   key={index}
                   id={"year_" + year.toString()}
                   onClick={() => {
@@ -577,6 +668,10 @@ export default function Projects({
             collaborators.map((collaborator, index) => (
               <button
                 className="sortingButton standardButton"
+                style={{
+                  backgroundColor:
+                    currentCollaborators.includes(collaborator) && "yellow",
+                }}
                 key={index}
                 id={"collaborator_" + collaborator.toString()}
                 onClick={() => {

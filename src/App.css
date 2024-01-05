@@ -267,6 +267,18 @@ a {
   text-decoration: none;
 }
 
+.timelineYear {
+  color: #000;
+  /* text-align: center; */
+  font-family: Helvetica Neue;
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 400;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  line-height: 35.5px; /* 78.889% */
+}
+
 .standardButton {
   border-radius: 40px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -279,10 +291,33 @@ a {
   height: fit-content;
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.filterButton {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  width: auto;
+  max-width: 500px;
+  transition: width 1s;
+  padding: 12px 22px;
+}
+.filterButton.active {
+  background-color: rgba(0, 0, 0, 1);
+  border: none;
+  width: auto;
+  max-width: 1500px;
+  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.standardButton.active {
+  max-width: 50000px;
 }
 .standardButton p {
   color: #000;
-  font-size: 20px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 700;
 }
@@ -305,10 +340,62 @@ a {
 .standardButton a,
 .standardButton p {
   text-align: center;
-  font-size: 20px;
+  font-size: 15px;
   font-style: normal;
   white-space: nowrap;
   padding-left: 0;
+  font-weight: 700;
+}
+
+.filterButton p {
+  color: black;
+  padding-left: 0px;
+  font-weight: 500;
+  color: #000;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+}
+
+.filterButton img {
+  filter: invert(0);
+  padding-right: 20px;
+}
+
+.filterButton.active img {
+  filter: invert(0);
+}
+.filterButton.hasChanged img {
+  filter: invert(1);
+}
+.filterButton.active p {
+  color: white;
+}
+
+.filterButton .plusSign {
+  filter: invert(1);
+  transform: rotate(45deg);
+  padding: 0;
+}
+.filterButton.active .plusSign {
+  transform: rotate(0deg);
+  padding-right: 10px;
+}
+.sortingButton p {
+  color: white;
+}
+
+.sortingButton:hover {
+  border-radius: 90px;
+  background: #1f1f1f;
+  box-shadow: 0px 2px 3px 3px rgba(255, 255, 255, 0.5) inset,
+    0px -7px 10.4px 0px rgba(0, 0, 0, 0.25) inset,
+    0px 1px 13.2px 0px rgba(0, 0, 0, 0.1) inset,
+    0px 4px 7.6px 0px rgba(0, 0, 0, 0.2),
+    0px 5px 7px 18px rgba(255, 255, 255, 0.3) inset,
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+    0px -3px 2.9px 0px rgba(255, 255, 255, 0.25) inset;
 }
 .active {
   /* box-shadow: 0px -4px 14px 0px #000000b2 inset;
@@ -332,11 +419,22 @@ a {
 }
 
 .circleIcon {
+  border-radius: 50px;
   width: 60px;
   height: 60px;
-  background-size: 45px 45px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: var(--cluster-yellow);
   transition: all 0.2s ease-in-out;
+}
+
+.circleIcon.logo {
+  object-position: 0px 0px;
+  background-size: 45px 45px;
+
+  background-position: 0px -5px;
+  background-size: 55px 55px;
 }
 
 .circleIcon:hover {
@@ -660,6 +758,7 @@ footer {
   max-width: 100%;
   transition: all 1s;
   visibility: visible;
+  padding-bottom: 40px;
 }
 .hidden {
   visibility: hidden;
@@ -736,11 +835,9 @@ footer {
 .sortingMenu {
   background-color: var(--secondary-color);
 
-  padding: 10px;
+  padding: 50px;
   padding-top: 150px;
   padding-bottom: 150px;
-
-  padding-top: 102px;
 }
 
 .sortingButton.active {
@@ -752,14 +849,16 @@ footer {
 }
 .sortingMenu .flex-row {
   gap: 10px;
+}
+.sortingMenu .collaborators {
   margin-top: 10px;
 }
-
 .introStage .standardButton {
   width: 0;
   height: 0;
   padding: 0;
   overflow: hidden;
+  display: none;
 }
 
 .sortingMenu .featured {
@@ -963,6 +1062,12 @@ iframe,
   .block {
     padding: 13px;
   }
+  .showcaseGrid {
+    position: relative;
+    padding: 13px;
+    padding-top: 150px;
+    padding-bottom: 150px;
+  }
 
   .cubedImage {
     height: 600px;
@@ -1044,6 +1149,12 @@ iframe,
     font-style: normal;
     font-weight: 400;
     line-height: 20px; /* 125% */
+  }
+
+  .sortingMenu {
+    padding-top: 84px;
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 
@@ -1155,7 +1266,7 @@ iframe,
 
   .standardButton a,
   .standardButton p {
-    font-size: 16px;
+    font-size: 12px;
 
     text-transform: uppercase;
   }
@@ -1186,9 +1297,15 @@ iframe,
   .circleIcon {
     width: 50px;
     height: 50px;
-    background-size: 35px 35px;
     margin-right: 7px;
   }
+
+  .circleIcon.logo {
+    object-position: 0px 0px;
+    background-position: 5px 0px;
+    background-size: 40px 40px;
+  }
+
   .burger {
     margin-left: 7px;
   }

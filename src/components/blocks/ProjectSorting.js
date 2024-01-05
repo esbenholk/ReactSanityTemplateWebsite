@@ -23,6 +23,7 @@ export default function Projects({
 
   const [sortingMenuOpen, setSortingMenuOpen] = useState(false);
   const [shouldShowSortingMenu, setShouldShowSortingMenu] = useState(false);
+  const [showFilteringTags, setShowFilteringTags] = useState(true);
 
   const [allPosts, setAllPosts] = useState(projectList);
   const [sortedPosts, setSortedPosts] = useState(null);
@@ -37,7 +38,7 @@ export default function Projects({
   const [filtersHasChanged, setFilterHasChanged] = useState(false);
   const [isMenuIntro, setIsMenuIntro] = useState(true);
 
-  // const [timelineYears, setTimelineYears] = useState([]);
+  const [timelineYears, setTimelineYears] = useState([]);
 
   useEffect(() => {
     if (displayTagButton || displayCategoryButton || displayYearButton) {
@@ -64,8 +65,6 @@ export default function Projects({
       setSortedPosts(projectList);
       tempProjectList = projectList;
     }
-
-    console.log("project list", tempProjectList);
 
     for (let index = 0; index < tempProjectList.length; index++) {
       const post = tempProjectList[index];
@@ -186,7 +185,12 @@ export default function Projects({
         }
       }
 
+      // in order to sort posts by sorted value
       tempSortedPosts.sort((a, b) => b.value - a.value);
+
+      // in order to sort posts by year
+      // tempSortedPosts.sort((a, b) => b.year - a.year);
+
       setSortedPosts(tempSortedPosts);
     } else {
       setSortedPosts(allPosts);
@@ -207,6 +211,31 @@ export default function Projects({
     currentYears,
     currentCollaborators,
   ]);
+
+  useEffect(() => {
+    let tempTimeLineYearObjects = [];
+    if (sortedPosts) {
+      sortedPosts.sort((a, b) => b.year - a.year);
+
+      sortedPosts.forEach((project) => {
+        if (!tempTimeLineYearObjects.includes(project.year)) {
+          let yearObject = { year: project.year, projects: [project] };
+          tempTimeLineYearObjects.push(yearObject);
+        } else if (tempTimeLineYearObjects.includes(project.year)) {
+          let yearObject = tempTimeLineYearObjects.find(
+            (yearObject) => yearObject.year === project.year
+          );
+          tempTimeLineYearObjects.push(yearObject);
+        }
+      });
+    }
+
+    console.log(
+      "TIMELINE YEARS in seperate useeffect",
+      tempTimeLineYearObjects
+    );
+    setTimelineYears(tempTimeLineYearObjects);
+  }, [sortedPosts]);
 
   useEffect(() => {
     const params = [];
@@ -401,107 +430,197 @@ export default function Projects({
     }
   }
 
+  function removeAllQueries() {
+    currentCategories.forEach((category) => {
+      removeCategory(category);
+    });
+
+    currentTags.forEach((tag) => {
+      let button = document.getElementById("tag_" + tag);
+      if (button) {
+        button.classList.remove("active");
+      }
+    });
+    setCurrentTags([]);
+
+    currentCollaborators.forEach((collaborator) => {
+      let button = document.getElementById("collaborator_" + collaborator);
+      if (button) {
+        button.classList.remove("active");
+      }
+    });
+    setCurrentCollaborators([]);
+
+    currentYears.forEach((year) => {
+      let button = document.getElementById("year_" + year);
+      if (button) {
+        button.classList.remove("active");
+      }
+    });
+    setCurrentYears([]);
+  }
+
   return (
     <div className="projects">
       {shouldShowSortingMenu && (
         <div className="fixed top flex-row align-center gap">
           <HeaderLogoButton projectName={""} />
-          {currentTags.length === 0 &&
-            currentCategories.length === 0 &&
-            currentYears.length === 0 &&
-            currentCollaborators.length === 0 && (
-              <div className="standardButton">
-                <p>TIMELINE</p>
-              </div>
-            )}
-          {currentCategories &&
-            currentCategories.map((category, index) => (
-              <button
-                style={{
-                  backgroundColor: categories.find((e) => e.title === category)
-                    .color,
-                }}
-                className="standardButton"
-                key={index}
-                onClick={(evt) => {
-                  removeCategory(category);
-                }}
-              >
-                {category}
-              </button>
-            ))}
-          {currentCollaborators &&
-            currentCollaborators.map((collaborator, index) => (
-              <button
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                }}
-                className="standardButton"
-                key={index}
-                onClick={() => {
-                  setCollaborator(collaborator);
-                }}
-              >
-                {collaborator}
-              </button>
-            ))}{" "}
-          {currentTags &&
-            currentTags.map((tag, index) => (
-              <button
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                }}
-                className="standardButton"
-                key={index}
-                onClick={() => {
-                  setTag(tag);
-                }}
-              >
-                {tag}
-              </button>
-            ))}
-          {currentYears &&
-            currentYears.map((year, index) => (
-              <button
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                }}
-                className="standardButton"
-                key={index}
-                onClick={() => {
-                  setYear(year);
-                }}
-              >
-                {year}
-              </button>
-            ))}
+          {showFilteringTags && (
+            <>
+              {" "}
+              {currentTags.length +
+                currentCategories.length +
+                currentYears.length +
+                currentCollaborators.length >
+              1 ? (
+                <>
+                  {" "}
+                  <button
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                    }}
+                    className="standardButton sortingButton filterButton"
+                    onClick={(evt) => {
+                      removeAllQueries();
+                    }}
+                  >
+                    <img
+                      alt="filter icon"
+                      className={"unused"}
+                      src={process.env.PUBLIC_URL + "/close.png"}
+                    ></img>
+                    <p>Clear All</p>
+                  </button>
+                </>
+              ) : null}
+              {currentTags.length === 0 &&
+                currentCategories.length === 0 &&
+                currentYears.length === 0 &&
+                currentCollaborators.length === 0 && (
+                  <div className="standardButton">
+                    <p>TIMELINE</p>
+                  </div>
+                )}
+              {currentCategories &&
+                currentCategories.map((category, index) => (
+                  <button
+                    style={{
+                      backgroundColor: categories.find(
+                        (e) => e.title === category
+                      ).color,
+                    }}
+                    className="standardButton sortingButton"
+                    key={index}
+                    onClick={(evt) => {
+                      removeCategory(category);
+                    }}
+                  >
+                    <p> {category}</p>
+                  </button>
+                ))}
+              {currentCollaborators &&
+                currentCollaborators.map((collaborator, index) => (
+                  <button
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                    }}
+                    className="standardButton sortingButton"
+                    key={index}
+                    onClick={() => {
+                      setCollaborator(collaborator);
+                    }}
+                  >
+                    <p> {collaborator}</p>
+                  </button>
+                ))}{" "}
+              {currentTags &&
+                currentTags.map((tag, index) => (
+                  <button
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                    }}
+                    className="standardButton sortingButton"
+                    key={index}
+                    onClick={() => {
+                      setTag(tag);
+                    }}
+                  >
+                    <p> {tag}</p>
+                  </button>
+                ))}
+              {currentYears &&
+                currentYears.map((year, index) => (
+                  <button
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                    }}
+                    className="standardButton sortingButton"
+                    key={index}
+                    onClick={() => {
+                      setYear(year);
+                    }}
+                  >
+                    <p>{year}</p>
+                  </button>
+                ))}
+            </>
+          )}
           <button
-            style={{ backgroundColor: "rgba(0,0,0,0)", border: "none" }}
-            className={sortingMenuOpen ? " active" : ""}
+            className={
+              sortingMenuOpen && !filtersHasChanged
+                ? "active standardButton filterButton flex-row align-center justify-center"
+                : sortingMenuOpen && filtersHasChanged
+                ? "standardButton active hasChanged filterButton flex-row align-center justify-center"
+                : "standardButton filterButton flex-row align-center justify-center"
+            }
             onClick={(evt) => {
               if (sortingMenuOpen) {
                 setSortingMenuOpen(false);
                 setFilterHasChanged(false);
                 setIsMenuIntro(true);
+                setShowFilteringTags(true);
               } else {
                 setSortingMenuOpen(true);
+                setShowFilteringTags(false);
               }
             }}
           >
             <img
-              alt="filer icon"
-              style={{
-                transform: filtersHasChanged
-                  ? "rotate(180g)"
+              alt="filter icon"
+              className={
+                sortingMenuOpen && filtersHasChanged
+                  ? "applySign"
                   : currentTags.length > 0 ||
                     currentCategories.length > 0 ||
                     currentYears.length > 0 ||
-                    currentCollaborators.length > 0 + "rotate(35deg)",
-                filter: filtersHasChanged && "invert(1)",
-              }}
+                    currentCollaborators.length > 0
+                  ? "plusSign"
+                  : "unused"
+              }
+              // style={{
+              //   transform:
+              //     currentTags.length > 0 ||
+              //     currentCategories.length > 0 ||
+              //     currentYears.length > 0 ||
+              //     currentCollaborators.length > 0
+              //       ? "rotate(45deg)"
+              //       : filtersHasChanged
+              //       ? "rotate(180g)"
+              //       : null,
+              //   // filter:
+              //   //   currentTags.length > 0 ||
+              //   //   currentCategories.length > 0 ||
+              //   //   currentYears.length > 0 ||
+              //   //   currentCollaborators.length > 0
+              //   //     ? "invert(1)"
+              //   //     : filtersHasChanged
+              //   //     ? "invert(0)"
+              //   //     : null,
+              // }}
               src={
                 sortingMenuOpen && filtersHasChanged
                   ? process.env.PUBLIC_URL + "/filter_list.png"
@@ -515,17 +634,19 @@ export default function Projects({
                   : process.env.PUBLIC_URL + "/filter_list.png"
               }
             ></img>
-            {sortingMenuOpen && filtersHasChanged
-              ? "APPLY FILTERS"
-              : sortingMenuOpen
-              ? "CLOSE FILTERS"
-              : currentTags.length > 0 ||
-                currentCategories.length > 0 ||
-                currentYears.length > 0 ||
-                currentCollaborators.length > 0 ||
-                width < 900
-              ? ""
-              : "FILTER BY"}
+            <p>
+              {sortingMenuOpen && filtersHasChanged
+                ? "APPLY FILTERS"
+                : sortingMenuOpen
+                ? "CLOSE FILTERS"
+                : currentTags.length > 0 ||
+                  currentCategories.length > 0 ||
+                  currentYears.length > 0 ||
+                  currentCollaborators.length > 0 ||
+                  width < 900
+                ? ""
+                : "FILTER BY"}
+            </p>
           </button>{" "}
         </div>
       )}
@@ -545,11 +666,13 @@ export default function Projects({
           pointerEvents: sortingMenuOpen ? "all" : "none",
           display: sortingMenuOpen ? "flex" : "none",
           zIndex: 999,
-          overflow: "hidden",
+          overflowY: "scroll",
         }}
       >
-        <div className={isMenuIntro ? "flex-column nogap" : "flex-row fold"}>
-          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
+        <div className={isMenuIntro ? "flex-column gap" : "flex-row fold"}>
+          <div
+            className={isMenuIntro ? "flex-column gap" : "flex-row column wrap"}
+          >
             {" "}
             {displayCategoryButton &&
               categories &&
@@ -568,8 +691,8 @@ export default function Projects({
                         }}
                         className={
                           isMenuIntro
-                            ? "standardButton featured"
-                            : "standardButton"
+                            ? "standardButton featured interactable"
+                            : "standardButton interactable"
                         }
                         key={index}
                         id={"category_" + category.title + ""}
@@ -579,6 +702,7 @@ export default function Projects({
                             !currentCategories.includes(category.title)
                           ) {
                             setSortingMenuOpen(false);
+                            setShowFilteringTags(true);
                             setIsMenuIntro(true);
                             setTimeout(() => {
                               setFilterHasChanged(false);
@@ -662,7 +786,13 @@ export default function Projects({
               ))}
           </div>
         </div>
-        <div className={isMenuIntro ? "flex-column" : "flex-row wrap"}>
+        <div
+          className={
+            isMenuIntro
+              ? "flex-column collaborators"
+              : "flex-row wrap collaborators"
+          }
+        >
           {displayYearButton &&
             collaborators &&
             collaborators.map((collaborator, index) => (
@@ -684,7 +814,7 @@ export default function Projects({
         </div>
         {isMenuIntro && (
           <button
-            className="sortingButton standardButton featured"
+            className="standardButton featured interactable "
             onClick={(evt) => {
               setIsMenuIntro(false);
             }}
@@ -695,14 +825,31 @@ export default function Projects({
         )}
       </div>
 
-      {displayStyle === "showcase" && (
-        <div className="flex-row wrap block showcaseGrid fold">
-          <>
-            {sortedPosts &&
-              sortedPosts.map((project, index) => (
-                <ShowcaseCard post={project} key={index} />
-              ))}
-          </>
+      {displayStyle === "showcase" && displayYearButton && (
+        <div className="block showcaseGrid">
+          {timelineYears &&
+            timelineYears.map((timelineYearObject, index) => (
+              <div key={index}>
+                <p className="timelineYear">{timelineYearObject.year}</p>
+                <div className="flex-row wrap fold">
+                  {timelineYearObject.projects &&
+                    timelineYearObject.projects.map((project, index) => (
+                      <>
+                        <ShowcaseCard post={project} key={index} />
+                      </>
+                    ))}
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+
+      {displayStyle === "showcase" && !displayYearButton && (
+        <div className="flex-row wrap fold block showcaseGrid">
+          {sortedPosts &&
+            sortedPosts.map((project, index) => (
+              <ShowcaseCard post={project} key={index} />
+            ))}
         </div>
       )}
       {displayStyle === "cover" && (

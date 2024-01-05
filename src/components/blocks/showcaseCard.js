@@ -4,6 +4,7 @@ import Image from "./image";
 import BlockContent from "./BlockContent";
 import { Button } from "../menuItem";
 import useWindowDimensions from "../functions/useWindowDimensions";
+import { NavLink } from "react-router-dom";
 
 export default function ShowcaseCard({ post }) {
   const { width } = useWindowDimensions();
@@ -49,12 +50,30 @@ export default function ShowcaseCard({ post }) {
         )}
 
         <div className="flex-row">
+          {post.categories &&
+            post.categories.map((tag, index) => (
+              <NavLink
+                className="minip tag"
+                to={"/timeline?" + tag.slug.current}
+                key={index}
+              >
+                <p href="">
+                  {index !== 0 && ","} {tag.title}{" "}
+                </p>{" "}
+              </NavLink>
+            ))}
           {post.tags &&
             post.tags.map((tag, index) => (
-              <p className="minip tag" key={index}>
-                {tag}
-                {index !== post.tags.length - 1 && ", "}
-              </p>
+              <NavLink
+                className="minip tag"
+                to={"/timeline?" + tag}
+                key={index}
+              >
+                <p href="">
+                  {post.categories.length > 0 && index === 0 && ", "}
+                  {index !== 0 && post.tags.length - 1 && ","} {tag}{" "}
+                </p>{" "}
+              </NavLink>
             ))}
         </div>
       </div>

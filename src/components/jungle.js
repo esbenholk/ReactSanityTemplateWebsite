@@ -24,7 +24,7 @@ import {
 import { OBJLoader } from "three-stdlib";
 import { useLoader, Canvas, useThree, useFrame } from "@react-three/fiber";
 
-const objUrl = "../assets/jungle/jungle.obj";
+const objUrl = "../assets/jungle/jungle2.obj";
 
 const particleUrl = "../assets/jungle/particleTexture.png";
 
@@ -125,7 +125,8 @@ function Frames() {
 
   useEffect(() => {
     if (object) {
-      object.scale.set(-1, 1, 1);
+      object.scale.set(1, 1, 1);
+      object.rotation.set(0, -Math.PI / 1, 0);
       let tempArray = [];
       object.traverse(function (child) {
         if (child instanceof Mesh) {

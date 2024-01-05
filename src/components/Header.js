@@ -20,34 +20,38 @@ export function HeaderLogoButton({
     <>
       {" "}
       {info.logo ? (
-        <NavLink
-          to="/"
-          className={
-            location.pathname === "/"
-              ? "logo header-padding"
-              : "logo circleIcon header-padding"
-          }
-          style={{
-            objectPosition:
-              info.logo && info.logo.hotspot
-                ? `${info.logo.hotspot.x * 100}% ${info.logo.hotspot.y * 100}%`
-                : "none",
-            objectFit: "cover",
-            backgroundImage:
-              location.pathname !== "/" &&
-              projectName !== null &&
-              projectName !== ""
-                ? `url(${process.env.PUBLIC_URL + "/assets/returnArrow.png"}`
-                : `url(${logoUrl}`,
-          }}
-          onClick={() => {
-            if (width < 600 && mobileMenuOpen) {
-              ToggleMobileMenu(false);
+        <>
+          <NavLink
+            to="/"
+            className={
+              location.pathname === "/"
+                ? "logo header-padding"
+                : "logo circleIcon header-padding"
             }
-          }}
-        >
-          {" "}
-        </NavLink>
+            style={{
+              objectPosition:
+                info.logo && info.logo.hotspot
+                  ? `${info.logo.hotspot.x * 100}% ${
+                      info.logo.hotspot.y * 100
+                    }%`
+                  : "none",
+              objectFit: "cover",
+              backgroundImage:
+                location.pathname !== "/" &&
+                projectName !== null &&
+                projectName !== ""
+                  ? `url(${process.env.PUBLIC_URL + "/assets/returnArrow.png"}`
+                  : `url(${logoUrl}`,
+            }}
+            onClick={() => {
+              if (width < 600 && mobileMenuOpen) {
+                ToggleMobileMenu(false);
+              }
+            }}
+          >
+            {" "}
+          </NavLink>
+        </>
       ) : (
         <NavLink
           to="/"
@@ -154,7 +158,7 @@ export default function Header({ pageName, projectName }) {
           projectName !== "" ? (
             <>
               <div
-                className="circleIcon logo header-padding interactable"
+                className="circleIcon header-padding interactable"
                 style={{
                   backgroundImage: `url(${
                     process.env.PUBLIC_URL + "/assets/returnArrow.png"
@@ -180,7 +184,7 @@ export default function Header({ pageName, projectName }) {
                 ToggleMobileMenu={ToggleMobileMenu}
               />
               {location.pathname !== "/" &&
-              pageName !== null &&
+              pageName &&
               pageName !== "" &&
               pageName.toLowerCase() !== "timeline" ? (
                 <div className="standardButton">

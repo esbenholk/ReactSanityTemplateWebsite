@@ -24,7 +24,7 @@ import {
 import { OBJLoader } from "three-stdlib";
 import { useLoader, Canvas, useThree, useFrame } from "@react-three/fiber";
 
-const objUrl = "../assets/jungle/jungle2.obj";
+const objUrl = "../assets/jungle/jungle3.obj";
 
 const particleUrl = "../assets/jungle/particleTexture.png";
 
@@ -38,7 +38,7 @@ const PermissionButton = styled.div`
   cursor: pointer;
 `;
 
-function Jungle({ cubeMap }) {
+function Jungle({ cubeMap, updateJungleMenu }) {
   const { height } = useWindowDimensions();
   const [cubeMapTextureUrls, SetCubeMapTxtureUrls] = useState([]);
 
@@ -55,8 +55,6 @@ function Jungle({ cubeMap }) {
         typeof window.DeviceOrientationEvent.requestPermission === "function"
     );
   }, []);
-
-  console.log(cubeMap);
 
   useEffect(() => {
     let tempArray = [];
@@ -78,6 +76,7 @@ function Jungle({ cubeMap }) {
     cubeMap.posz.asset,
     cubeMap.negz.asset,
   ]);
+
   return (
     <>
       {orientationRequestPermission && !orientationPermissionGranted && (
@@ -94,7 +93,7 @@ function Jungle({ cubeMap }) {
           width: "100%",
           position: "relative",
           height: height,
-          background: "zellow",
+          background: "yellow",
         }}
         // linear
         camera={{ position: [0, 0, 25], near: 0.1, far: 10000 }}
@@ -104,23 +103,20 @@ function Jungle({ cubeMap }) {
         ) : (
           <FirstPersonControls activeLook={true} lookSpeed={0.06} />
         )}
-        {/* <FirstPersonControls activeLook={true} lookSpeed={0.03} /> */}
 
         <Suspense fallback={null}>
-          <Frames />
           {cubeMapTextureUrls.length > 5 && (
             <SkyBox cubeMapTextureUrls={cubeMapTextureUrls} />
           )}
 
-          {/* <ambientLight /> */}
-          <Particles />
+          <Frames updateJungleMenu={updateJungleMenu} />
         </Suspense>
       </Canvas>
     </>
   );
 }
 
-function Frames() {
+function Frames({ updateJungleMenu }) {
   const [object, setJungleObj] = useState(useLoader(OBJLoader, objUrl));
 
   useEffect(() => {
@@ -152,11 +148,38 @@ function Frames() {
       setJungleObj(object);
     }
   }, [object]);
+
   return (
     <group scale={[1, 1, 1]}>
       <primitive
-        onPointerOver={(ev) => console.log("over", ev.object)}
-        // onClick={(ev) => setEnabled(!enabled)}
+        onPointerEnter={(ev) => {
+          console.log("enter", ev.object);
+          updateJungleMenu(
+            true,
+            ev.object.name,
+            ev.object.material.color.getHexString()
+          );
+        }}
+        onPointerLeave={(ev) => {
+          console.log("leave", ev.object);
+          updateJungleMenu(
+            false,
+            ev.object.name,
+            ev.object.material.color.getHexString()
+          );
+        }}
+        onPointerOver={(ev) => {
+          console.log("over");
+          ev.object.material.color = new Color(
+            denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
+          );
+        }}
+        onClick={(ev) => {
+          console.log("click");
+          ev.object.material.color = new Color(
+            denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
+          );
+        }}
         object={object}
       />
     </group>
@@ -174,8 +197,29 @@ function SkyBox({ cubeMapTextureUrls }) {
 
   return null;
 }
+
+export function ParticleCanvas() {
+  return (
+    <>
+      <Canvas
+        id="canvas"
+        style={{
+          width: "100%",
+          position: "absolute",
+          top: 0,
+          height: "100%",
+          pointerEvents: "none",
+        }}
+        linear
+        alpha="true"
+      >
+        <Particles />
+      </Canvas>
+    </>
+  );
+}
 function Particles() {
-  const count = 750;
+  const count = 200;
   const size = 2;
   const positionFactor = 144;
   const rotationSpeed = 0.1;

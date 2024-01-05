@@ -6,9 +6,7 @@ class Loader extends React.Component {
 
     this.state = {};
   }
-  componentWillUnmount() {
-    console.log("unmo");
-  }
+  componentWillUnmount() {}
 
   render() {
     return (

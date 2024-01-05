@@ -96,7 +96,7 @@ const CollaborationTicker = () => {
         // </Marquee>
         <Marquee
           onInit={onInit}
-          velocity={11}
+          velocity={5}
           minScale={0.7}
           resetAfterTries={200}
           scatterRandomly={false}

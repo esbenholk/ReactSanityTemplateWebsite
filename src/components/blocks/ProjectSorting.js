@@ -58,7 +58,6 @@ export default function Projects({
     if (!projectList) {
       setAllPosts(myContext.projectList);
       setSortedPosts(myContext.projectList);
-      console.log("finds all projects", myContext);
       tempProjectList = myContext.projectList;
     } else {
       setAllPosts(projectList);
@@ -156,7 +155,7 @@ export default function Projects({
             ///compare post tags to currentTags
             if (currentCategories.includes(category.title)) {
               //set post_score depending on how many currentTags the post is matching
-              post_score = post_score + 2;
+              post_score = post_score + 5;
               // console.log("post matches a category");
             }
           }
@@ -169,14 +168,16 @@ export default function Projects({
             ///compare post tags to currentTags
             if (currentCollaborators.includes(collaborator.title)) {
               //set post_score depending on how many currentTags the post is matching
-              post_score = post_score + 2;
+              post_score = post_score + 10;
               // console.log("post matches a category");
             }
           }
         }
 
-        if (currentYears.includes(post.year.toString())) {
-          post_score = post_score + 3;
+        if (currentYears.includes(post.year)) {
+          post_score = post_score + 2;
+        } else if (currentYears.length > 0) {
+          post_score = 0;
         }
 
         if (post_score > 0) {
@@ -187,22 +188,13 @@ export default function Projects({
 
       // in order to sort posts by sorted value
       tempSortedPosts.sort((a, b) => b.value - a.value);
-
-      // in order to sort posts by year
-      // tempSortedPosts.sort((a, b) => b.year - a.year);
-
       setSortedPosts(tempSortedPosts);
+
+      createTimeLineObjects(tempSortedPosts);
     } else {
       setSortedPosts(allPosts);
 
-      console.log(
-        "search is empty",
-        currentTags,
-        currentCollaborators,
-        currentCategories,
-        currentYears,
-        allPosts
-      );
+      createTimeLineObjects(allPosts);
     }
   }, [
     currentTags,
@@ -212,30 +204,31 @@ export default function Projects({
     currentCollaborators,
   ]);
 
-  useEffect(() => {
+  function createTimeLineObjects(_sortedPosts) {
     let tempTimeLineYearObjects = [];
-    if (sortedPosts) {
-      sortedPosts.sort((a, b) => b.year - a.year);
+    let detectedYears = [];
 
-      sortedPosts.forEach((project) => {
-        if (!tempTimeLineYearObjects.includes(project.year)) {
+    console.log("creates timelineyear objects", _sortedPosts);
+    if (_sortedPosts) {
+      _sortedPosts.sort((a, b) => b.year - a.year);
+
+      _sortedPosts.forEach((project) => {
+        if (!detectedYears.includes(project.year)) {
           let yearObject = { year: project.year, projects: [project] };
           tempTimeLineYearObjects.push(yearObject);
-        } else if (tempTimeLineYearObjects.includes(project.year)) {
+          detectedYears.push(project.year);
+        } else if (detectedYears.includes(project.year)) {
           let yearObject = tempTimeLineYearObjects.find(
             (yearObject) => yearObject.year === project.year
           );
-          tempTimeLineYearObjects.push(yearObject);
+          yearObject.projects.push(project);
+          // tempTimeLineYearObjects.push(yearObject);
         }
       });
     }
 
-    console.log(
-      "TIMELINE YEARS in seperate useeffect",
-      tempTimeLineYearObjects
-    );
     setTimelineYears(tempTimeLineYearObjects);
-  }, [sortedPosts]);
+  }
 
   useEffect(() => {
     const params = [];
@@ -246,14 +239,12 @@ export default function Projects({
 
     for (let index = 0; index < params.length; index++) {
       const element = params[index];
-      console.log("NEW PARAMS", params);
 
       if (element.length > 1) {
         setSearchSlug(element[0]);
       }
     }
 
-    console.log("NEW SLUG", slug, searchSlug);
     if (allPosts) {
       for (let index = 0; index < allPosts.length; index++) {
         const post = allPosts[index];
@@ -312,7 +303,6 @@ export default function Projects({
     }
 
     if (!currentTags.includes(tag)) {
-      console.log("SETS TAG", tag);
       const tempTags = [...currentTags];
       tempTags.push(tag);
       setCurrentTags(tempTags);
@@ -321,7 +311,6 @@ export default function Projects({
         button.classList.add("active");
       }
     } else if (currentTags.includes(tag)) {
-      console.log("REMOVES TAG", tag);
       var tagIndex = currentTags.indexOf(tag);
       currentTags.splice(tagIndex, 1);
       const tempTags = [...currentTags];
@@ -361,7 +350,6 @@ export default function Projects({
       const tempCollaborators = [...currentCollaborators];
       // the difference between being able to select several years
       // const tempYears = [];
-      console.log("sets collaborator", collaborator);
       tempCollaborators.push(collaborator);
       setCurrentCollaborators(tempCollaborators);
 
@@ -375,8 +363,6 @@ export default function Projects({
       var ndex = currentCollaborators.indexOf(collaborator);
       currentCollaborators.splice(ndex, 1);
       const tempCollaborators = [...currentCollaborators];
-
-      console.log("removes collaborator", collaborator);
 
       setCurrentCollaborators(tempCollaborators);
       let button = document.getElementById(
@@ -462,10 +448,19 @@ export default function Projects({
 
   return (
     <div className="projects">
+      <div className={"fixed top right"}>
+        <button></button>
+      </div>
       {shouldShowSortingMenu && (
-        <div className="fixed top flex-row align-center gap">
+        <div className={"fixed top flex-row align-center gap wrap"}>
           <HeaderLogoButton projectName={""} />
-          {showFilteringTags && (
+          {(showFilteringTags &&
+            currentTags.length +
+              currentCategories.length +
+              currentYears.length +
+              currentCollaborators.length <
+              2) ||
+          (showFilteringTags && width > 900) ? (
             <>
               {" "}
               {currentTags.length +
@@ -568,7 +563,7 @@ export default function Projects({
                   </button>
                 ))}
             </>
-          )}
+          ) : null}
           <button
             className={
               sortingMenuOpen && !filtersHasChanged
@@ -601,26 +596,6 @@ export default function Projects({
                   ? "plusSign"
                   : "unused"
               }
-              // style={{
-              //   transform:
-              //     currentTags.length > 0 ||
-              //     currentCategories.length > 0 ||
-              //     currentYears.length > 0 ||
-              //     currentCollaborators.length > 0
-              //       ? "rotate(45deg)"
-              //       : filtersHasChanged
-              //       ? "rotate(180g)"
-              //       : null,
-              //   // filter:
-              //   //   currentTags.length > 0 ||
-              //   //   currentCategories.length > 0 ||
-              //   //   currentYears.length > 0 ||
-              //   //   currentCollaborators.length > 0
-              //   //     ? "invert(1)"
-              //   //     : filtersHasChanged
-              //   //     ? "invert(0)"
-              //   //     : null,
-              // }}
               src={
                 sortingMenuOpen && filtersHasChanged
                   ? process.env.PUBLIC_URL + "/filter_list.png"
@@ -651,6 +626,118 @@ export default function Projects({
         </div>
       )}
 
+      {width < 900 &&
+        shouldShowSortingMenu &&
+        showFilteringTags &&
+        currentTags.length +
+          currentCategories.length +
+          currentYears.length +
+          currentCollaborators.length >
+          1 && (
+          <div className="tagbuttongrid flex-row wrap align-center gap">
+            {" "}
+            {currentTags.length +
+              currentCategories.length +
+              currentYears.length +
+              currentCollaborators.length >
+            1 ? (
+              <>
+                {" "}
+                <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                  className="standardButton sortingButton filterButton"
+                  onClick={(evt) => {
+                    removeAllQueries();
+                  }}
+                >
+                  <img
+                    alt="filter icon"
+                    className={"unused"}
+                    src={process.env.PUBLIC_URL + "/close.png"}
+                  ></img>
+                  <p>Clear All</p>
+                </button>
+              </>
+            ) : null}
+            {currentTags.length === 0 &&
+              currentCategories.length === 0 &&
+              currentYears.length === 0 &&
+              currentCollaborators.length === 0 && (
+                <div className="standardButton">
+                  <p>TIMELINE</p>
+                </div>
+              )}
+            {currentCategories &&
+              currentCategories.map((category, index) => (
+                <button
+                  style={{
+                    backgroundColor: categories.find(
+                      (e) => e.title === category
+                    ).color,
+                  }}
+                  className="standardButton sortingButton"
+                  key={index}
+                  onClick={(evt) => {
+                    removeCategory(category);
+                  }}
+                >
+                  <p> {category}</p>
+                </button>
+              ))}
+            {currentCollaborators &&
+              currentCollaborators.map((collaborator, index) => (
+                <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                  className="standardButton sortingButton"
+                  key={index}
+                  onClick={() => {
+                    setCollaborator(collaborator);
+                  }}
+                >
+                  <p> {collaborator}</p>
+                </button>
+              ))}{" "}
+            {currentTags &&
+              currentTags.map((tag, index) => (
+                <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                  className="standardButton sortingButton"
+                  key={index}
+                  onClick={() => {
+                    setTag(tag);
+                  }}
+                >
+                  <p> {tag}</p>
+                </button>
+              ))}
+            {currentYears &&
+              currentYears.map((year, index) => (
+                <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                  className="standardButton sortingButton"
+                  key={index}
+                  onClick={() => {
+                    setYear(year);
+                  }}
+                >
+                  <p>{year}</p>
+                </button>
+              ))}
+          </div>
+        )}
+
       <div
         className={
           isMenuIntro
@@ -679,43 +766,40 @@ export default function Projects({
               categories.map(
                 (category, index) =>
                   category.isFeatured && (
-                    <>
-                      {" "}
-                      <button
-                        style={{
-                          backgroundColor: !currentCategories.includes(
-                            category.title
-                          )
-                            ? category.color
-                            : "yellow",
-                        }}
-                        className={
-                          isMenuIntro
-                            ? "standardButton featured interactable"
-                            : "standardButton interactable"
+                    <button
+                      style={{
+                        backgroundColor: !currentCategories.includes(
+                          category.title
+                        )
+                          ? category.color
+                          : "yellow",
+                      }}
+                      className={
+                        isMenuIntro
+                          ? "standardButton featured interactable"
+                          : "standardButton interactable"
+                      }
+                      key={index}
+                      id={"category_" + category.title + ""}
+                      onClick={(evt) => {
+                        if (
+                          isMenuIntro &&
+                          !currentCategories.includes(category.title)
+                        ) {
+                          setSortingMenuOpen(false);
+                          setShowFilteringTags(true);
+                          setIsMenuIntro(true);
+                          setTimeout(() => {
+                            setFilterHasChanged(false);
+                          }, 10);
+                        } else {
+                          setFilterHasChanged(true);
                         }
-                        key={index}
-                        id={"category_" + category.title + ""}
-                        onClick={(evt) => {
-                          if (
-                            isMenuIntro &&
-                            !currentCategories.includes(category.title)
-                          ) {
-                            setSortingMenuOpen(false);
-                            setShowFilteringTags(true);
-                            setIsMenuIntro(true);
-                            setTimeout(() => {
-                              setFilterHasChanged(false);
-                            }, 10);
-                          } else {
-                            setFilterHasChanged(true);
-                          }
-                          setCategory({ category });
-                        }}
-                      >
-                        {category.title}
-                      </button>
-                    </>
+                        setCategory({ category });
+                      }}
+                    >
+                      {category.title}
+                    </button>
                   )
               )}
             {displayCategoryButton &&
@@ -723,26 +807,23 @@ export default function Projects({
               categories.map(
                 (category, index) =>
                   !category.isFeatured && (
-                    <>
-                      {" "}
-                      <button
-                        style={{
-                          backgroundColor: !currentCategories.includes(
-                            category.title
-                          )
-                            ? category.color
-                            : "yellow",
-                        }}
-                        className="sortingButton standardButton"
-                        key={index}
-                        id={"category_" + category.title + ""}
-                        onClick={(evt) => {
-                          setCategory({ category });
-                        }}
-                      >
-                        {category.title}
-                      </button>
-                    </>
+                    <button
+                      style={{
+                        backgroundColor: !currentCategories.includes(
+                          category.title
+                        )
+                          ? category.color
+                          : "yellow",
+                      }}
+                      className="sortingButton standardButton"
+                      key={index}
+                      id={"category_" + category.title + ""}
+                      onClick={(evt) => {
+                        setCategory({ category });
+                      }}
+                    >
+                      {category.title}
+                    </button>
                   )
               )}
           </div>
@@ -817,6 +898,7 @@ export default function Projects({
             className="standardButton featured interactable "
             onClick={(evt) => {
               setIsMenuIntro(false);
+              window.scrollTo(0, 0);
             }}
             style={{ backgroundColor: "yellow" }}
           >
@@ -825,8 +907,25 @@ export default function Projects({
         )}
       </div>
 
+      {heading ? (
+        <h2 className="blockItemOpenRight blockItemHeadline">{heading}</h2>
+      ) : null}
+
       {displayStyle === "showcase" && displayYearButton && (
-        <div className="block showcaseGrid">
+        <div
+          className={
+            width < 900 &&
+            shouldShowSortingMenu &&
+            showFilteringTags &&
+            currentTags.length +
+              currentCategories.length +
+              currentYears.length +
+              currentCollaborators.length >
+              1
+              ? "block showcaseGrid lilpadding"
+              : "block showcaseGrid"
+          }
+        >
           {timelineYears &&
             timelineYears.map((timelineYearObject, index) => (
               <div key={index}>
@@ -834,9 +933,7 @@ export default function Projects({
                 <div className="flex-row wrap fold">
                   {timelineYearObject.projects &&
                     timelineYearObject.projects.map((project, index) => (
-                      <>
-                        <ShowcaseCard post={project} key={index} />
-                      </>
+                      <ShowcaseCard post={project} key={index} />
                     ))}
                 </div>
               </div>
@@ -873,7 +970,6 @@ export default function Projects({
 
       {displayStyle === "pill" && (
         <div className="flex-column connectedprojectpill fullWidthBlock">
-          {heading ? <p className="headlinep">{heading}</p> : null}
           {sortedPosts
             ? sortedPosts.map((project, index) => (
                 <Pill

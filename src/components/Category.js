@@ -27,14 +27,12 @@ export default function Category() {
       )
       .then((data) => {
         setCategory(data[0]);
-        console.log(data[0]);
       })
       .catch(console.error);
   }, [slug]);
 
   for (var i = 0; i < projectList.length; i++) {
     var project = projectList[i];
-    console.log(project, slug);
     if (
       project.categories.find(
         (category) => category.title.toLowerCase() == slug

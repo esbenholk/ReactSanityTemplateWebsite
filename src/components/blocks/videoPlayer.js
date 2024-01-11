@@ -13,6 +13,7 @@ export default class VideoPlayer extends React.Component {
       thumbnail: props.cover,
       url: props.url,
       shouldPlay: false,
+      width: props.width,
     };
   }
 
@@ -35,7 +36,7 @@ export default class VideoPlayer extends React.Component {
           <ReactPlayer
             playing={this.state.shouldPlay}
             width="100%"
-            height="700px"
+            height={this.state.width > 900 ? "700px" : "350px"}
             url={this.state.url}
             // playing={this.state.shouldPlay}
             controls

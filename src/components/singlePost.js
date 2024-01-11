@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import sanityClient from "../client";
 import { useParams } from "react-router-dom";
 
@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
   const { slug } = useParams();
   const [project, setProject] = useState();
+  const scollToRef = useRef();
   ///get project data, set category names
   useEffect(() => {
     sanityClient
@@ -21,7 +22,6 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
         `*[_type == "project" && slug.current == "${slug}"]{ title, color, introduction, place, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
       )
       .then((data) => {
-        console.log("project details", data, slug);
         setProject(data[0]);
         updatePageTitle("");
         updateProjectTitle(data[0].title);
@@ -34,7 +34,6 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
   }, []);
 
   if (!project) return <Loader />;
-  console.log("PROJECT", project);
   return (
     <div className="page">
       {project && (
@@ -45,7 +44,10 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
             <div>
               <Hero image={project.heroImage} type={"cover"} />
               <img
-                className="absolute bottom right header-padding"
+                onClick={() =>
+                  scollToRef.current.scrollIntoView({ behavior: "smooth" })
+                }
+                className="buttonDown header-padding"
                 src={process.env.PUBLIC_URL + "/assets/arrowDown.png"}
                 alt="arrow down"
               />
@@ -56,7 +58,7 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
             </>
           ) : null}
 
-          <div className="projectPage">
+          <div className="projectPage" ref={scollToRef}>
             {project.introduction && (
               <div className="blockItem">
                 <div className="textBlock">

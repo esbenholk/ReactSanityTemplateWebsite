@@ -6,6 +6,7 @@ import Video from "./blocks/videoPlayer";
 import Projects from "./blocks/ProjectSorting";
 import TickerComp from "./blocks/ticker";
 import ConnectedPress from "./connectedPress";
+import ConnectedCollaborators from "./connectedCollaborators";
 import { ProjectImage } from "./blocks/image";
 import { ConstrainedImage } from "./blocks/image";
 import CustomCarousel from "./blocks/Carousel";
@@ -111,6 +112,17 @@ function PageBlock({
           />
         </>
       )}
+      {pageBlock._type === "connectedCollaborators" && (
+        <>
+          <ConnectedCollaborators
+            press={pageBlock}
+            heading={pageBlock.heading}
+            type={pageBlock.type}
+            color={color}
+            title={title}
+          />
+        </>
+      )}
       {pageBlock._type === "breadContent" && (
         <>
           {pageBlock.content && (
@@ -127,7 +139,10 @@ function PageBlock({
         </>
       )}
       {pageBlock._type === "customImage" && (
-        <div className="flex-row align-center block" style={{ width: "100%" }}>
+        <div
+          className="flex-row align-center justify-center block"
+          style={{ width: "100%" }}
+        >
           <div className="flex-column align-center">
             <ProjectImage
               image={pageBlock.customImage}
@@ -170,7 +185,7 @@ function PageBlock({
       {pageBlock._type === "video" && (
         <div className="block">
           <h1>{pageBlock.title}</h1>
-          <Video url={pageBlock.url} cover={pageBlock.cover} />
+          <Video url={pageBlock.url} width={width} cover={pageBlock.cover} />
           <div>
             <BlockContent blocks={pageBlock.description} />
           </div>
@@ -195,7 +210,9 @@ function PageBlockContainer({
       className="blockContainer"
     >
       {pageBlock.title && pageBlock.title !== "" ? (
-        <h2 className="blockTop">{pageBlock.title}</h2>
+        <h2 className="blockItemOpenRight blockItemHeadline">
+          {pageBlock.title}
+        </h2>
       ) : null}
       {pageBlock.pageBuilder.map((page, index) => (
         <PageBlock
@@ -215,7 +232,6 @@ export default function PageBuilder({
   updatePageTitle,
   updateProjectTitle,
 }) {
-  console.log(pageBuilder);
   return (
     <div>
       {pageBuilder.map((page, index) => (

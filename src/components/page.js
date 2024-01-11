@@ -11,10 +11,10 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   const [searchParams] = useSearchParams();
   const [singlePage, setSinglePage] = useState();
 
-  console.log("loads page", slug);
   useEffect(() => {
+    console.log("loads page", slug);
     window.scrollTo(0, 0);
-  }, []);
+  }, [slug]);
   ///get project data, set category names
   useEffect(() => {
     const params = [];
@@ -29,6 +29,8 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
       )
       .then((data) => {
         setSinglePage(data[0]);
+
+        console.log("page", data[0]);
 
         if (params.length === 0) {
           updatePageTitle(data[0].title);

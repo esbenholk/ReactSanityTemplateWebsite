@@ -83,8 +83,6 @@ export default function Header({ pageName, projectName }) {
 
   useEffect(() => {
     ToggleMobileMenu(false);
-
-    console.log("header notices address change", slug);
   }, [slug]);
 
   function ToggleMenu(open) {
@@ -103,7 +101,6 @@ export default function Header({ pageName, projectName }) {
   }
 
   function ToggleMobileMenu(open) {
-    console.log("toglles mobile menu", open);
     if (open) {
       setMobileMenuOpen(true);
       setMenuOpen(true);
@@ -199,7 +196,7 @@ export default function Header({ pageName, projectName }) {
         projectName !== null &&
         projectName !== "" ? (
           <>
-            <div className="standardButton">
+            <div className="standardButton projectTitle">
               <p>{projectName}</p>
             </div>
 

@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import PostCard from "./blocks/pressCard";
-import sanityClient from ".././client";
+import CollaboratorCard from "./blocks/collaboratorCard";
+import sanityClient from "../client";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
-function ConnectedPress({ press, heading, type, color }) {
+export default function ConnectedCollaborators({
+  press,
+  heading,
+  type,
+  color,
+}) {
   const [connectedPressInstances, setPressInstances] = useState([]);
   const { width } = useWindowDimensions();
 
   useEffect(() => {
-    if (press.pressOccurances != null) {
-      setPressInstances(press.pressOccurances);
+    if (press.collaborators != null) {
+      setPressInstances(press.collaborators);
     } else if (press.category != null && press.category.length > 0) {
       for (let index = 0; index < press.category.length; index++) {
         const category = press.category[index];
         sanityClient
           .fetch(
-            `*[_type == "category" && title=="${category.title}"] {title, "press": *[_type == "press" && references(^._id)]}`
+            `*[_type == "category" && title=="${category.title}"] {title, "press": *[_type == "collaborator" && references(^._id)]}`
           )
           .then((data) => {
             for (let index = 0; index < data.length; index++) {
@@ -34,14 +39,15 @@ function ConnectedPress({ press, heading, type, color }) {
     } else {
       sanityClient
         .fetch(
-          `*[_type == "press"] { title, year, time, mainImage, slug, description, tags, categories[]->{title, slug}}`
+          `*[_type == "collaborator"] { title, year, color, time, mainImage, slug, description, tags, categories[]->{title, slug} }`
         )
         .then((data) => {
-          setPressInstances((prevArray) => [...prevArray, data[0]]);
+          console.log("fetches all collaborators", data);
+          setPressInstances(data);
         })
         .catch(console.error);
     }
-  }, [press.category, press.pressOccurances]);
+  }, [press.category, press.collaborators]);
 
   return (
     <>
@@ -78,19 +84,18 @@ function ConnectedPress({ press, heading, type, color }) {
               ))}
           </div>
         </div>
-      ) : type === "card" ? (
+      ) : (
         <div>
           {heading ? <p className="headlinep">{heading}</p> : null}
-          <div className="horizontalScroll fullWidthBlock blockItemOpenRight blockTop ">
+
+          <div className="flex-row wrap fold block showcaseGrid">
             {connectedPressInstances &&
-              connectedPressInstances.map((press, index) => (
-                <PostCard post={press} key={index} />
+              connectedPressInstances.map((project, index) => (
+                <CollaboratorCard post={project} key={index} />
               ))}
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
-
-export default ConnectedPress;

@@ -74,7 +74,7 @@ export default function CustomCarousel({ images, classsss, description }) {
         </Carousel>
       ) : (
         <>
-          <div className="flex-row wrap align-center">
+          <div className="flex-row wrap align-center justify-center">
             {" "}
             {images.map((image, index) => (
               <SquareImage

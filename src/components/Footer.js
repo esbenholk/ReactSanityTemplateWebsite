@@ -1,39 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import BlockContent from "./blocks/BlockContent";
-// import useWindowDimensions from "./functions/useWindowDimensions";
 import AppContext from "../globalState";
 import MenuItem from "./menuItem";
-import TickerComp from "./blocks/ticker";
 
 export default function Footer() {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
+  const [greetingIndex, setGreetingIndex] = useState(0);
 
-  // const { width } = useWindowDimensions();
+  useEffect(() => {
+    if (info.greetings) {
+      setGreetingIndex(Math.floor(Math.random() * info.greetings.length));
+    }
+  }, [info.greetings]);
 
-  // const scrollToTop = () => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: "smooth",
-  //     /* you can also use 'auto' behaviour
-  //        in place of 'smooth' */
-  //   });
-  // };
+  useEffect(() => {
+    const tempGreetingIndex = setInterval(() => {
+      setGreetingIndex(Math.floor(Math.random() * info.greetings.length));
+    }, 1000);
+    return () => {
+      clearInterval(tempGreetingIndex);
+    };
+  }, [info.greetings.length, info.greetings]);
 
   return (
     <div>
-      <TickerComp />
       <footer>
-        {info.breadContent != null ? (
-          <>
-            {info.breadContent.content &&
-            info.breadContent.content.length > 0 ? (
-              <BlockContent
-                blocks={info.breadContent.content}
-                heading={info.breadContent.heading}
-              />
+        {info.greetings[greetingIndex] != null ? (
+          <div className="greeting">
+            {info.greetings[greetingIndex].content &&
+            info.greetings[greetingIndex].content.length > 0 ? (
+              <BlockContent blocks={info.greetings[greetingIndex].content} />
             ) : null}
-          </>
+          </div>
         ) : null}
         <div style={{ height: "90px" }}></div>
         <div className="flex-row space-between">

@@ -6,7 +6,7 @@ import { Button } from "../menuItem";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import { NavLink } from "react-router-dom";
 
-export default function ShowcaseCard({ post }) {
+export default function CollaboratorCard({ post }) {
   const { width } = useWindowDimensions();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -20,15 +20,14 @@ export default function ShowcaseCard({ post }) {
     >
       <div className="flex-row year gap">
         <div className="standardButton">
-          {post.time ? (
-            <BlockContent blocks={post.time} />
-          ) : post.year ? (
-            <p>{post.year} </p>
-          ) : null}
+          <div
+            className="littelCircle"
+            style={{
+              backgroundColor: post.color,
+            }}
+          ></div>
+          <p>{post.title} </p>
         </div>
-        {post.categories && post.categories.length > 0 && (
-          <p className="standardButton">{post.categories[0].title}</p>
-        )}
       </div>
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
         <Image

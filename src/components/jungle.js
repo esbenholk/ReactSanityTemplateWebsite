@@ -3,8 +3,10 @@ import styled from "styled-components";
 import useWindowDimensions from "./functions/useWindowDimensions";
 import * as THREE from "three";
 import denseCapColors from "./denseCapColors";
+import { xpositions, ypositions, zpositions } from "./pointPositions";
 import { urlFor } from "./blocks/image";
 
+import Loader from "./blocks/loader";
 import {
   Color,
   CubeTextureLoader,
@@ -16,6 +18,7 @@ import {
 import {
   FirstPersonControls,
   DeviceOrientationControls,
+  PointMaterial,
   Points,
   Point,
   useTexture,
@@ -38,7 +41,7 @@ const PermissionButton = styled.div`
   cursor: pointer;
 `;
 
-function Jungle({ cubeMap, updateJungleMenu }) {
+function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
   const { height } = useWindowDimensions();
   const [cubeMapTextureUrls, SetCubeMapTxtureUrls] = useState([]);
 
@@ -66,8 +69,6 @@ function Jungle({ cubeMap, updateJungleMenu }) {
     tempArray.push(urlFor(cubeMap.negz.asset).height(1000).url());
 
     SetCubeMapTxtureUrls(tempArray);
-
-    console.log("temp array", tempArray);
   }, [
     cubeMap.posx.asset,
     cubeMap.negx.asset,
@@ -93,30 +94,33 @@ function Jungle({ cubeMap, updateJungleMenu }) {
           width: "100%",
           position: "relative",
           height: height,
-          background: "yellow",
+          background: "black",
         }}
-        // linear
         camera={{ position: [0, 0, 25], near: 0.1, far: 10000 }}
       >
         {isMobile ? (
           <DeviceOrientationControls />
         ) : (
-          <FirstPersonControls activeLook={true} lookSpeed={0.06} />
+          <FirstPersonControls activeLook={true} lookSpeed={0.09} />
         )}
 
         <Suspense fallback={null}>
           {cubeMapTextureUrls.length > 5 && (
             <SkyBox cubeMapTextureUrls={cubeMapTextureUrls} />
-          )}
-
-          <Frames updateJungleMenu={updateJungleMenu} />
+          )}{" "}
+          <Particles />
+          {/* <Particles /> */}
+          <Frames
+            updateJungleMenu={updateJungleMenu}
+            openJungleMenuLink={openJungleMenuLink}
+          />
         </Suspense>
       </Canvas>
     </>
   );
 }
 
-function Frames({ updateJungleMenu }) {
+function Frames({ updateJungleMenu, openJungleMenuLink }) {
   const [object, setJungleObj] = useState(useLoader(OBJLoader, objUrl));
 
   useEffect(() => {
@@ -153,7 +157,7 @@ function Frames({ updateJungleMenu }) {
     <group scale={[1, 1, 1]}>
       <primitive
         onPointerEnter={(ev) => {
-          console.log("enter", ev.object);
+          // console.log("enter", ev.object);
           updateJungleMenu(
             true,
             ev.object.name,
@@ -161,7 +165,7 @@ function Frames({ updateJungleMenu }) {
           );
         }}
         onPointerLeave={(ev) => {
-          console.log("leave", ev.object);
+          // console.log("leave", ev.object);
           updateJungleMenu(
             false,
             ev.object.name,
@@ -169,16 +173,15 @@ function Frames({ updateJungleMenu }) {
           );
         }}
         onPointerOver={(ev) => {
-          console.log("over");
+          // console.log("over");
           ev.object.material.color = new Color(
             denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
           );
         }}
         onClick={(ev) => {
-          console.log("click");
-          ev.object.material.color = new Color(
-            denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
-          );
+          if (!ev.object.name.includes("loft")) {
+            openJungleMenuLink(ev.object.name.split("_")[0]);
+          }
         }}
         object={object}
       />
@@ -198,28 +201,9 @@ function SkyBox({ cubeMapTextureUrls }) {
   return null;
 }
 
-export function ParticleCanvas() {
-  return (
-    <>
-      <Canvas
-        id="canvas"
-        style={{
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          height: "100%",
-          pointerEvents: "none",
-        }}
-        linear
-        alpha="true"
-      >
-        <Particles />
-      </Canvas>
-    </>
-  );
-}
 function Particles() {
   const count = 200;
+  const points = Array(count).fill(0);
   const size = 2;
   const positionFactor = 144;
   const rotationSpeed = 0.1;
@@ -236,7 +220,7 @@ function Particles() {
 
   return (
     <Points ref={particlesRef1} limit={10000}>
-      <pointsMaterial
+      <PointMaterial
         size={size}
         transparent
         depthWrite={false}
@@ -245,19 +229,33 @@ function Particles() {
         vertexColors
         map={particleTexture}
         alphaMap={particleTexture}
+        toneMapped={false}
       />
-      {Array.from({ length: count }).map((_, i) => (
+
+      {points.map((_, i) => (
         <Point
           key={i}
           position={[
-            (0.5 - Math.random()) * positionFactor,
-            (0.5 - Math.random()) * positionFactor,
-            (0.5 - Math.random()) * positionFactor,
+            (0.5 - xpositions[i]) * positionFactor,
+            (0.5 - ypositions[i]) * positionFactor,
+            (0.5 - zpositions[i]) * positionFactor,
           ]}
           color={"white"}
         />
+        // <></>
       ))}
     </Points>
+    // <points>
+    //   <bufferGeometry>
+    //     <bufferAttribute
+    //       attach="attributes-position"
+    //       count={particlesCount}
+    //       itemSize={3}
+    //       array={particlePositions}
+    //     />
+    //   </bufferGeometry>
+    //   <pointsMaterial size={0.04} color={"white"} transparent />
+    // </points>
   );
 }
 export default Jungle;

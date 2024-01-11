@@ -5,7 +5,7 @@ import denseCapColors from "../denseCapColors";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import Marquee from "react-marquee-slider";
 
-let speed = 100;
+let speed = 20;
 function tripleArrayContent(inputArray) {
   return [...inputArray, ...inputArray, ...inputArray];
 }
@@ -84,7 +84,7 @@ const TickerComp = () => {
         <Marquee
           velocity={velocity}
           direction="rtl"
-          onInit={() => console.log("start")}
+          // onInit={() =>}
         >
           {Array.from(Array(2)).map((id, index) => (
             <div

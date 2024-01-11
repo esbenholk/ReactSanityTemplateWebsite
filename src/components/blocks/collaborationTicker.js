@@ -1,14 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
-// import Ticker from "react-ticker";
+import React, { useContext } from "react";
 import AppContext from "../../globalState";
 import { urlFor } from "./image";
-import times from "lodash/times";
-import Marquee, { Motion, randomIntFromInterval } from "react-marquee-slider";
-
-//import Marquee from "react-simple-marquee";
-//import Marquee from "react-easy-marquee";
-// import Marquee from "react-fast-marquee";
-// import Ticker from "react-moveable-ticker
+import Marquee from "react-marquee-slider";
 
 const TickerContent = () => {
   const myContext = useContext(AppContext);
@@ -51,9 +44,6 @@ const CollaborationTicker = () => {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
 
-  function onInit() {
-    console.log("TICKER INITS");
-  }
   return (
     <div
       style={{
@@ -65,37 +55,7 @@ const CollaborationTicker = () => {
       }}
     >
       {info.institutions != null ? (
-        // <Ticker speed={100} height={"4.8rem"} mode={"loop"}>
-        //   {(index) => (
-        //     <div
-        //       style={{
-        //         display: "block",
-        //         position: "relative",
-        //         width: "auto",
-        //         backgroundColor: "yellow",
-        //         margin: "5px",
-        //       }}
-        //     >
-        //       <TickerContent />
-        //     </div>
-        //   )}
-        // </Ticker>
-        // <Marquee
-        //   height="90px"
-        //   width="100%"
-        //   Axis="X"
-        //   Align="center"
-        //   pauseOnHover={true}
-        //   reverse={true}
-        //   duration={10000}
-        //   Width="auto"
-        //   className="marquee"
-        // >
-        //   <h1>hej</h1>
-        //   {/* <TickerContent /> */}
-        // </Marquee>
         <Marquee
-          onInit={onInit}
           velocity={5}
           minScale={0.7}
           resetAfterTries={200}
@@ -114,17 +74,3 @@ const CollaborationTicker = () => {
 };
 
 export default CollaborationTicker;
-
-// // <Marquee
-//       //   height="90px"
-//       //   width="100%"
-//       //   Axis="X"
-//       //   Align="center"
-//       //   pauseOnHover={true}
-//       //   reverse={true}
-//       //   duration={10000}
-//       //   Width="auto"
-//       //   className="marquee"
-//       // >
-//       //   <TickerContent />
-//       // </Marquee>

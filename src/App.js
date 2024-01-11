@@ -13,7 +13,7 @@ import { HeadTags } from "./components/blocks/helmetHeaderTags";
 import { pageBuilderquerystring } from "./components/queeries.js";
 
 import SlugContext from "./components/slugContext";
-
+import TickerComp from "./components/blocks/ticker.js";
 import Footer from "./components/Footer";
 
 const LandingPage = lazy(() => import("./components/LandingPage.js"));
@@ -32,7 +32,6 @@ function App() {
 
   const updatePageTitle = (newTitle) => {
     setPageTitle(newTitle);
-    console.log("UPDATES PAGE TITLE", newTitle);
   };
   const updateProjectTitle = (newTitle) => {
     setProjectTitle(newTitle);
@@ -46,7 +45,7 @@ function App() {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "siteSettings" ]{junglenavigation[]{title, url, frameTitle, frameDescription, image}, mainImage{asset->{_id,url}, hotspot}, title,favicon{asset->{_id,url}}, title,  greeting, logo{asset->{_id,url}, hotspot}, institutions, breadContent,footerMenuSocials[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, ${pageBuilderquerystring}, burgerTop, burgerBottom, leftButtonLink{page->{slug}, project->{slug},url, title, image}, rightButtonLink{page->{slug}, project->{slug},url, title, image}, cubeMap, headerMenu[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, footerMenu {_type == "linkArrayColumns" => { _type,heading, columns[]{heading, links{external_links[]{title, image, url, page->{slug}, project->{slug}}}}}}}`
+        `*[_type == "siteSettings" ]{junglenavigation[]{title, url, frameTitle, frameDescription, image}, greetings,mainImage{asset->{_id,url}, hotspot}, title,favicon{asset->{_id,url}}, title,  greeting, logo{asset->{_id,url}, hotspot}, institutions, breadContent,footerMenuSocials[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, ${pageBuilderquerystring}, burgerTop, burgerBottom, leftButtonLink{page->{slug}, project->{slug},url, title, image}, rightButtonLink{page->{slug}, project->{slug},url, title, image}, cubeMap, headerMenu[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, footerMenu {_type == "linkArrayColumns" => { _type,heading, columns[]{heading, links{external_links[]{title, image, url, page->{slug}, project->{slug}}}}}}}`
       )
       .then((data) => {
         setSiteSettings(data[0]);
@@ -69,9 +68,7 @@ function App() {
         ' *[_type == "project"]{ title, slug, description, year, mainImage, heroImage, buttons, tags, categories[]->{title, slug, color, isFeatured}, collaborators[]->{title, color, code}}'
       )
       .then((data) => {
-        console.log(data);
         data.sort((a, b) => b.year - a.year);
-
         setProjectList(data);
 
         var categories = [];
@@ -152,7 +149,7 @@ function App() {
                     ></Route>
                   </Routes>
                 </motion.div>
-
+                <TickerComp />
                 {siteSettings && <Footer />}
               </BrowserRouter>
             </AppContext.Provider>

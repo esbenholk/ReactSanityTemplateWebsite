@@ -33,15 +33,7 @@ export default function CustomCarousel({ images, classsss, description }) {
                 }}
                 className="featuredCardArrow prevArrow"
               >
-                <img
-                  style={{
-                    height: "30px",
-                    width: "30px",
-                    transform: "rotate(180deg)",
-                  }}
-                  src={`../assets/returnArrow.png`}
-                  alt="prevArrow"
-                />
+                <img src={`../assets/returnArrow.png`} alt="prevArrow" />
               </button>
             )
           }
@@ -55,7 +47,9 @@ export default function CustomCarousel({ images, classsss, description }) {
                 }}
               >
                 <img
-                  style={{ height: "30px", width: "30px" }}
+                  style={{
+                    transform: "rotate(180deg)",
+                  }}
                   src={`../assets/returnArrow.png`}
                   alt="nextArrow"
                 />

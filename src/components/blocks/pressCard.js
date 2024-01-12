@@ -13,7 +13,9 @@ export default function PostCard({ post }) {
         style={{ position: "relative" }}
         href={post.slug ? post.slug.current : post.url ? post.url : null}
       >
-        {post.year && <p className="year standardButton minip">{post.year}</p>}
+        {post.year && (
+          <p className="year standardButton minip lightButton">{post.year}</p>
+        )}
         <Image image={post.mainImage} width={596} />
       </a>
 
@@ -46,7 +48,7 @@ export default function PostCard({ post }) {
         </div>
       </div>
       {post.buttons && (
-        <div className="flex-column buttons">
+        <div className="flex-row wrap buttons">
           {post.buttons.buttons.map((button, index) => (
             <Button
               key={index}

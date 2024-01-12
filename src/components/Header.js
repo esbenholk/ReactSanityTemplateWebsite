@@ -91,7 +91,7 @@ export default function Header({ pageName, projectName }) {
       setMenuOpen(true);
       setTimeout(() => {
         setuserCanInteract(true);
-      }, 500);
+      }, 850);
     } else {
       setMenuOpen(false);
       setuserCanInteract(false);
@@ -186,7 +186,7 @@ export default function Header({ pageName, projectName }) {
               pageName &&
               pageName !== "" &&
               pageName.toLowerCase() !== "timeline" ? (
-                <div className="standardButton">
+                <div className="headingButton lightButton">
                   <p>{pageName}</p>
                 </div>
               ) : null}
@@ -199,7 +199,7 @@ export default function Header({ pageName, projectName }) {
         projectName !== null &&
         projectName !== "" ? (
           <>
-            <div className="standardButton projectTitle">
+            <div className="headingButton lightButton projectTitle">
               <p>{projectName}</p>
             </div>
 
@@ -210,7 +210,7 @@ export default function Header({ pageName, projectName }) {
 
       {info.headerMenu && (
         <div
-          className="top fixed right header-padding menuContainer"
+          className="top fixed right  menuContainer"
           style={{
             maxWidth: `${location.pathname === "/" ? "80px" : "60px"}`,
             zIndex: 999999,

@@ -11,7 +11,7 @@ body {
   --button-color: #eeeee0;
   --third-color: white;
   --text-color: #d9d4af;
-  --font-size: 24px;
+  --font-size: 20px;
   --margin-size: 15px;
   --paddingValue: 100px;
   --paddingSideValue: 35px;
@@ -50,7 +50,7 @@ code {
 .wrap {
   max-width: 100%;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
   justify-content: first baseline;
   align-items: flex-start;
 }
@@ -94,6 +94,12 @@ a.flex-row {
   display: flex;
   align-items: center;
 }
+.blockItem:is(:first-of-type) {
+  padding: 100px 100px 100px var(--paddingValue);
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 
 .fullWidthBlock {
   padding: 0 14px 0 14px;
@@ -125,7 +131,7 @@ a.flex-row {
   max-width: 100%;
   flex-wrap: wrap;
   margin-top: 52px;
-  gap: 20px;
+  gap: 15px;
 }
 .projectDetails p,
 .projectDetails a {
@@ -147,22 +153,25 @@ a.flex-row {
   padding-top: 20px;
 }
 .carouselContainer {
+  padding-top: 50px;
   position: relative;
+  padding-bottom: 50px;
 }
 .carouselContainer .carousel {
-  padding-top: 40px;
+  padding-top: 50px;
 }
 .carouselContainer .featuredCardArrow {
   position: absolute;
   top: 0;
   right: 0;
-  height: 35px;
-  width: 35px;
+  width: 40px;
+  height: 40px;
   background-color: rgba(0, 0, 0, 0);
   border: none;
 }
-.featuredCardArrow.nextArrow {
-  right: 30px;
+
+.featuredCardArrow.prevArrow {
+  right: 40px;
 }
 
 .cubedImage {
@@ -174,7 +183,6 @@ a.flex-row {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  border-radius: 10px;
 }
 
 a,
@@ -275,7 +283,6 @@ a {
 .timelineYear {
   color: #000;
   /* text-align: center; */
-  font-family: Helvetica Neue;
   font-size: 45px;
   font-style: normal;
   font-weight: 400;
@@ -286,8 +293,29 @@ a {
 
 .standardButton {
   border-radius: 40px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.7);
+  border: 1.5px solid rgba(0, 0, 0, 1);
+
+  display: inline-flex;
+  padding: 12px 22px;
+  color: #000;
+  width: fit-content;
+  height: fit-content;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.lightButton {
+  border: 0px solid rgba(0, 0, 0, 1);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(27.5px);
+  border-radius: 40px;
+}
+.headingButton {
+  border: 0px solid rgba(0, 0, 0, 1);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(27.5px);
   display: inline-flex;
   padding: 12px 22px;
@@ -300,6 +328,27 @@ a {
   font-weight: 700;
   display: flex;
   align-items: center;
+  border-radius: 40px;
+}
+.headingButton a,
+.headingButton p {
+  font-weight: normal;
+  font-size: 15px;
+  text-align: center;
+}
+.year {
+  padding: 7px 15px;
+}
+.projectCategoryButton p {
+  color: var(--primary-color);
+  /* mix-blend-mode: overlay; */
+  font-weight: 500;
+}
+.projectTagButton {
+  background-color: var(--primary-color);
+}
+.projectTagButton p {
+  color: white;
 }
 .littelCircle {
   width: 20px;
@@ -332,7 +381,7 @@ a {
   color: #000;
   font-size: 15px;
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 700; */
 }
 .link {
   font-family: Arial;
@@ -350,8 +399,25 @@ a {
     0px 5px 5.7px 0px rgba(255, 255, 255, 0.8) inset,
     0px 2px 2.3px 0px rgba(0, 0, 0, 0.9),
     0px 4px 4px 0px rgba(255, 255, 255, 0.1);
-  filter: drop-shadow(0px 10px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.1));
+  background-color: var(--secondary-color);
   /* transition: all 0.1s ease-in-out; */
+}
+.allfilterButton,
+.projectTagButton.interactable:hover {
+  box-shadow: 0px -2px 5.5px 0px rgba(0, 0, 0, 0.66) inset,
+    0px 5px 5.7px 0px rgba(255, 255, 255, 0.8) inset,
+    0px 2px 2.3px 0px rgba(0, 0, 0, 0.9),
+    0px 4px 4px 0px rgba(255, 255, 255, 0.1);
+  filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.1));
+  background-color: var(--primary-color);
+  /* transition: all 0.1s ease-in-out; */
+}
+
+.burgerLayer.interactable:hover {
+  box-shadow: 0px -2px 5.5px 0px rgba(0, 0, 0, 0.5) inset,
+    0px 5px 5.7px 0px rgba(255, 255, 255, 0.5) inset;
+  filter: none;
 }
 .standardButton a,
 .standardButton p {
@@ -360,7 +426,7 @@ a {
   font-style: normal;
   white-space: nowrap;
   padding-left: 0;
-  font-weight: 700;
+  /* font-weight: 700; */
 }
 
 .filterButton p {
@@ -398,20 +464,16 @@ a {
   transform: rotate(0deg);
   padding-right: 10px;
 }
-.sortingButton p {
+/* .sortingButton p {
   color: white;
-}
+} */
 
 .sortingButton:hover {
-  border-radius: 90px;
-  background: #1f1f1f;
-  box-shadow: 0px 2px 3px 3px rgba(255, 255, 255, 0.5) inset,
-    0px -7px 10.4px 0px rgba(0, 0, 0, 0.25) inset,
-    0px 1px 13.2px 0px rgba(0, 0, 0, 0.1) inset,
-    0px 4px 7.6px 0px rgba(0, 0, 0, 0.2),
-    0px 5px 7px 18px rgba(255, 255, 255, 0.3) inset,
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25),
-    0px -3px 2.9px 0px rgba(255, 255, 255, 0.25) inset;
+  box-shadow: 0px -2px 5.5px 0px rgba(76, 76, 76, 0.5) inset,
+    0px 5px 5.7px 0px rgba(255, 255, 255, 0.5) inset,
+    0px 2px 2.3px 0px rgba(0, 0, 0, 0.9),
+    0px 4px 4px 0px rgba(255, 255, 255, 0.1);
+  filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.2));
 }
 .active {
   /* box-shadow: 0px -4px 14px 0px #000000b2 inset;
@@ -508,19 +570,23 @@ footer div {
   -webkit-transition: height 0.5s ease-in-out;
   transition: height 0.5s ease-in-out;
   width: auto;
+  margin-top: 15px;
+  margin-left: 27px;
+  margin-right: 12px;
+  margin-bottom: 22px;
 }
 .burger.open {
   height: auto;
   max-height: 80000px;
 }
 .burger.closed {
-  height: 120px;
+  max-height: 100px;
   max-width: 100%;
 }
 .burgerLayer {
   transition: margin 0.5s ease-in, width 0.5s ease-in;
   padding: 0px 0px 0px 0px;
-  border-radius: 16.5px;
+  border-radius: 40px;
   display: flex;
   background-color: rgba(0, 0, 0, 0);
 }
@@ -758,7 +824,6 @@ footer div {
 }
 .buttons {
   padding-top: 20px;
-  gap: 5px;
 }
 
 .project-item {
@@ -828,12 +893,17 @@ footer div {
   margin-bottom: 9px;
 }
 
-.showcaseCard .year,
 .pressCard .year {
   position: absolute;
   z-index: 1;
   top: 21px;
   left: 21px;
+}
+.showcaseCard .year {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
 }
 .pressCard a,
 .pressCard h1,
@@ -869,7 +939,9 @@ footer div {
   padding-top: 150px;
   padding-bottom: 150px;
 }
-
+.sortingButton {
+  border: 0px;
+}
 .sortingButton.active {
   background-color: #ffeb01 !important;
 }
@@ -907,6 +979,26 @@ footer div {
   font-weight: 700;
   line-height: 35.5px; /* 110.938% */
   white-space: wrap;
+  border: 0px;
+}
+.sortingMenu .featured.allfilterButton {
+  background-color: var(--primary-color);
+  color: white;
+}
+.filterButton p {
+  color: white;
+}
+.standardButton.category,
+.sortingButton.category {
+  border: 0px;
+  color: var(--primary-color);
+}
+.sortingButton.tag {
+  background-color: var(--primary-color);
+  color: white;
+}
+.sortingButton.tag p {
+  color: white;
 }
 
 .fixedFilerButton {
@@ -1103,6 +1195,7 @@ iframe,
     display: flex;
     align-items: center;
   }
+
   .blockItemOpenRight {
     padding: var(--paddingValue) 0 var(--paddingValue) 13px;
   }

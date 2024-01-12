@@ -493,7 +493,7 @@ export default function Projects({
                 currentCategories.length === 0 &&
                 currentYears.length === 0 &&
                 currentCollaborators.length === 0 && (
-                  <div className="standardButton">
+                  <div className="headingButton lightButton">
                     <p>TIMELINE</p>
                   </div>
                 )}
@@ -505,7 +505,7 @@ export default function Projects({
                         (e) => e.title === category
                       ).color,
                     }}
-                    className="standardButton sortingButton"
+                    className="standardButton sortingButton category"
                     key={index}
                     onClick={(evt) => {
                       removeCategory(category);
@@ -521,7 +521,7 @@ export default function Projects({
                       backgroundColor: "black",
                       color: "white",
                     }}
-                    className="standardButton sortingButton"
+                    className="standardButton sortingButton collaborator"
                     key={index}
                     onClick={() => {
                       setCollaborator(collaborator);
@@ -537,7 +537,7 @@ export default function Projects({
                       backgroundColor: "black",
                       color: "white",
                     }}
-                    className="standardButton sortingButton"
+                    className="standardButton sortingButton tag"
                     key={index}
                     onClick={() => {
                       setTag(tag);
@@ -553,7 +553,7 @@ export default function Projects({
                       backgroundColor: "black",
                       color: "white",
                     }}
-                    className="standardButton sortingButton"
+                    className="standardButton sortingButton tag"
                     key={index}
                     onClick={() => {
                       setYear(year);
@@ -620,7 +620,7 @@ export default function Projects({
                   currentCollaborators.length > 0 ||
                   width < 900
                 ? ""
-                : "FILTER BY"}
+                : ""}
             </p>
           </button>{" "}
         </div>
@@ -678,7 +678,7 @@ export default function Projects({
                       (e) => e.title === category
                     ).color,
                   }}
-                  className="standardButton sortingButton"
+                  className="standardButton sortingButton category"
                   key={index}
                   onClick={(evt) => {
                     removeCategory(category);
@@ -694,7 +694,7 @@ export default function Projects({
                     backgroundColor: "black",
                     color: "white",
                   }}
-                  className="standardButton sortingButton"
+                  className="standardButton sortingButton collaborator"
                   key={index}
                   onClick={() => {
                     setCollaborator(collaborator);
@@ -710,7 +710,7 @@ export default function Projects({
                     backgroundColor: "black",
                     color: "white",
                   }}
-                  className="standardButton sortingButton"
+                  className="standardButton sortingButton tag"
                   key={index}
                   onClick={() => {
                     setTag(tag);
@@ -726,7 +726,7 @@ export default function Projects({
                     backgroundColor: "black",
                     color: "white",
                   }}
-                  className="standardButton sortingButton"
+                  className="standardButton sortingButton tag"
                   key={index}
                   onClick={() => {
                     setYear(year);
@@ -762,12 +762,11 @@ export default function Projects({
           >
             {isMenuIntro && (
               <button
-                className="standardButton featured interactable "
+                className="standardButton featured interactable allfilterButton"
                 onClick={(evt) => {
                   setIsMenuIntro(false);
                   window.scrollTo(0, 0);
                 }}
-                style={{ backgroundColor: "yellow" }}
               >
                 ALL FILTERS
               </button>
@@ -787,8 +786,8 @@ export default function Projects({
                       }}
                       className={
                         isMenuIntro
-                          ? "standardButton featured interactable"
-                          : "standardButton interactable"
+                          ? "standardButton featured interactable category"
+                          : "standardButton interactable category"
                       }
                       key={index}
                       id={"category_" + category.title + ""}
@@ -826,7 +825,7 @@ export default function Projects({
                           ? category.color
                           : "yellow",
                       }}
-                      className="sortingButton standardButton"
+                      className="sortingButton standardButton  category"
                       key={index}
                       id={"category_" + category.title + ""}
                       onClick={(evt) => {
@@ -843,9 +842,10 @@ export default function Projects({
             {displayTagButton &&
               tags.map((tag, index) => (
                 <button
-                  className="sortingButton standardButton"
+                  className="sortingButton standardButton  tag"
                   style={{
                     backgroundColor: currentTags.includes(tag) && "yellow",
+                    color: currentTags.includes(tag) && "black",
                   }}
                   key={index}
                   id={"tag_" + tag + ""}
@@ -863,9 +863,10 @@ export default function Projects({
               years &&
               years.map((year, index) => (
                 <button
-                  className="sortingButton standardButton"
+                  className="sortingButton standardButton  tag"
                   style={{
                     backgroundColor: currentYears.includes(year) && "yellow",
+                    color: currentYears.includes(year) && "black",
                   }}
                   key={index}
                   id={"year_" + year.toString()}
@@ -889,7 +890,7 @@ export default function Projects({
             collaborators &&
             collaborators.map((collaborator, index) => (
               <button
-                className="sortingButton standardButton"
+                className="sortingButton standardButton collaborator"
                 style={{
                   backgroundColor:
                     currentCollaborators.includes(collaborator) && "yellow",

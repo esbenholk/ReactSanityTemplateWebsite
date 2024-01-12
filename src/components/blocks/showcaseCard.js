@@ -19,15 +19,17 @@ export default function ShowcaseCard({ post }) {
       style={{ position: "relative" }}
     >
       <div className="flex-row year gap">
-        <div className="standardButton">
+        {/* <div className="standardButton lightButton">
           {post.time ? (
             <BlockContent blocks={post.time} />
           ) : post.year ? (
             <p>{post.year} </p>
           ) : null}
-        </div>
+        </div> */}
         {post.categories && post.categories.length > 0 && (
-          <p className="standardButton">{post.categories[0].title}</p>
+          <p className="year standardButton minip lightButton">
+            {post.categories[0].title}
+          </p>
         )}
       </div>
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>

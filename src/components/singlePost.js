@@ -75,7 +75,7 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
                     {project.categories &&
                       project.categories.map((category, index) => (
                         <NavLink
-                          className="interactable category"
+                          className="year lightButton projectCategoryButton interactable"
                           to={"/timeline?" + category.slug.current}
                           style={{ backgroundColor: category.color }}
                           key={index}
@@ -86,7 +86,7 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
                     {project.tags &&
                       project.tags.map((tag, index) => (
                         <NavLink
-                          className="interactable tag"
+                          className="year lightButton projectTagButton interactable"
                           to={"/timeline?" + tag}
                           key={index}
                         >

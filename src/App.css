@@ -346,9 +346,12 @@ a {
 }
 
 .interactable:hover {
-  box-shadow: 0px -4px 14px 0px #000000b2 inset, 0px 4px 7px 0px #000000b2;
+  box-shadow: 0px -2px 5.5px 0px rgba(0, 0, 0, 0.66) inset,
+    0px 5px 5.7px 0px rgba(255, 255, 255, 0.8) inset,
+    0px 2px 2.3px 0px rgba(0, 0, 0, 0.9),
+    0px 4px 4px 0px rgba(255, 255, 255, 0.1);
   filter: drop-shadow(0px 10px 4px rgba(0, 0, 0, 0.25));
-  transition: all 0.2s ease-in-out;
+  /* transition: all 0.1s ease-in-out; */
 }
 .standardButton a,
 .standardButton p {
@@ -415,7 +418,6 @@ a {
   box-shadow: 0px 4px 7px 0px #000000b2; */
 }
 .logo {
-  border-radius: 50px;
   overflow: hidden;
   /* background-color: var(--cluster-yellow); */
   width: 80px;
@@ -503,65 +505,83 @@ footer div {
 /* ////////MENU HEADER/////////// */
 
 .burger {
-  -webkit-transition: all 2s ease-in-out;
-  transition: all 2s ease-in-out;
-  gap: 10px;
-}
-.burger img {
-  transition: all 1s ease-in-out;
+  -webkit-transition: height 0.5s ease-in-out;
+  transition: height 0.5s ease-in-out;
+  width: auto;
 }
 .burger.open {
   height: auto;
   max-height: 80000px;
-  width: auto;
 }
 .burger.closed {
-  max-height: 120px;
-  width: auto;
+  height: 120px;
   max-width: 100%;
 }
-.burger .burgerLayer {
-  transition: all 1s ease-in-out, background-color 1s ease-in-out 1s;
+.burgerLayer {
+  transition: margin 0.5s ease-in, width 0.5s ease-in;
   padding: 0px 0px 0px 0px;
+  border-radius: 16.5px;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .burgerLayer.closed {
-  margin-top: -20px;
-  margin-bottom: -20px;
+  margin-top: -8px;
+  margin-bottom: -10px;
   padding: 0;
-  transition: all 1s ease-in-out, background-color 0.1s ease-in-out 0s;
+}
+.burgerLayer.open {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+}
+.burgerTop,
+.burgerBottom {
+  transition: margin 0.5s ease-in-out;
+}
+
+.burgerTop.closed {
+  margin-bottom: -20px;
+}
+.burgerBottom.closed {
+  margin-top: -20px;
 }
 
 .smallBurger.burgerLayer.closed {
-  margin-top: -20px;
-  margin-bottom: -20px;
-
-  transition: all 1s ease-in-out, background-color 0.1s ease-in-out 0s;
+  margin-top: -6px;
+  margin-bottom: -10px;
+  transition: margin 0.5s ease-in;
 }
 .smallBurger.closed {
-  margin-top: -8px;
-  margin-bottom: -8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
-.burgerLayer.open {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  /* padding: 7px 12px 7px 12px; */
+.burgerLayer p {
+  width: 0;
+  max-width: 0;
+  text-align: right;
+  transition: width 0.1s ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.burgerLayer.interactable:hover {
   background-color: var(--button-color);
-  border-radius: 16.5px;
-  display: flex;
 }
-.burgerbun {
-  transition: all 2s ease-in-out;
+
+.burgerLayer.interactable:hover p {
+  width: auto;
+  max-width: 500px;
+  padding-left: 12px;
 }
+
+/* .burgerbun {
+  transition: all 0.1s ease-in-out;
+} */
 .smallBurger.burgerbun img {
   width: 60px;
 }
-.burgerTop.closed {
-  margin-bottom: -25px;
-}
-.burgerBottom.closed {
-  margin-top: -25px;
-}
+
 .burgerTop.open {
   /* padding-bottom: 10px; */
   margin-bottom: 0px;
@@ -571,26 +591,8 @@ footer div {
   /* padding-top: 10px; */
 }
 .burgerLayer img {
-  transition: all 1s ease-in-out;
+  /* transition: all 1s ease-in-out; */
   padding: 0;
-}
-.burgerLayer p {
-  width: 0;
-  max-width: 0;
-  text-align: right;
-  transition: all 1s ease-in-out;
-  overflow: hidden;
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.burgerLayer.interactable:hover p {
-  /* margin-right: 12px; */
-  width: auto;
-  max-width: 500px;
-  transition: all 0.3s ease-in-out;
-  /* margin-left: 12px; */
-  padding-left: 12px;
 }
 
 .mobileMenu {
@@ -1367,7 +1369,7 @@ iframe,
     /* margin-right: 12px; */
     width: auto;
     max-width: 500px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.01s ease-in-out;
     /* margin-left: 12px; */
     padding-left: 12px;
   }
@@ -1392,23 +1394,33 @@ iframe,
   }
   .burger.open img {
     visibility: hidden;
-    transition: all 0s;
+    /* transition: all 0s; */
   }
   .burgerLayer.open img {
     visibility: visible;
-    transition: all 0s;
+    /* transition: all 0s; */
   }
   .burgerLayer.closed {
-    margin-top: -20px;
-    margin-bottom: -20px;
+    margin-top: -10px;
+    margin-bottom: -26px;
   }
   .burgerTop.closed {
     margin-bottom: -20px;
   }
   .burgerBottom.closed {
-    margin-top: -20px;
+    margin-top: -5px;
   }
 
+  .smallBurger.burgerLayer.closed {
+    margin-top: -15px;
+    margin-bottom: -17px;
+  }
+  .burgerTop.closed {
+    margin-bottom: -20px;
+  }
+  .burger img:is(:first-child) {
+    transition: padding 0.5s ease-in-out;
+  }
   .burger.open img:is(:first-child) {
     padding-bottom: 32px;
   }

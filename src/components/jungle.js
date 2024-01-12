@@ -95,7 +95,12 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
           height: height,
           background: "black",
         }}
-        camera={{ position: [0, 0, 25], near: 0.1, far: 10000 }}
+        camera={{
+          position: [0, 0, 25],
+          near: 0.1,
+          far: 10000,
+          orthographic: true,
+        }}
       >
         {isMobile ? (
           <DeviceOrientationControls />
@@ -172,10 +177,12 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
           );
         }}
         onPointerOver={(ev) => {
-          // console.log("over");
-          ev.object.material.color = new Color(
-            denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
-          );
+          console.log("object in scene", ev);
+          if (ev.object.name.includes("Cube")) {
+            ev.object.material.color = new Color(
+              denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
+            );
+          }
         }}
         onClick={(ev) => {
           if (!ev.object.name.includes("loft")) {
@@ -205,7 +212,7 @@ function Particles() {
   const points = Array(count).fill(0);
   const size = 2;
   const positionFactor = 144;
-  const rotationSpeed = 0.1;
+  const rotationSpeed = 0.05;
 
   const particleTexture = useTexture(particleUrl);
 

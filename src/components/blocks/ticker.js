@@ -18,9 +18,9 @@ const TickerComp = () => {
 
   useEffect(() => {
     if (width > 1000) {
-      speed = 100;
+      speed = 60;
     } else if (width > 600) {
-      speed = 50;
+      speed = 30;
     } else {
       speed = 20;
     }

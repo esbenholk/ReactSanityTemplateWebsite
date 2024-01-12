@@ -752,7 +752,7 @@ export default function Projects({
           bottom: 0,
           pointerEvents: sortingMenuOpen ? "all" : "none",
           display: sortingMenuOpen ? "flex" : "none",
-          zIndex: 999,
+          zIndex: 9,
           overflowY: "scroll",
         }}
       >
@@ -760,7 +760,18 @@ export default function Projects({
           <div
             className={isMenuIntro ? "flex-column gap" : "flex-row column wrap"}
           >
-            {" "}
+            {isMenuIntro && (
+              <button
+                className="standardButton featured interactable "
+                onClick={(evt) => {
+                  setIsMenuIntro(false);
+                  window.scrollTo(0, 0);
+                }}
+                style={{ backgroundColor: "yellow" }}
+              >
+                ALL FILTERS
+              </button>
+            )}{" "}
             {displayCategoryButton &&
               categories &&
               categories.map(
@@ -893,18 +904,6 @@ export default function Projects({
               </button>
             ))}
         </div>
-        {isMenuIntro && (
-          <button
-            className="standardButton featured interactable "
-            onClick={(evt) => {
-              setIsMenuIntro(false);
-              window.scrollTo(0, 0);
-            }}
-            style={{ backgroundColor: "yellow" }}
-          >
-            ALL FILTERS
-          </button>
-        )}
       </div>
 
       {heading ? (

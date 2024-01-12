@@ -29,6 +29,7 @@ export function HeaderLogoButton({
                 : "logo circleIcon header-padding"
             }
             style={{
+              zIndex: 999999,
               objectPosition:
                 info.logo && info.logo.hotspot
                   ? `${info.logo.hotspot.x * 100}% ${
@@ -90,7 +91,7 @@ export default function Header({ pageName, projectName }) {
       setMenuOpen(true);
       setTimeout(() => {
         setuserCanInteract(true);
-      }, 1500);
+      }, 500);
     } else {
       setMenuOpen(false);
       setuserCanInteract(false);
@@ -131,7 +132,7 @@ export default function Header({ pageName, projectName }) {
             ToggleMobileMenu(false);
           }}
           style={{
-            zIndex: 9999999,
+            zIndex: 999999999999999,
             position: "fixed",
             top: "0",
             right: "0",
@@ -180,7 +181,8 @@ export default function Header({ pageName, projectName }) {
                 mobileMenuOpen={mobileMenuOpen}
                 ToggleMobileMenu={ToggleMobileMenu}
               />
-              {location.pathname !== "/" &&
+              {!mobileMenuOpen &&
+              location.pathname !== "/" &&
               pageName &&
               pageName !== "" &&
               pageName.toLowerCase() !== "timeline" ? (
@@ -192,7 +194,8 @@ export default function Header({ pageName, projectName }) {
           )}
         </div>
 
-        {location.pathname !== "/" &&
+        {!mobileMenuOpen &&
+        location.pathname !== "/" &&
         projectName !== null &&
         projectName !== "" ? (
           <>
@@ -208,7 +211,10 @@ export default function Header({ pageName, projectName }) {
       {info.headerMenu && (
         <div
           className="top fixed right header-padding menuContainer"
-          style={{ maxWidth: `${location.pathname === "/" ? "80px" : "50px"}` }}
+          style={{
+            maxWidth: `${location.pathname === "/" ? "80px" : "60px"}`,
+            zIndex: 999999,
+          }}
         >
           <div
             open={menuOpen}
@@ -236,9 +242,9 @@ export default function Header({ pageName, projectName }) {
                 className={`burgerTop burgerbun  ${
                   menuOpen ? " open" : "closed"
                 }`}
-                style={{ zIndex: 20 }}
+                style={{ zIndex: 999999 + 20 }}
               >
-                <MenuImage width={80} image={info.burgerTop} />
+                <MenuImage width={90} image={info.burgerTop} />
               </div>
             )}
 
@@ -260,17 +266,17 @@ export default function Header({ pageName, projectName }) {
                           ToggleMenu(false);
                         }
                       }}
-                      className={`flex-row burgerLayer  ${
-                        location.pathname !== "/" ? "smallBurger" : "bigBurger"
-                      } ${menuOpen ? " open" : "closed"} ${
+                      className={`flex-row burgerLayer   ${
+                        menuOpen ? " open" : "closed"
+                      } ${
                         userCanInteract ? " interactable" : "notInteractable"
                       }`}
                       style={{
-                        zIndex: 10 - index,
+                        zIndex: 999999 + 10 - index,
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
-                      <MenuImage height={35} image={menuItem.image} />
+                      <MenuImage height={40} image={menuItem.image} />
                     </a>
                   </>
                 ) : (
@@ -303,17 +309,17 @@ export default function Header({ pageName, projectName }) {
                           ToggleMenu(false);
                         }
                       }}
-                      className={`flex-row burgerLayer  ${
-                        location.pathname !== "/" ? "smallBurger" : "bigBurger"
-                      } ${menuOpen ? " open" : "closed"} ${
+                      className={`flex-row burgerLayer   ${
+                        menuOpen ? " open" : "closed"
+                      } ${
                         userCanInteract ? " interactable" : "notInteractable"
                       }`}
                       style={{
-                        zIndex: 10 - index,
+                        zIndex: 999999 + 10 - index,
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
-                      <MenuImage height={35} image={menuItem.image} />
+                      <MenuImage height={40} image={menuItem.image} />
                     </NavLink>
                   </>
                 )}
@@ -324,9 +330,9 @@ export default function Header({ pageName, projectName }) {
                 className={`burgerBottom burgerbun  ${
                   menuOpen ? " open" : "closed"
                 }`}
-                style={{ zIndex: 0 }}
+                style={{ zIndex: 999999 + 0 }}
               >
-                <MenuImage width={80} image={info.burgerBottom} />
+                <MenuImage width={90} image={info.burgerBottom} />
               </div>
             )}
           </div>
@@ -344,7 +350,7 @@ export default function Header({ pageName, projectName }) {
           bottom: 0,
 
           display: "none",
-          zIndex: 999,
+          zIndex: 99999,
         }}
       ></div>
     </div>

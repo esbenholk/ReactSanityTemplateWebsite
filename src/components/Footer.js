@@ -17,7 +17,7 @@ export default function Footer() {
   useEffect(() => {
     const tempGreetingIndex = setInterval(() => {
       setGreetingIndex(Math.floor(Math.random() * info.greetings.length));
-    }, 1000);
+    }, 10000);
     return () => {
       clearInterval(tempGreetingIndex);
     };
@@ -27,7 +27,14 @@ export default function Footer() {
     <div>
       <footer>
         {info.greetings[greetingIndex] != null ? (
-          <div className="greeting">
+          <div
+            className="greeting"
+            onClick={() => {
+              setGreetingIndex(
+                Math.floor(Math.random() * info.greetings.length)
+              );
+            }}
+          >
             {info.greetings[greetingIndex].content &&
             info.greetings[greetingIndex].content.length > 0 ? (
               <BlockContent blocks={info.greetings[greetingIndex].content} />

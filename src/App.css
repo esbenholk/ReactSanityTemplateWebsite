@@ -226,6 +226,7 @@ h1 {
   font-style: normal;
   font-weight: 400;
   line-height: 64px;
+  white-space: wrap;
 }
 h1 strong {
   font-weight: 700;
@@ -238,6 +239,7 @@ h2 {
   font-weight: 400;
   line-height: 52px;
   margin: 5px 0 5px;
+  white-space: wrap;
 }
 h2 strong {
   font-weight: 700;
@@ -249,6 +251,7 @@ h3 {
   font-style: normal;
   font-weight: 400;
   line-height: 36px; /* 112.5% */
+  white-space: wrap;
 }
 h3 strong {
   font-weight: 700;
@@ -260,6 +263,7 @@ h4 {
   font-style: normal;
   font-weight: 400;
   line-height: 36px; /* 112.5% */
+  white-space: wrap;
 }
 h4 strong {
   font-weight: 700;
@@ -271,6 +275,7 @@ h5 {
   font-style: normal;
   font-weight: 400;
   line-height: 36px; /* 112.5% */
+  white-space: wrap;
 }
 h5 strong {
   font-weight: 700;
@@ -503,7 +508,7 @@ a {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: var(--cluster-yellow);
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .circleIcon.logo {
@@ -515,7 +520,9 @@ a {
 }
 
 .circleIcon:hover {
-  box-shadow: 0px -4px 14px 0px #000000b2 inset, 0px 4px 7px 0px #000000b2;
+  box-shadow: 0px -4px 14px 0px rgba(0, 0, 0, 0.45) inset,
+    0px 4px 3px 0px rgba(0, 0, 0, 0.5);
+  filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.05));
 }
 
 .institutionLink {
@@ -532,7 +539,7 @@ a {
 }
 
 footer {
-  padding: var(--padding);
+  padding: 50px;
   background-color: var(--primary-color);
   color: var(--secondary-color);
 }
@@ -580,7 +587,7 @@ footer div {
   max-height: 80000px;
 }
 .burger.closed {
-  max-height: 100px;
+  max-height: 110px;
   max-width: 100%;
 }
 .burgerLayer {
@@ -699,7 +706,7 @@ footer div {
 .header-padding {
   margin-top: 22px;
   margin-left: 27px;
-  margin-right: 27px;
+  margin-right: 15px;
   margin-bottom: 22px;
 }
 
@@ -844,7 +851,7 @@ footer div {
 
 .showcaseGrid {
   position: relative;
-  padding: 10px;
+  padding: 22px;
   padding-top: 150px;
   padding-bottom: 150px;
 }
@@ -870,11 +877,12 @@ footer div {
 /* .pressCard img {
   opacity: 0;
 } */
+
 .pressCard span,
 .pressCard img {
   height: 376px;
   width: 596px;
-  border-radius: 10px;
+  border-radius: 15px;
   object-fit: cover;
   border-radius: 5px;
   background: linear-gradient(0deg, #d7d7d7 0%, #d7d7d7 100%),
@@ -882,6 +890,10 @@ footer div {
 }
 .pressCard img:hover {
   box-shadow: -8px 4px 17px 0px rgba(0, 0, 0, 0.25);
+}
+
+.pressCard .smallp:is(:first-child) {
+  margin-bottom: 15px;
 }
 .pressCardContent {
   margin-left: 8px;
@@ -1165,6 +1177,12 @@ iframe,
     --padding: var(--paddingValue) var(--paddingValue);
   }
 
+  footer {
+    padding: 35px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+  }
+
   .buttonDown {
     position: absolute;
     bottom: 0;
@@ -1416,9 +1434,13 @@ iframe,
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
   .grid {
     padding: var(--mobile-padding);
+  }
+  .list {
+    padding: var(--mobile-padding);
+    padding-top: 100px;
   }
 }
 

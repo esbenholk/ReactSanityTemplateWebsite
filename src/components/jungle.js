@@ -107,6 +107,13 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
         ) : (
           <FirstPersonControls activeLook={true} lookSpeed={0.09} />
         )}
+        {/* <OrthographicCamera
+          makeDefault
+          zoom={1}
+          near={1}
+          far={2000}
+          position={[0, 0, 25]}
+        /> */}
 
         <Suspense fallback={null}>
           {cubeMapTextureUrls.length > 5 && (
@@ -212,56 +219,77 @@ function Particles() {
   const points = Array(count).fill(0);
   const size = 2;
   const positionFactor = 144;
-  const rotationSpeed = 0.05;
+  const rotationSpeed = 0.03;
 
   const particleTexture = useTexture(particleUrl);
 
   const particlesRef1 = useRef();
+  const particlesRef2 = useRef();
 
   useFrame(({ clock }) => {
     const elapsedTime = clock.getElapsedTime();
     particlesRef1.current.rotation.y = elapsedTime * rotationSpeed;
     particlesRef1.current.rotation.z = (elapsedTime * rotationSpeed) / 2;
+
+    particlesRef2.current.rotation.x = elapsedTime * rotationSpeed;
+    particlesRef2.current.rotation.y = (elapsedTime * rotationSpeed) / 2;
   });
 
   return (
-    <Points ref={particlesRef1} limit={10000}>
-      <PointMaterial
-        size={size}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        sizeAttenuation
-        vertexColors
-        map={particleTexture}
-        alphaMap={particleTexture}
-        toneMapped={false}
-      />
-
-      {points.map((_, i) => (
-        <Point
-          key={i}
-          position={[
-            (0.5 - xpositions[i]) * positionFactor,
-            (0.5 - ypositions[i]) * positionFactor,
-            (0.5 - zpositions[i]) * positionFactor,
-          ]}
-          color={"white"}
+    <>
+      <Points ref={particlesRef1} limit={10000}>
+        <PointMaterial
+          size={size}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          vertexColors
+          map={particleTexture}
+          alphaMap={particleTexture}
+          toneMapped={false}
         />
-        // <></>
-      ))}
-    </Points>
-    // <points>
-    //   <bufferGeometry>
-    //     <bufferAttribute
-    //       attach="attributes-position"
-    //       count={particlesCount}
-    //       itemSize={3}
-    //       array={particlePositions}
-    //     />
-    //   </bufferGeometry>
-    //   <pointsMaterial size={0.04} color={"white"} transparent />
-    // </points>
+
+        {points.map((_, i) => (
+          <Point
+            key={i}
+            position={[
+              (0.5 - xpositions[i]) * positionFactor,
+              (0.5 - ypositions[i]) * positionFactor,
+              (0.5 - zpositions[i]) * positionFactor,
+            ]}
+            color={"white"}
+          />
+          // <></>
+        ))}
+      </Points>
+      <Points ref={particlesRef2} limit={10000}>
+        <PointMaterial
+          size={size}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          vertexColors
+          map={particleTexture}
+          alphaMap={particleTexture}
+          toneMapped={false}
+        />
+
+        {points.map((_, i) => (
+          <Point
+            key={i}
+            position={[
+              (0.5 - xpositions[i]) * positionFactor,
+              (0.5 - ypositions[zpositions.length - i]) * positionFactor,
+              (0.5 - zpositions[i]) * positionFactor,
+            ]}
+            color={"white"}
+          />
+          // <></>
+        ))}
+      </Points>
+    </>
   );
 }
 export default Jungle;

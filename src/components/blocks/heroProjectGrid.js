@@ -10,7 +10,7 @@ function HeroProjectGrid({ image, logo, time, place, slug, year }) {
   return (
     <>
       {" "}
-      {width > 600 ? (
+      {width > 900 ? (
         <div
           className="hero"
           onMouseEnter={() => setIsActive(true)}

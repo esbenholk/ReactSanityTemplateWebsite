@@ -6,7 +6,6 @@ import denseCapColors from "./denseCapColors";
 import { xpositions, ypositions, zpositions } from "./pointPositions";
 import { urlFor } from "./blocks/image";
 
-import Loader from "./blocks/loader";
 import {
   Color,
   CubeTextureLoader,

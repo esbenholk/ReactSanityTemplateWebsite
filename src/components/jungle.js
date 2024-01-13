@@ -79,14 +79,6 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 
   return (
     <>
-      {orientationRequestPermission && !orientationPermissionGranted && (
-        <PermissionButton
-          onTouchEnd={() => {
-            // if (mobileControls.current) mobileControls.current.connect();
-            setOrientationPermissionGranted(true);
-          }}
-        />
-      )}
       <Canvas
         id="canvas"
         style={{
@@ -107,36 +99,38 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
         ) : (
           <FirstPersonControls activeLook={true} lookSpeed={0.09} />
         )}
-        {/* <OrthographicCamera
-          makeDefault
-          zoom={1}
-          near={1}
-          far={2000}
-          position={[0, 0, 25]}
-        /> */}
 
         <Suspense fallback={null}>
           {cubeMapTextureUrls.length > 5 && (
             <SkyBox cubeMapTextureUrls={cubeMapTextureUrls} />
-          )}{" "}
+          )}
           <Particles />
-          {/* <Particles /> */}
           <Frames
             updateJungleMenu={updateJungleMenu}
             openJungleMenuLink={openJungleMenuLink}
           />
         </Suspense>
       </Canvas>
+      {orientationRequestPermission && !orientationPermissionGranted && (
+        <PermissionButton
+          onTouchEnd={() => {
+            // if (mobileControls.current) mobileControls.current.connect();
+            setOrientationPermissionGranted(true);
+          }}
+        />
+      )}
     </>
   );
 }
 
 function Frames({ updateJungleMenu, openJungleMenuLink }) {
   const [object, setJungleObj] = useState(useLoader(OBJLoader, objUrl));
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (object) {
-      object.scale.set(1, 1, 1);
+      let x = 0.5;
+      object.scale.set(x, x, x);
       object.rotation.set(0, -Math.PI / 1, 0);
       let tempArray = [];
       object.traverse(function (child) {
@@ -193,7 +187,15 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
         }}
         onClick={(ev) => {
           if (!ev.object.name.includes("loft")) {
-            openJungleMenuLink(ev.object.name.split("_")[0]);
+            if (width > 900) {
+              openJungleMenuLink(ev.object.name.split("_")[0]);
+            } else {
+              updateJungleMenu(
+                false,
+                ev.object.name,
+                ev.object.material.color.getHexString()
+              );
+            }
           }
         }}
         object={object}
@@ -219,6 +221,7 @@ function Particles() {
   const points = Array(count).fill(0);
   const size = 2;
   const positionFactor = 144;
+  const positionFactor2 = 300;
   const rotationSpeed = 0.03;
 
   const particleTexture = useTexture(particleUrl);
@@ -280,13 +283,12 @@ function Particles() {
           <Point
             key={i}
             position={[
-              (0.5 - xpositions[i]) * positionFactor,
-              (0.5 - ypositions[zpositions.length - i]) * positionFactor,
-              (0.5 - zpositions[i]) * positionFactor,
+              (0.5 - xpositions[i]) * positionFactor2,
+              (0.5 - ypositions[i]) * positionFactor2,
+              (0.5 - zpositions[i]) * positionFactor2,
             ]}
             color={"white"}
           />
-          // <></>
         ))}
       </Points>
     </>

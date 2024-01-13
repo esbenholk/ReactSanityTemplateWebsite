@@ -7,7 +7,7 @@ const SinglePost = lazy(() => import("./singlePost.js"));
 const SinglePage = lazy(() => import("./page"));
 
 export default function SlugContext({
-  // CategoryNames,
+  updateProjectLogo,
   PageNames,
   updatePageTitle,
   updateProjectTitle,
@@ -29,6 +29,7 @@ export default function SlugContext({
           <SinglePost
             updatePageTitle={updatePageTitle}
             updateProjectTitle={updateProjectTitle}
+            updateProjectLogo={updateProjectLogo}
           />
           {/* {CategoryNames.find((name) => name.toLowerCase() === slug) ? (
             <Category />

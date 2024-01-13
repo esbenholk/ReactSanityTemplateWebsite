@@ -13,9 +13,10 @@ export function HeaderLogoButton({
 }) {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
-  const logoUrl = urlFor(info.logo.asset).width(60).url();
+  const logoUrl = urlFor(info.logo.asset).width(80).url();
   const { width } = useWindowDimensions();
   const location = useLocation();
+
   return (
     <>
       {" "}
@@ -68,7 +69,7 @@ export function HeaderLogoButton({
     </>
   );
 }
-export default function Header({ pageName, projectName }) {
+export default function Header({ pageName, projectName, projectLogo }) {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -81,7 +82,6 @@ export default function Header({ pageName, projectName }) {
   const navigate = useNavigate();
 
   const mobileMenu = useRef(null);
-
   useEffect(() => {
     ToggleMobileMenu(false);
   }, [slug]);
@@ -194,13 +194,16 @@ export default function Header({ pageName, projectName }) {
           )}
         </div>
 
-        {!mobileMenuOpen &&
-        location.pathname !== "/" &&
+        {location.pathname !== "/" &&
         projectName !== null &&
         projectName !== "" ? (
           <>
             <div className="headingButton lightButton projectTitle">
-              <p>{projectName}</p>
+              {projectLogo ? (
+                <img src={projectLogo} className="logoImage" alt="logo" />
+              ) : (
+                <p>{projectName}</p>
+              )}
             </div>
 
             <div className="header-padding circleIcon empty"> </div>
@@ -215,19 +218,20 @@ export default function Header({ pageName, projectName }) {
             maxWidth: `${location.pathname === "/" ? "80px" : "60px"}`,
             zIndex: 999999,
           }}
+          onMouseEnter={() => {
+            if (width > 600) {
+              ToggleMenu(true);
+            }
+          }}
+          onMouseLeave={() => {
+            if (width > 600) {
+              ToggleMenu(false);
+            }
+          }}
         >
           <div
-            open={menuOpen}
-            onMouseEnter={() => {
-              if (width > 600) {
-                ToggleMenu(true);
-              }
-            }}
-            onMouseLeave={() => {
-              if (width > 600) {
-                ToggleMenu(false);
-              }
-            }}
+            // open={menuOpen}
+
             onClick={() => {
               if (width < 600 && !mobileMenuOpen) {
                 ToggleMobileMenu(true);
@@ -235,7 +239,7 @@ export default function Header({ pageName, projectName }) {
             }}
             className={`flex-column align-right burger  ${
               menuOpen ? " open" : "closed"
-            }`}
+            }${location.pathname !== "/" ? " small" : " big"}`}
           >
             {info.burgerTop && (
               <div

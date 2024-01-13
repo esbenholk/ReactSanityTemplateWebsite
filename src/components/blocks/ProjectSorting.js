@@ -16,7 +16,7 @@ export default function Projects({
   heading,
 }) {
   const myContext = useContext(AppContext);
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const { slug } = useParams();
   const [searchSlug, setSearchSlug] = useState();
   const [searchParams] = useSearchParams();
@@ -767,6 +767,16 @@ export default function Projects({
                   setIsMenuIntro(false);
                   window.scrollTo(0, 0);
                 }}
+                style={{
+                  height:
+                    isMenuIntro &&
+                    `${
+                      (height - 120) /
+                      (categories.filter((category) => category.isFeatured)
+                        .length +
+                        1)
+                    }px`,
+                }}
               >
                 ALL FILTERS
               </button>
@@ -778,11 +788,20 @@ export default function Projects({
                   category.isFeatured && (
                     <button
                       style={{
+                        height:
+                          isMenuIntro &&
+                          `${
+                            (height - 120) /
+                            (categories.filter(
+                              (category) => category.isFeatured
+                            ).length +
+                              1)
+                          }px`,
                         backgroundColor: !currentCategories.includes(
                           category.title
                         )
                           ? category.color
-                          : "yellow",
+                          : "#ffeb01",
                       }}
                       className={
                         isMenuIntro
@@ -823,7 +842,7 @@ export default function Projects({
                           category.title
                         )
                           ? category.color
-                          : "yellow",
+                          : "#ffeb01",
                       }}
                       className="sortingButton standardButton  category"
                       key={index}
@@ -844,7 +863,7 @@ export default function Projects({
                 <button
                   className="sortingButton standardButton  tag"
                   style={{
-                    backgroundColor: currentTags.includes(tag) && "yellow",
+                    backgroundColor: currentTags.includes(tag) && "#ffeb01",
                     color: currentTags.includes(tag) && "black",
                   }}
                   key={index}
@@ -865,7 +884,7 @@ export default function Projects({
                 <button
                   className="sortingButton standardButton  tag"
                   style={{
-                    backgroundColor: currentYears.includes(year) && "yellow",
+                    backgroundColor: currentYears.includes(year) && "#ffeb01",
                     color: currentYears.includes(year) && "black",
                   }}
                   key={index}
@@ -893,7 +912,7 @@ export default function Projects({
                 className="sortingButton standardButton collaborator"
                 style={{
                   backgroundColor:
-                    currentCollaborators.includes(collaborator) && "yellow",
+                    currentCollaborators.includes(collaborator) && "#ffeb01",
                 }}
                 key={index}
                 id={"collaborator_" + collaborator.toString()}

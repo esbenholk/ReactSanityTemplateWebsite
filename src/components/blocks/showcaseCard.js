@@ -27,9 +27,11 @@ export default function ShowcaseCard({ post }) {
           ) : null}
         </div> */}
         {post.categories && post.categories.length > 0 && (
-          <p className="year standardButton minip lightButton">
-            {post.categories[0].title}
-          </p>
+          <NavLink to={"/timeline?" + post.categories[0].slug.current}>
+            <p className="year standardButton minip lightButton">
+              {post.categories[0].title}
+            </p>
+          </NavLink>
         )}
       </div>
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>

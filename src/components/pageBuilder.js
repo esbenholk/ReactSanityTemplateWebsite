@@ -214,15 +214,16 @@ function PageBlockContainer({
           {pageBlock.title}
         </h2>
       ) : null}
-      {pageBlock.pageBuilder.map((page, index) => (
-        <PageBlock
-          key={index}
-          pageBlock={page}
-          color={color}
-          updatePageTitle={updatePageTitle}
-          updateProjectTitle={updateProjectTitle}
-        />
-      ))}
+      {pageBlock.pageBuilder &&
+        pageBlock.pageBuilder.map((page, index) => (
+          <PageBlock
+            key={index}
+            pageBlock={page}
+            color={color}
+            updatePageTitle={updatePageTitle}
+            updateProjectTitle={updateProjectTitle}
+          />
+        ))}
     </div>
   );
 }

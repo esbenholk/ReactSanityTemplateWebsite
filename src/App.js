@@ -29,12 +29,17 @@ function App() {
   const [pageNames, setPageNames] = useState([]);
   const [pageTitle, setPageTitle] = useState();
   const [projectTitle, setProjectTitle] = useState();
+  const [projectLogo, setProjectLogo] = useState();
 
   const updatePageTitle = (newTitle) => {
     setPageTitle(newTitle);
   };
   const updateProjectTitle = (newTitle) => {
     setProjectTitle(newTitle);
+  };
+
+  const updateProjectLogo = (newLogo) => {
+    setProjectLogo(newLogo);
   };
 
   useEffect(() => {
@@ -118,7 +123,11 @@ function App() {
             <AppContext.Provider value={globalContext}>
               <BrowserRouter>
                 {siteSettings && (
-                  <Header pageName={pageTitle} projectName={projectTitle} />
+                  <Header
+                    pageName={pageTitle}
+                    projectName={projectTitle}
+                    projectLogo={projectLogo}
+                  />
                 )}
                 <motion.div
                   className="mainContainer"
@@ -143,6 +152,7 @@ function App() {
                             PageNames={pageNames}
                             updatePageTitle={updatePageTitle}
                             updateProjectTitle={updateProjectTitle}
+                            updateProjectLogo={updateProjectLogo}
                           />
                         )
                       }

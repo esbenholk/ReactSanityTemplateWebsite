@@ -3,23 +3,43 @@ import AppContext from "../globalState";
 import PageBuilder from "./pageBuilder";
 import Jungle from "./jungle";
 import { MenuImage } from "./menuItem";
-// import Image from "./blocks/image";
+import Image from "./blocks/image";
 import { NavLink } from "react-router-dom";
 import useWindowDimensions from "./functions/useWindowDimensions";
 
 export default function LandingPage() {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
-  const { height } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
 
   const [jungleMenuIsOpen, setJungleMenuIsOpen] = useState(false);
+  const [jungleMenuItem, setJungleMenuItem] = useState({
+    description: "hej",
+    url: "/about-us",
+    image: info.mainImage,
+    title: "about us",
+    color: "8E8E8E",
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  function updateJungleMenu(bool, name, color) {
-    console.log(name, color);
 
-    setJungleMenuIsOpen(bool);
+  function updateJungleMenu(bool, name, color) {
+    let navObject = info.junglenavigation.find((item) =>
+      item.title.includes(name.split("_")[0])
+    );
+    if (navObject && navObject.frameTitle) {
+      let currentJungleItem = {
+        description: navObject.frameDescription,
+        url: navObject.url,
+        image: navObject.image,
+        title: navObject.frameTitle,
+        color: color,
+      };
+      setJungleMenuItem(currentJungleItem);
+      setJungleMenuIsOpen(bool);
+    }
   }
 
   function openJungleMenuLink(name) {
@@ -45,11 +65,6 @@ export default function LandingPage() {
   return (
     <div>
       <div className="jungleContainer" style={{ position: "relative" }}>
-        <div
-          className={
-            jungleMenuIsOpen ? " open jungleMenuFrame" : "jungleMenuFrame"
-          }
-        ></div>
         {info.cubeMap && (
           <Jungle
             cubeMap={info.cubeMap}
@@ -101,6 +116,47 @@ export default function LandingPage() {
                 <p>{info.rightButtonLink.title}</p>
               )}
             </NavLink>{" "}
+          </div>
+        )}
+
+        {jungleMenuItem && (
+          <div
+            className={`jungleMenuFrame flex-column ${
+              jungleMenuIsOpen && " open "
+            }`}
+          >
+            <NavLink
+              to={jungleMenuItem.url}
+              className="jungleMenuFrameFrame"
+              style={{
+                border: `#${jungleMenuItem.color} ${
+                  width > 900 ? "16px " : "10px"
+                } solid`,
+              }}
+            >
+              {jungleMenuItem.title && (
+                <div
+                  style={{
+                    backgroundColor: `#${jungleMenuItem.color}`,
+                  }}
+                  className="jungleMenuFrameTitle"
+                >
+                  <p>{jungleMenuItem.title}</p>
+                </div>
+              )}
+              {jungleMenuItem.image && (
+                <div className="flex-column align-center justify-center">
+                  <Image image={jungleMenuItem.image} width={200} />
+                </div>
+              )}
+            </NavLink>{" "}
+            {jungleMenuItem.description && (
+              <div className="jungleMenuFrameDescription">
+                <p style={{ color: `#${jungleMenuItem.color}` }}>
+                  {jungleMenuItem.description}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

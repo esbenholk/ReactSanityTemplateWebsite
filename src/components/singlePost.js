@@ -11,7 +11,11 @@ import BlockContent from "./blocks/BlockContent";
 import Hero from "./blocks/hero";
 import { NavLink } from "react-router-dom";
 
-export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
+export default function SinglePost({
+  updatePageTitle,
+  updateProjectTitle,
+  updateProjectLogo,
+}) {
   const { slug } = useParams();
   const [project, setProject] = useState();
   const scollToRef = useRef();
@@ -19,15 +23,20 @@ export default function SinglePost({ updatePageTitle, updateProjectTitle }) {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "project" && slug.current == "${slug}"]{ title, color, introduction, place, description, slug,year,time, mainImage, heroImage, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
+        `*[_type == "project" && slug.current == "${slug}"]{ title, color, introduction, place, description, slug,year,time, mainImage, heroImage,logoImage{asset->{url}}, type, tags, categories[]->{title, slug, color},${pageBuilderquerystring}} `
       )
       .then((data) => {
         setProject(data[0]);
         updatePageTitle("");
         updateProjectTitle(data[0].title);
+
+        if (data[0].logoImage !== null) {
+          console.log("updates logo", data[0].logoImage);
+          updateProjectLogo(data[0].logoImage.asset.url);
+        }
       })
       .catch(console.error);
-  }, [slug, updatePageTitle, updateProjectTitle]);
+  }, [slug, updatePageTitle, updateProjectTitle, updateProjectLogo]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -56,7 +56,7 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
       window.DeviceOrientationEvent &&
         typeof window.DeviceOrientationEvent.requestPermission === "function"
     );
-  }, [isMobile]);
+  }, []);
 
   function askingForPermission() {
     DeviceMotionEvent.requestPermission().then((permissionState) => {
@@ -126,7 +126,6 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
         <PermissionButton
           onTouchEnd={() => {
             askingForPermission();
-            // if (mobileControls.current) mobileControls.current.connect();
             setOrientationPermissionGranted(true);
             setIsMobile(true);
           }}

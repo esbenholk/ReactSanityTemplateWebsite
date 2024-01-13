@@ -53,8 +53,10 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
   useEffect(() => {
     setIsMobile(window.DeviceOrientationEvent && "ontouchstart" in window);
     setOrientationRequestPermission(
-      window.DeviceOrientationEvent &&
-        typeof window.DeviceOrientationEvent.requestPermission === "function"
+      (window.DeviceOrientationEvent &&
+        typeof window.DeviceOrientationEvent.requestPermission ===
+          "function") ||
+        DeviceMotionEvent.permissionState === "granted"
     );
   }, []);
 

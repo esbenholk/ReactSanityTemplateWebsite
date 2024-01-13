@@ -24,6 +24,7 @@ export default function Projects({
   const [sortingMenuOpen, setSortingMenuOpen] = useState(false);
   const [shouldShowSortingMenu, setShouldShowSortingMenu] = useState(false);
   const [showFilteringTags, setShowFilteringTags] = useState(true);
+  const [mode, setMode] = useState("grid");
 
   const [allPosts, setAllPosts] = useState(projectList);
   const [sortedPosts, setSortedPosts] = useState(null);
@@ -230,8 +231,45 @@ export default function Projects({
     setTimelineYears(tempTimeLineYearObjects);
   }
 
+  function doElsCollide(element1, element2) {
+    const rect1 = element1.getBoundingClientRect();
+    const rect2 = element2.getBoundingClientRect();
+    if (
+      !(
+        rect1.right < rect2.left ||
+        rect1.left > rect2.right ||
+        rect1.bottom < rect2.top ||
+        rect1.top > rect2.bottom
+      )
+    ) {
+      console.log("Elements are touching or overlapping");
+    } else {
+      console.log("Elements are not touching or overlapping");
+    }
+    return !(
+      rect1.right < rect2.left ||
+      rect1.left > rect2.right ||
+      rect1.bottom < rect2.top ||
+      rect1.top > rect2.bottom
+    );
+  }
+
   useEffect(() => {
     const params = [];
+
+    const handleScroll = (event) => {
+      let yearHeadlines = document.getElementsByClassName("yearHeadline");
+      let headlinePLace = document.getElementById("headLinePlace");
+      console.log(headlinePLace);
+      for (let index = 0; index < yearHeadlines.length; index++) {
+        const element = yearHeadlines[index];
+        if (element && doElsCollide(element, headlinePLace)) {
+          headlinePLace.childNodes[0].innerText = element.innerText;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
 
     searchParams.forEach((value, key) => {
       params.push([key, value]);
@@ -277,13 +315,6 @@ export default function Projects({
               tempCategories.push(category.title);
               setCurrentCategories(tempCategories);
 
-              // console.log("sets category active from url");
-              // let button = document.getElementById(
-              //   "category_" + category.title
-              // );
-              // if (button) {
-              //   button.classList.add("active");
-              // }
               setTimeout(() => {
                 setFilterHasChanged(false);
               }, 10);
@@ -415,7 +446,6 @@ export default function Projects({
       setCurrentCategories(tempCategories);
     }
   }
-
   function removeAllQueries() {
     currentCategories.forEach((category) => {
       removeCategory(category);
@@ -448,9 +478,6 @@ export default function Projects({
 
   return (
     <div className="projects">
-      <div className={"fixed top right"}>
-        <button></button>
-      </div>
       {shouldShowSortingMenu && (
         <div className={"fixed top flex-row align-center gap wrap"}>
           <HeaderLogoButton projectName={""} />
@@ -623,6 +650,19 @@ export default function Projects({
                 : ""}
             </p>
           </button>{" "}
+          <div className={""}>
+            <button
+              onClick={() => {
+                if (mode === "grid") {
+                  setMode("scroll");
+                } else {
+                  setMode("grid");
+                }
+              }}
+            >
+              hej
+            </button>
+          </div>
         </div>
       )}
 
@@ -947,12 +987,27 @@ export default function Projects({
         >
           {timelineYears &&
             timelineYears.map((timelineYearObject, index) => (
-              <div key={index}>
-                <p className="timelineYear">{timelineYearObject.year}</p>
-                <div className="flex-row wrap fold">
+              <div
+                key={index}
+                className={`${
+                  mode === "grid"
+                    ? ""
+                    : "flex-column justify-center align-center"
+                } `}
+              >
+                <p className="timelineYear yearHeadline">
+                  {timelineYearObject.year}
+                </p>
+                <div
+                  className={`${
+                    mode === "grid"
+                      ? "flex-row wrap fold "
+                      : "flex-column scrollView justify-center align-center"
+                  } `}
+                >
                   {timelineYearObject.projects &&
                     timelineYearObject.projects.map((project, index) => (
-                      <ShowcaseCard post={project} key={index} />
+                      <ShowcaseCard post={project} key={index} mode={mode} />
                     ))}
                 </div>
               </div>

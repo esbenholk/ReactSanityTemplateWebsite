@@ -209,6 +209,18 @@ export default function Header({ pageName, projectName, projectLogo }) {
             <div className="header-padding circleIcon empty"> </div>
           </>
         ) : null}
+        {location.pathname === "/timeline" && (
+          <>
+            <div
+              className="headingButton lightButton projectTitle"
+              id="headLinePlace"
+            >
+              <p></p>
+            </div>
+
+            <div className="header-padding circleIcon empty"> </div>
+          </>
+        )}
       </div>
 
       {info.headerMenu && (

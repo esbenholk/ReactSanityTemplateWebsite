@@ -57,7 +57,7 @@ const TickerComp = () => {
               <>
                 {" "}
                 {link.title != null ? (
-                  <h4 className="standardButton">{link.title}</h4>
+                  <h1>{link.title}</h1>
                 ) : (
                   <h4 className="standardButton">content incoming</h4>
                 )}

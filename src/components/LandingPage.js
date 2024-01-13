@@ -29,7 +29,7 @@ export default function LandingPage() {
     let navObject = info.junglenavigation.find((item) =>
       item.title.includes(name.split("_")[0])
     );
-    if (name != "" && navObject && navObject.frameTitle) {
+    if (name !== "" && navObject && navObject.frameTitle) {
       let currentJungleItem = {
         description: navObject.frameDescription,
         url: navObject.url,

@@ -6,7 +6,7 @@ import { Button } from "../menuItem";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import { NavLink } from "react-router-dom";
 
-export default function ShowcaseCard({ post }) {
+export default function ShowcaseCard({ post, mode }) {
   const { width } = useWindowDimensions();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -37,8 +37,14 @@ export default function ShowcaseCard({ post }) {
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
         <Image
           image={post.mainImage}
-          height={width > 600 ? 450 : null}
-          width={width > 600 ? null : width - 26}
+          height={mode === "grid" && width > 600 ? 450 : null}
+          width={
+            mode === "grid" && width > 600
+              ? null
+              : mode !== "grid" && width > 800
+              ? 713
+              : width - 26
+          }
           onLoad={updateSetIsLoaded}
         />
       </a>

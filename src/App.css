@@ -122,6 +122,9 @@ a.flex-row {
 .blockItemHeadline {
   padding: var(--paddingValue) 0 10px 50px;
 }
+.blockItemHeadline:is(:first-of-type) {
+  margin-top: 50px;
+}
 .headlinep {
   padding-bottom: 50px;
 }
@@ -195,16 +198,17 @@ p {
   letter-spacing: 0em;
   text-align: left;
   white-space: normal;
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: var(--font-size);
   font-style: normal;
   font-weight: 400;
   line-height: 28px; /* 116.667% */
+  width: fit-content;
 }
 .smallp p,
 .smallp {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 20px;
   font-style: normal;
@@ -223,7 +227,7 @@ p strong {
 }
 
 h1 {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 56px;
   font-style: normal;
@@ -235,7 +239,7 @@ h1 strong {
   font-weight: 700;
 }
 h2 {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 48px;
   font-style: normal;
@@ -248,7 +252,7 @@ h2 strong {
   font-weight: 700;
 }
 h3 {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 32px;
   font-style: normal;
@@ -260,7 +264,7 @@ h3 strong {
   font-weight: 700;
 }
 h4 {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 24px;
   font-style: normal;
@@ -272,7 +276,7 @@ h4 strong {
   font-weight: 700;
 }
 h5 {
-  color: var(--Gray-Palette-800, #27303e);
+  color: var(--primary-color);
   font-family: Arial;
   font-size: 24px;
   font-style: normal;
@@ -294,7 +298,7 @@ a {
   font-size: 45px;
   font-style: normal;
   font-weight: 400;
-  padding-bottom: 40px;
+  padding-bottom: 60px;
   padding-top: 40px;
   line-height: 35.5px; /* 78.889% */
 }
@@ -867,6 +871,7 @@ footer div {
   visibility: visible;
   padding-bottom: 40px;
 }
+
 .hidden {
   visibility: hidden;
 }
@@ -877,6 +882,14 @@ footer div {
 }
 .showcaseCard img {
   border-radius: 10px;
+}
+
+.scrollView .showcaseCard {
+  width: 713px;
+}
+.scrollView .showcaseCard span {
+  width: 713px;
+  max-width: 100%;
 }
 
 /* .pressCard img {
@@ -960,7 +973,7 @@ footer div {
   border: 0px;
 }
 .sortingButton.active {
-  background-color: #ffeb01 !important;
+  background-color: var(--cluster-yellow) !important;
 }
 .sortingMenu .column {
   min-width: 33%;
@@ -1160,6 +1173,10 @@ iframe,
   height: 30px;
 }
 
+.jungleContainer {
+  overflow-y: hidden;
+}
+
 .jungleMenuFrame {
   width: 374px;
   height: 443px;
@@ -1224,6 +1241,13 @@ iframe,
     --margin-size: 15px;
     --paddingValue: 50px;
     --padding: var(--paddingValue) var(--paddingValue);
+  }
+
+  .fullWidthBlock {
+    padding: 10px 10px 0 10px;
+  }
+  .scrollView .showcaseCard {
+    width: 100%;
   }
 
   .jungleMenuFrame {

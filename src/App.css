@@ -717,6 +717,8 @@ footer div {
 
 .hero {
   position: relative;
+  overflow: hidden;
+  margin-bottom: -5px;
 }
 
 .hero span {
@@ -1229,6 +1231,12 @@ iframe,
     max-width: 80%;
     height: 400px;
     max-height: 70%;
+  }
+  .jungleMenuFrameTitle {
+    padding: 5px;
+    position: absolute;
+    top: -5px;
+    left: -5px;
   }
 
   footer {

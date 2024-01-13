@@ -56,7 +56,15 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
       window.DeviceOrientationEvent &&
         typeof window.DeviceOrientationEvent.requestPermission === "function"
     );
-  }, []);
+  }, [isMobile]);
+
+  function askingForPermission() {
+    DeviceMotionEvent.requestPermission().then((permissionState) => {
+      if (permissionState === "granted") {
+        setOrientationPermissionGranted(true);
+      }
+    });
+  }
 
   useEffect(() => {
     let tempArray = [];
@@ -117,8 +125,10 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
       {orientationRequestPermission && !orientationPermissionGranted && (
         <PermissionButton
           onTouchEnd={() => {
+            askingForPermission();
             // if (mobileControls.current) mobileControls.current.connect();
             setOrientationPermissionGranted(true);
+            setIsMobile(true);
           }}
         />
       )}

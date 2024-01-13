@@ -151,10 +151,39 @@ export default function LandingPage() {
               )}
             </NavLink>{" "}
             {jungleMenuItem.description && (
-              <div className="jungleMenuFrameDescription">
+              <div className="jungleMenuFrameDescription flex-row wrap align-center">
                 <p style={{ color: `#${jungleMenuItem.color}` }}>
                   {jungleMenuItem.description}
                 </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_1247_1181"
+                    // style={"mask-type:alpha"}
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="24"
+                    height="24"
+                  >
+                    <rect
+                      width="24"
+                      height="24"
+                      fill={`#${jungleMenuItem.color}`}
+                    />
+                  </mask>
+                  <g mask="url(#mask0_1247_1181)">
+                    <path
+                      d="M14 18L12.6 16.55L16.15 13H4V11H16.15L12.6 7.45L14 6L20 12L14 18Z"
+                      fill={`#${jungleMenuItem.color}`}
+                    />
+                  </g>
+                </svg>
               </div>
             )}
           </div>

@@ -1225,8 +1225,10 @@ iframe,
   }
 
   .jungleMenuFrame {
-    width: fit-content;
-    height: fit-content;
+    width: 333px;
+    max-width: 80%;
+    height: 400px;
+    max-height: 70%;
   }
 
   footer {

@@ -93,6 +93,9 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
           far: 10000,
           orthographic: true,
         }}
+        onPointerMissed={() => {
+          updateJungleMenu(false, "", "");
+        }}
       >
         {isMobile ? (
           <DeviceOrientationControls />
@@ -191,7 +194,7 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
               openJungleMenuLink(ev.object.name.split("_")[0]);
             } else {
               updateJungleMenu(
-                false,
+                true,
                 ev.object.name,
                 ev.object.material.color.getHexString()
               );

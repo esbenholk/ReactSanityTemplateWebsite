@@ -319,6 +319,21 @@ export default function Projects({
             }
           }
         }
+
+        if (post.collaborators != null && Array.isArray(post.collaborators)) {
+          const tempCollaborators = [];
+          for (let index = 0; index < post.collaborators.length; index++) {
+            const collaborator = post.collaborators[index];
+            if (searchSlug === collaborator.slug) {
+              tempCollaborators.push(collaborator.title);
+              setCurrentCollaborators(tempCollaborators);
+              console.log("has collaborator", collaborator.title);
+              setTimeout(() => {
+                setFilterHasChanged(false);
+              }, 10);
+            }
+          }
+        }
       }
     }
   }, [slug, searchParams, allPosts, searchSlug]);
@@ -645,13 +660,13 @@ export default function Projects({
                     sortingMenuOpen && filtersHasChanged
                       ? process.env.PUBLIC_URL + "/filter_list.png"
                       : sortingMenuOpen
-                      ? process.env.PUBLIC_URL + "/close.png"
+                      ? process.env.PUBLIC_URL + "/assets/close.svg"
                       : currentTags.length +
                           currentCategories.length +
                           currentYears.length +
                           currentCollaborators.length >
                         0
-                      ? process.env.PUBLIC_URL + "/close.png"
+                      ? process.env.PUBLIC_URL + "/assets/close.svg"
                       : process.env.PUBLIC_URL + "/filter_list.png"
                   }
                 ></img>
@@ -867,7 +882,7 @@ export default function Projects({
                           : "#ffeb01",
                       }}
                       className={`${isMenuIntro && "featured"} ${
-                        !currentCategories.includes(category.title) && "active"
+                        currentCategories.includes(category.title) && "active"
                       } catButtonBig interactable category`}
                       key={index}
                       id={"category_" + category.title + ""}

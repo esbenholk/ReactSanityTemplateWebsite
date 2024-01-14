@@ -42,7 +42,7 @@ export function HeaderLogoButton({
                 location.pathname !== "/" &&
                 projectName !== null &&
                 projectName !== ""
-                  ? `url(${process.env.PUBLIC_URL + "/assets/returnArrow.png"}`
+                  ? `url(${process.env.PUBLIC_URL + "/assets/arrowBack.svg"}`
                   : `url(${logoUrl}`,
             }}
             onClick={() => {
@@ -185,7 +185,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
               location.pathname !== "/" &&
               pageName &&
               pageName !== "" &&
-              pageName.toLowerCase() !== "timeline" ? (
+              !location.pathname.includes("timeline") ? (
                 <div className="headingButton lightButton">
                   <p>{pageName}</p>
                 </div>

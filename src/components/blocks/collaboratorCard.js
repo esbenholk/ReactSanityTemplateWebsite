@@ -20,7 +20,7 @@ export default function CollaboratorCard({ post }) {
     >
       <div className="flex-row year gap">
         <NavLink
-          to={"/timeline?" + post.title}
+          to={"/timeline?" + post.slug}
           className="catButtonSmall interact"
         >
           <div

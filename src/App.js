@@ -70,7 +70,7 @@ function App() {
   useEffect(() => {
     sanityClient
       .fetch(
-        ' *[_type == "project"]{ title, slug, description, year, mainImage, heroImage, buttons, tags, categories[]->{title, slug, color, isFeatured}, collaborators[]->{title, color, code}}'
+        ' *[_type == "project"]{ title, slug, description, year, mainImage, heroImage, buttons, tags, categories[]->{title, slug, color, isFeatured}, collaborators[]->{title, color, code, slug}}'
       )
       .then((data) => {
         data.sort((a, b) => b.year - a.year);

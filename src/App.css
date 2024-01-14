@@ -226,7 +226,7 @@ p {
   line-height: normal;
 }
 
-.minip.tag {
+.minip.tag p {
   white-space: nowrap;
 }
 
@@ -836,6 +836,10 @@ footer div {
   gap: 3px;
   background-color: var(--third-color);
   margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .pillContent {
@@ -1063,7 +1067,7 @@ footer div {
   display: none;
 }
 .buttonList {
-  max-width: 70%;
+  max-width: 1000px;
   flex-wrap: wrap;
   transform: translate(0, 30px);
 }
@@ -1323,8 +1327,6 @@ iframe,
   }
   .buttonList {
     max-width: 70%;
-    flex-wrap: wrap;
-    transform: translate(0, 20px);
   }
 
   /* .gridView .showcaseCard {
@@ -1517,7 +1519,7 @@ iframe,
   }
 
   .sortingMenu {
-    padding-top: 84px;
+    padding-top: 120px;
     padding-right: 10px;
     padding-left: 10px;
   }
@@ -1535,6 +1537,12 @@ iframe,
     --margin-size: 15px;
     --paddingValue: 14px;
     --padding: var(--paddingValue) var(--paddingValue);
+  }
+  .buttonList {
+    max-width: 70%;
+
+    flex-wrap: wrap;
+    transform: translate(0, 20px);
   }
   .modeButtonContainer {
     right: 50px;

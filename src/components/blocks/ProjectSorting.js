@@ -980,7 +980,7 @@ export default function Projects({
             collaborators &&
             collaborators.map((collaborator, index) => (
               <button
-                className={`${isMenuIntro && "featured"} ${
+                className={`${
                   currentCollaborators.includes(collaborator) && "active"
                 } catButtonBig interactable tag`}
                 style={{

@@ -226,6 +226,10 @@ p {
   line-height: normal;
 }
 
+.minip.tag {
+  white-space: nowrap;
+}
+
 a strong,
 p strong {
   font-weight: 700;

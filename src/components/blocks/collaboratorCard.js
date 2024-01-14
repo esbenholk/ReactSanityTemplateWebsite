@@ -19,7 +19,10 @@ export default function CollaboratorCard({ post }) {
       style={{ position: "relative" }}
     >
       <div className="flex-row year gap">
-        <div className="standardButton">
+        <NavLink
+          to={"/timeline?" + post.title}
+          className="catButtonSmall interact"
+        >
           <div
             className="littelCircle"
             style={{
@@ -27,7 +30,7 @@ export default function CollaboratorCard({ post }) {
             }}
           ></div>
           <p>{post.title} </p>
-        </div>
+        </NavLink>
       </div>
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
         <Image

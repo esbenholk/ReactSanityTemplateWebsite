@@ -12,7 +12,6 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
   const [singlePage, setSinglePage] = useState();
 
   useEffect(() => {
-    console.log("loads page", slug);
     window.scrollTo(0, 0);
   }, [slug]);
   ///get project data, set category names
@@ -29,8 +28,6 @@ export default function SinglePage({ updatePageTitle, updateProjectTitle }) {
       )
       .then((data) => {
         setSinglePage(data[0]);
-
-        console.log("page", data[0]);
 
         if (params.length === 0) {
           updatePageTitle(data[0].title);

@@ -19,34 +19,36 @@ export default function ShowcaseCard({ post, mode }) {
       style={{ position: "relative" }}
     >
       <div className="flex-row year gap">
-        {/* <div className="standardButton lightButton">
-          {post.time ? (
-            <BlockContent blocks={post.time} />
-          ) : post.year ? (
-            <p>{post.year} </p>
-          ) : null}
-        </div> */}
         {post.categories && post.categories.length > 0 && (
           <NavLink to={"/timeline?" + post.categories[0].slug.current}>
-            <p className="year standardButton minip lightButton">
+            <p className="year catButtonSmall interact minip">
               {post.categories[0].title}
             </p>
           </NavLink>
         )}
       </div>
       <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
-        <Image
-          image={post.mainImage}
-          height={mode === "grid" && width > 600 ? 450 : null}
-          width={
-            mode === "grid" && width > 600
-              ? null
-              : mode !== "grid" && width > 800
-              ? 713
-              : width - 26
-          }
-          onLoad={updateSetIsLoaded}
-        />
+        {mode === "grid" ? (
+          <Image
+            image={post.mainImage}
+            height={width > 900 ? 450 : null}
+            width={
+              width < 600
+                ? width - 26
+                : width < 900
+                ? Math.floor(width / 2 - 18)
+                : null
+            }
+            onLoad={updateSetIsLoaded}
+          />
+        ) : (
+          <Image
+            image={post.mainImage}
+            // height={width > 600 ? 450 : null}
+            width={width > 900 ? 713 : width - 26}
+            onLoad={updateSetIsLoaded}
+          />
+        )}
       </a>
       <div className="pressCardContent">
         <h4>

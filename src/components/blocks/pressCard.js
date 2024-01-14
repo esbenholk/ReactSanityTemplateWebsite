@@ -13,9 +13,7 @@ export default function PostCard({ post }) {
         style={{ position: "relative" }}
         href={post.slug ? post.slug.current : post.url ? post.url : null}
       >
-        {post.year && (
-          <p className="year standardButton minip lightButton">{post.year}</p>
-        )}
+        {post.year && <p className="year catButtonSmall minip">{post.year}</p>}
         <Image image={post.mainImage} width={596} />
       </a>
 

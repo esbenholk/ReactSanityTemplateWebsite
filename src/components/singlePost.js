@@ -84,7 +84,7 @@ export default function SinglePost({
                     {project.categories &&
                       project.categories.map((category, index) => (
                         <NavLink
-                          className="year lightButton projectCategoryButton interactable"
+                          className="year catButtonSmall interactable"
                           to={"/timeline?" + category.slug.current}
                           style={{ backgroundColor: category.color }}
                           key={index}
@@ -95,7 +95,7 @@ export default function SinglePost({
                     {project.tags &&
                       project.tags.map((tag, index) => (
                         <NavLink
-                          className="year lightButton projectTagButton interactable"
+                          className="year catButtonSmall interactable"
                           to={"/timeline?" + tag}
                           key={index}
                         >

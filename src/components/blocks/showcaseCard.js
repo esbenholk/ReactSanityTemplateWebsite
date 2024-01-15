@@ -60,7 +60,7 @@ export default function ShowcaseCard({ post, mode }) {
           </div>
         )}
 
-        <div className="flex-row">
+        <div className="flex-row  wrap">
           {post.categories &&
             post.categories.map((tag, index) => (
               <NavLink

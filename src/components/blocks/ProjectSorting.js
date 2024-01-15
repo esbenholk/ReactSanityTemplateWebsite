@@ -629,10 +629,10 @@ export default function Projects({
                 }}
                 className={
                   sortingMenuOpen && !filtersHasChanged
-                    ? "active catButtonBig"
+                    ? "active catButtonBig "
                     : sortingMenuOpen && filtersHasChanged
                     ? "active hasChanged catButtonBig"
-                    : "catButtonBig"
+                    : "catButtonBig noPadding"
                 }
                 style={{
                   backgroundColor:
@@ -679,7 +679,7 @@ export default function Projects({
               </button>{" "}
             </div>
           </div>
-          {!sortingMenuOpen && (
+          {!sortingMenuOpen && width > 800 && (
             <div className={"fixed top modeButtonContainer header-padding"}>
               <button
                 className="modeButton"

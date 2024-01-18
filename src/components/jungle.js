@@ -58,9 +58,9 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
     // if (!hasOrientationBool) {
     //   hasOrientationBool = ;
     // }
-    setOrientationRequestPermission(
-      DeviceMotionEvent.permissionState === "granted"
-    );
+    // setOrientationRequestPermission(
+    //   DeviceMotionEvent.permissionState === "granted"
+    // );
   }, []);
 
   function askingForPermission() {

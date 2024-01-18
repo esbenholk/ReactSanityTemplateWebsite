@@ -52,19 +52,22 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 
   useEffect(() => {
     setIsMobile(window.DeviceOrientationEvent && "ontouchstart" in window);
-    let hasOrientationBool =
-      window.DeviceOrientationEvent &&
-      typeof window.DeviceOrientationEvent.requestPermission === "function";
-    if (!hasOrientationBool) {
-      hasOrientationBool = DeviceMotionEvent.permissionState === "granted";
-    }
-    setOrientationRequestPermission(hasOrientationBool);
+    // let hasOrientationBool =
+    //   window.DeviceOrientationEvent &&
+    //   typeof window.DeviceOrientationEvent.requestPermission === "function";
+    // if (!hasOrientationBool) {
+    //   hasOrientationBool = ;
+    // }
+    setOrientationRequestPermission(
+      DeviceMotionEvent.permissionState === "granted"
+    );
   }, []);
 
   function askingForPermission() {
     DeviceMotionEvent.requestPermission().then((permissionState) => {
       if (permissionState === "granted") {
         setOrientationPermissionGranted(true);
+        window.load();
       }
     });
   }

@@ -56,7 +56,7 @@ export default function SinglePost({
                 onClick={() =>
                   scollToRef.current.scrollIntoView({ behavior: "smooth" })
                 }
-                className="buttonDown header-padding"
+                className="buttonDown"
                 src={process.env.PUBLIC_URL + "/assets/arrowDown.svg"}
                 alt="arrow down"
               />

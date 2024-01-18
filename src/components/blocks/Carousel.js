@@ -13,9 +13,13 @@ export default function CustomCarousel({ images, classsss, description }) {
       {width < 900 ? (
         <>
           <p className="counter">
-            {imageIndex}/{images.length}
+            {imageIndex} / {images.length}
           </p>
           <Carousel
+            // centerSlidePercentage={50}
+            statusFormatter={(currentItem) => {
+              setImageIndex(currentItem);
+            }}
             swipeable={true}
             preventMovementUntilSwipeScrollTolerance
             axis={"horizontal"}
@@ -23,7 +27,7 @@ export default function CustomCarousel({ images, classsss, description }) {
             stopOnHover={true}
             showIndicators={false}
             emulateTouch={true}
-            showStatus={false}
+            showStatus={true}
             interval={6000}
             showThumbs={false}
             showArrows={true}
@@ -35,7 +39,7 @@ export default function CustomCarousel({ images, classsss, description }) {
                 <button
                   onClick={(e) => {
                     clickHandler();
-                    setImageIndex(imageIndex - 1);
+                    // setImageIndex(imageIndex - 1);
                   }}
                   className="featuredCardArrow prevArrow"
                 >
@@ -50,7 +54,7 @@ export default function CustomCarousel({ images, classsss, description }) {
                   className="featuredCardArrow nextArrow"
                   onClick={(e) => {
                     clickHandler();
-                    setImageIndex(imageIndex + 1);
+                    // setImageIndex(imageIndex + 1);
                   }}
                 >
                   <img

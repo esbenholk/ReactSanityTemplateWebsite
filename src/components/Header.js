@@ -228,15 +228,15 @@ export default function Header({ pageName, projectName, projectLogo }) {
               ToggleMenu(false);
             }
           }}
+          onClick={() => {
+            if (width < 600 && !mobileMenuOpen) {
+              ToggleMobileMenu(true);
+            }
+          }}
         >
           <div
             // open={menuOpen}
 
-            onClick={() => {
-              if (width < 600 && !mobileMenuOpen) {
-                ToggleMobileMenu(true);
-              }
-            }}
             className={`flex-column align-right burger  ${
               menuOpen ? " open" : "closed"
             }${location.pathname !== "/" ? " small" : " big"}`}

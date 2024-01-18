@@ -504,7 +504,7 @@ export default function Projects({
         <>
           <div className={"fixed top flex-row wrap"}>
             <HeaderLogoButton projectName={""} />
-            <div className={"flex-row align-center wrap buttonList"}>
+            <div className={"flex-row align-center wrapcenter buttonList"}>
               {(showFilteringTags &&
                 currentTags.length +
                   currentCategories.length +

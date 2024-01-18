@@ -50,13 +50,7 @@ code {
 .gap {
   gap: 5px;
 }
-.wrap {
-  max-width: 100%;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: first baseline;
-  align-items: flex-start;
-}
+
 .flex-column {
   flex-direction: column;
   display: flex;
@@ -97,12 +91,12 @@ a.flex-row {
   display: flex;
   align-items: center;
 }
-.blockItem:is(:first-of-type) {
+/* .blockItem:is(:first-of-type) {
   padding: 100px 100px 100px var(--paddingValue);
   justify-content: center;
   display: flex;
   align-items: center;
-}
+} */
 
 .fullWidthBlock {
   padding: 0 14px 0 14px;
@@ -166,8 +160,10 @@ a.flex-row {
 .counter {
   margin: 10px;
   position: absolute;
-  top: 100px;
+  top: 105px;
+  font-size: 24px;
 }
+
 .carouselContainer .carousel {
   padding-top: 50px;
 }
@@ -175,8 +171,8 @@ a.flex-row {
   position: absolute;
   top: 0;
   right: 0;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   background-color: rgba(0, 0, 0, 0);
   border: none;
 }
@@ -187,7 +183,7 @@ a.flex-row {
 
 .cubedImage {
   height: 700px;
-  width: 700px;
+  /* width: 700px; */
 }
 .cubedImage span,
 .cubedImage img {
@@ -955,6 +951,7 @@ footer div {
   width: min-content;
   max-width: 100%;
   border-radius: 10px;
+  margin-bottom: 9px;
 }
 .showcaseCard img {
   border-radius: 10px;
@@ -1248,10 +1245,12 @@ iframe,
   position: absolute;
   bottom: 0;
   right: 0;
+  margin: 17px;
 }
 
 .logoImage {
   height: 30px;
+  filter: invert(1);
 }
 
 .jungleContainer {
@@ -1294,7 +1293,33 @@ iframe,
 .jungleMenuFrameDescription p {
   font-size: 16px;
   white-space: wrap;
-  padding: 6px 10px;
+  padding: 6px 10px 20px 10px;
+}
+
+.wrap {
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+}
+.wrapcenter {
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.miniwrap {
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0px;
+  justify-content: first baseline;
+  align-items: flex-start;
+}
+
+.miniwrap a,
+.miniwrap p {
+  line-height: 20px;
+  min-height: 20px;
 }
 
 @media only screen and (max-width: 1400px) {
@@ -1381,10 +1406,10 @@ iframe,
   .buttonDown {
     position: absolute;
     bottom: 0;
-    left: 50%;
+    right: 50%;
     width: 50px;
     height: 50px;
-    transform: translate(-100%, 0);
+    transform: translate(40px, 0);
   }
   .buttonblock:is(:only-child),
   .buttonblock {
@@ -1479,6 +1504,10 @@ iframe,
   .minip {
     font-size: 10px;
     line-height: normal;
+  }
+
+  .miniwrap p {
+    line-height: 10px;
   }
 
   h1 {
@@ -1604,6 +1633,10 @@ iframe,
     line-height: normal;
   }
 
+  .miniwrap {
+    height: fit-content;
+  }
+
   h1 {
     font-family: Arial;
     font-size: 32px;
@@ -1652,6 +1685,18 @@ iframe,
   .list {
     padding: var(--mobile-padding);
     padding-top: 100px;
+  }
+  .miniwrap {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 0px;
+    justify-content: first baseline;
+    align-items: flex-start;
+  }
+  .miniwrap a,
+  .miniwrap p {
+    line-height: 20px;
+    min-height: 20px;
   }
 }
 
@@ -1793,6 +1838,19 @@ iframe,
   footer p,
   footer a {
     font-size: 13px;
+  }
+
+  .miniwrap {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 0px;
+    justify-content: first baseline;
+    align-items: flex-start;
+  }
+  .miniwrap a,
+  .miniwrap p {
+    line-height: 15px;
+    min-height: 15px;
   }
 }
 

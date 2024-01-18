@@ -60,7 +60,7 @@ export default function ShowcaseCard({ post, mode }) {
           </div>
         )}
 
-        <div className="flex-row  wrap">
+        <div className="flex-row  miniwrap">
           {post.categories &&
             post.categories.map((tag, index) => (
               <NavLink
@@ -68,8 +68,9 @@ export default function ShowcaseCard({ post, mode }) {
                 to={"/timeline?" + tag.slug.current}
                 key={index}
               >
-                <p href="">
-                  {index !== 0 && ","} {tag.title}{" "}
+                <p style={{ marginRight: "5px" }}>
+                  {tag.title}
+                  {post.categories.length > 1 ? ", " : null}
                 </p>{" "}
               </NavLink>
             ))}
@@ -80,12 +81,9 @@ export default function ShowcaseCard({ post, mode }) {
                 to={"/timeline?" + tag}
                 key={index}
               >
-                <p href="">
-                  {post.categories &&
-                    post.categories.length > 0 &&
-                    index === 0 &&
-                    ", "}
-                  {index !== 0 && post.tags.length - 1 && ","} {tag}{" "}
+                <p style={{ marginRight: "5px" }}>
+                  {tag}
+                  {index !== post.tags.length - 1 && ", "}
                 </p>{" "}
               </NavLink>
             ))}

@@ -11,6 +11,8 @@ export default function PostCard({ post }) {
 
       <a
         style={{ position: "relative" }}
+        target={"_blank"}
+        rel="noreferrer"
         href={post.slug ? post.slug.current : post.url ? post.url : null}
       >
         {post.year && <p className="year catButtonSmall minip">{post.year}</p>}

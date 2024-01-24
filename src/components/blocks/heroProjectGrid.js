@@ -51,7 +51,11 @@ function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
             <div className="timeText">
               <BlockContent blocks={time} />
             </div>
-            <Image image={logo} height={179 / 2.5} class={"hero-image"} />
+            {logo ? (
+              <Image image={logo} height={179 / 2.5} class={"hero-image"} />
+            ) : (
+              <h1 className="heroHeading">{heading}</h1>
+            )}
             <p>{place}</p>
           </a>
         </div>

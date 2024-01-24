@@ -101,6 +101,9 @@ a.flex-row {
 .fullWidthBlock {
   padding: 0 14px 0 14px;
 }
+.connectedprojectpill {
+  padding: 0 14px 14px 14px;
+}
 .block {
   padding: var(--paddingValue) 100px var(--paddingValue) 100px;
 }
@@ -182,7 +185,7 @@ a.flex-row {
 }
 
 .cubedImage {
-  height: 700px;
+  /* height: 700px; */
   /* width: 700px; */
 }
 .cubedImage span,
@@ -348,35 +351,83 @@ a {
   border: 0px solid rgba(0, 0, 0, 0);
   background-color: rgba(255, 255, 255, 0.2);
   display: inline-flex;
-  padding: 12px 22px;
+  padding: 7px 25px;
   color: #000;
   width: fit-content;
-  height: fit-content;
-  transition: all 0.2s ease-in-out;
+  min-width: 50px;
   white-space: nowrap;
-  font-size: 15px;
+  font-size: 17px;
   display: flex;
   align-items: center;
+  justify-content: center;
   backdrop-filter: blur(27.5px);
-  max-height: 41px;
+  height: 50px;
+
+  transition: all 0.2s ease-in-out;
 }
-.catButtonBig:has(img) {
+
+.sortingMenu .catButtonBig {
+  height: 60px;
+  transition: all 0.2s ease-in-out;
+}
+/* .filterButton {
+  height: 32px;
+} */
+/* .catButtonBig:has(img) {
   padding-left: 10px;
-}
-.catButtonBig.interact:hover {
+} */
+/* .catButtonBig.interact:hover {
   backdrop-filter: blur(60px);
   background-color: rgba(255, 255, 255, 0.5);
+} */
+
+.catButtonBig.tag {
+  background-color: var(--third-color);
+  color: var(--primary-color);
 }
+
 .catButtonBig.active {
-  border: 2px solid var(--primary-color);
+  outline: 2px solid var(--third-color);
+  background-color: var(--primary-color) !important;
+  color: var(--third-color);
+}
+.catButtonBig.collaborator {
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--primary-color);
+  backdrop-filter: none;
+}
+
+.catButtonBig.collaborator img,
+.catButtonBig.tag img,
+.catButtonBig.category img {
+  width: 0;
+  padding-left: 0px;
+  transition: 0.1s ease-in-out;
+  max-width: 0;
+}
+.catButtonBig.collaborator.active img,
+.catButtonBig.tag.active img,
+.catButtonBig.category.active img {
+  width: auto;
+  max-width: 50px;
+  transition: 0.1s ease-in-out;
+  padding-left: 7px;
+}
+
+.catButtonBig.collaborator.active p {
+  color: var(--third-color);
 }
 .catButtonBig a,
 .catButtonBig p {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 17px;
   text-align: center;
   color: inherit;
   white-space: nowrap;
+}
+.catButtonBig.featured a,
+.catButtonBig.featured p {
+  white-space: wrap;
 }
 
 .catButtonBig a:not(:first-child),
@@ -390,7 +441,7 @@ a {
   border-radius: 40px;
   border: 1.5px solid rgba(0, 0, 0, 1);
   display: inline-flex;
-  padding: 7px 15px;
+  padding: 2px 15px;
   color: #000;
   width: fit-content;
   height: fit-content;
@@ -415,7 +466,7 @@ a {
   padding: 12px 22px;
   color: #000;
   width: fit-content;
-  height: fit-content;
+  height: auto;
   transition: all 0.2s ease-in-out;
   white-space: nowrap;
   font-size: 15px;
@@ -431,7 +482,7 @@ a {
   font-size: 15px;
   text-align: center;
   font-weight: 700;
-  /* line-height: 15px; */
+  line-height: 20px;
 }
 .year {
   padding: 7px 15px;
@@ -475,7 +526,7 @@ a {
   width: auto;
   max-width: 1500px;
   color: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
 }
 
 .standardButton.active {
@@ -504,8 +555,7 @@ a {
     0px 2px 2.3px 0px rgba(0, 0, 0, 0.9),
     0px 4px 4px 0px rgba(255, 255, 255, 0.1);
   filter: drop-shadow(0px 5px 4px rgba(0, 0, 0, 0.1));
-  background-color: var(--secondary-color);
-  /* transition: all 0.1s ease-in-out; */
+  outline: 0px solid rgba(0, 0, 0, 0);
 }
 
 .burgerLayer.interactable:hover {
@@ -715,7 +765,7 @@ footer div {
   padding-left: 12px;
 }
 .burger img {
-  transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in, visibility 0s;
 }
 .burger img {
   width: 90px;
@@ -745,7 +795,7 @@ footer div {
 }
 
 .mobileMenu {
-  background-color: var(--text-color);
+  backdrop-filter: blur(40px);
 }
 
 /* header */
@@ -870,23 +920,26 @@ footer div {
 }
 .heroHeading {
   font-weight: 700;
-  color: #fff;
+  color: var(--secondary-color);
 }
 .pillContent img {
   filter: invert(1);
 }
+.pillContent .heroHeading {
+  font-weight: 700;
+  color: var(--primary-color);
+}
 .pillContent .timeText p,
 .pillContent p {
-  color: #3a3a3a;
   text-align: center;
-  font-size: 10px;
+  font-size: 35px;
   font-style: normal;
   font-weight: 400;
-  line-height: 15px; /* 125% */
   min-height: 0;
+  margin: 0;
 }
 .connectedprojectpill .pill {
-  background-color: black;
+  background-color: var(--primary-color);
   height: 563px;
   border-radius: 500px;
   padding: var(--padding);
@@ -898,7 +951,7 @@ footer div {
 .connectedprojectpill .pill .pillContent .timeText p,
 .connectedprojectpill .pill .timeText p,
 .connectedprojectpill .pill .heroContent p {
-  color: white;
+  color: var(--third-color);
 }
 /* INFINITE HORIYONTAL SCROLL */
 
@@ -1052,8 +1105,8 @@ footer div {
 }
 
 .sortingMenu {
-  background-color: var(--secondary-color);
-
+  background: rgba(172, 172, 172, 0.36);
+  backdrop-filter: blur(33px);
   padding: 50px;
   padding-top: 150px;
   padding-bottom: 150px;
@@ -1085,6 +1138,7 @@ footer div {
 .buttonList {
   max-width: 1000px;
   flex-wrap: wrap;
+  gap: 10px;
   transform: translate(0, 30px);
 }
 .sortingMenu .featured {
@@ -1093,33 +1147,42 @@ footer div {
   min-height: 70px;
   max-height: none;
   height: auto;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  color: #000;
+
   text-align: center;
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: 35.5px; /* 110.938% */
   white-space: wrap;
-  padding: 31px;
+  padding: 0px 31px;
   border: 0px;
 }
 .sortingMenu .featured p {
-  color: #000;
+  color: var(--primary-color);
   text-align: center;
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
-  line-height: 35.5px; /* 110.938% */
+  line-height: normal;
+}
+.sortingMenu .featured.active p {
+  color: var(--third-color);
 }
 .sortingMenu .featured.allfilterButton {
   background-color: white;
   color: var(--primary-color);
   display: flex;
   flex-direction: row;
+  outline: 2px solid var(--primary-color);
+}
+.sortingMenu .featured img {
+  height: 50px;
+  width: 50px;
+  margin: 25px;
 }
 .filterButton p {
   color: white;
@@ -1155,6 +1218,10 @@ footer div {
 .fixedFilerButton img {
   margin-right: 23px;
 }
+.openFilters {
+  transform: rotate(180deg);
+}
+
 .rowBlock span,
 .rowBlock span img {
   max-width: 100% !important;
@@ -1349,17 +1416,17 @@ iframe,
 }
 
 @media only screen and (max-width: 1400px) {
-  .cubedImage {
+  /* .cubedImage {
     height: 450px;
     width: 450px;
-  }
+  } */
 }
 
 @media only screen and (max-width: 1100px) {
-  .cubedImage {
+  /* .cubedImage {
     height: 350px;
     width: 350px;
-  }
+  } */
 }
 
 /* fonts on tablet */
@@ -1374,6 +1441,11 @@ iframe,
     --margin-size: 15px;
     --paddingValue: 50px;
     --padding: var(--paddingValue) var(--paddingValue);
+  }
+
+  .burgerLayer.interactable {
+    background-color: var(--button-color);
+    margin-bottom: 15px;
   }
 
   #headLinePlace {
@@ -1393,21 +1465,49 @@ iframe,
     background: linear-gradient(0deg, #d7d7d7 0%, #d7d7d7 100%),
       lightgray -544.476px -137.788px / 113.296% 198.698% no-repeat, #f3c4ea;
   }
+  .pressCard:is(:last-child) {
+    margin-right: 50px;
+  }
+  .pillContent .timeText p,
+  .pillContent p {
+    text-align: center;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 15px; /* 125% */
+    min-height: 0;
+    margin: 0;
+  }
 
   .horizontalScroll {
     gap: 10px;
   }
-  /* .gridView .showcaseCard {
-    max-width: 50%;
-  }
-  .gridView .showcaseCard img,
-  .gridView .showcaseCard span {
-    max-width: 100%;
-  } */
+  .catButtonBig {
+    border-radius: 40px;
+    border: 0px solid rgba(0, 0, 0, 0);
+    background-color: rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    color: #000;
+    width: fit-content;
+    min-width: 32px;
+    white-space: nowrap;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(27.5px);
+    height: 32px;
 
-  /* .blockContainer:is(:first-child) {
-    margin-top: 100px;
-  } */
+    transition: all 0.2s ease-in-out;
+  }
+  .buttonList {
+    gap: 5px;
+  }
+
+  .sortingMenu .catButtonBig {
+    height: 45px;
+    transition: all 0.2s ease-in-out;
+  }
 
   .modeButtonContainer {
     right: 90px;
@@ -1466,7 +1566,7 @@ iframe,
   }
   .tagbuttongrid {
     padding: 13px;
-    max-width: 70%;
+    max-width: 100%;
     padding-top: 100px;
   }
   .projectDetails {
@@ -1484,6 +1584,9 @@ iframe,
   }
   .blockItemHeadline {
     padding: var(--paddingValue) 0 10px 13px;
+  }
+  .blockItemHeadline:is(:first-child) {
+    margin-top: 100px;
   }
 
   .connectedprojectpill .pill {
@@ -1509,8 +1612,8 @@ iframe,
   }
 
   .cubedImage {
-    height: 600px;
-    width: 600px;
+    /* height: 600px;
+    width: 600px; */
   }
   .cubedImage:is(:first-child) {
     margin-left: 10px;
@@ -1616,7 +1719,11 @@ iframe,
   }
   .buttonList {
     max-width: 70%;
-
+    flex-wrap: wrap;
+    transform: translate(0, 25px);
+  }
+  .buttonList:has(.lightButton) {
+    max-width: 70%;
     flex-wrap: wrap;
     transform: translate(0, 20px);
   }
@@ -1659,8 +1766,8 @@ iframe,
     width: 360px !important;
   }
   .cubedImage {
-    height: 350px;
-    width: 350px;
+    /* height: 350px;
+    width: 350px; */
   }
 
   .smallp p,
@@ -1799,13 +1906,20 @@ iframe,
     background-position: 5px 0px;
     background-size: 40px 40px;
   }
-  /* .burger img {
+  .burger img {
     transition: all 0.5s ease-in-out;
+  }
+  /* 
+  .burgerbun img {
+    transition: width 0.1s ease-in;
   } */
-
   .burger {
     margin-left: 7px;
     height: 90px;
+  }
+
+  .big.burger.closed {
+    height: 120px;
   }
   .small.burger.closed {
     margin-left: 7px;
@@ -1816,7 +1930,7 @@ iframe,
     height: auto;
   }
   .burger.closed img {
-    width: 70px;
+    width: 85px;
     /* max-width: 100% !important; */
   }
   .small.burger.closed img {
@@ -1859,8 +1973,9 @@ iframe,
   .burgerTop.closed {
     margin-bottom: -20px;
   }
-  .burger img:is(:first-child) {
-    transition: padding 0.5s ease-in-out;
+  .open .burgerTop img,
+  .open .burgerBottom img {
+    transition: all 0s ease-in-out;
   }
   .burger.open img:is(:first-child) {
     padding-bottom: 32px;

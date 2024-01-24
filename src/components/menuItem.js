@@ -24,6 +24,8 @@ export const Button = ({ url, name, color }) => {
     <a
       className="standardButton interactable"
       href={url}
+      rel="noreferrer"
+      target={url && url.includes("http") ? "_blank" : ""}
       style={{ backgroundColor: color }}
     >
       {name}

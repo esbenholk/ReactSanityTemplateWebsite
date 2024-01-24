@@ -39,7 +39,7 @@ export default function ConnectedCollaborators({
     } else {
       sanityClient
         .fetch(
-          `*[_type == "collaborator"] { title, year, color, time, mainImage, slug, description, tags, categories[]->{title, slug} }`
+          `*[_type == "collaborator"] { title, year, color, time, mainImage, slug, description, tags, categories[]->{title, slug}, buttons }`
         )
         .then((data) => {
           setPressInstances(data);

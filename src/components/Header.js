@@ -46,7 +46,7 @@ export function HeaderLogoButton({
                   : `url(${logoUrl}`,
             }}
             onClick={() => {
-              if (width < 600 && mobileMenuOpen) {
+              if (width < 900 && mobileMenuOpen) {
                 ToggleMobileMenu(false);
               }
             }}
@@ -58,7 +58,7 @@ export function HeaderLogoButton({
         <NavLink
           to="/"
           onClick={() => {
-            if (width < 600 && mobileMenuOpen) {
+            if (width < 900 && mobileMenuOpen) {
               ToggleMobileMenu(false);
             }
           }}
@@ -134,7 +134,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
           style={{
             zIndex: 999999999999999,
             position: "fixed",
-            top: "0",
+            top: "10px",
             right: "0",
           }}
         >
@@ -165,7 +165,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
                 onClick={() => {
                   navigate(-1);
 
-                  if (width < 600 && mobileMenuOpen) {
+                  if (width < 900 && mobileMenuOpen) {
                     ToggleMobileMenu(false);
                   }
                 }}
@@ -219,17 +219,17 @@ export default function Header({ pageName, projectName, projectLogo }) {
             zIndex: 999999,
           }}
           onMouseEnter={() => {
-            if (width > 600) {
+            if (width > 900) {
               ToggleMenu(true);
             }
           }}
           onMouseLeave={() => {
-            if (width > 600) {
+            if (width > 900) {
               ToggleMenu(false);
             }
           }}
           onClick={() => {
-            if (width < 600 && !mobileMenuOpen) {
+            if (width < 900 && !mobileMenuOpen) {
               ToggleMobileMenu(true);
             }
           }}
@@ -264,7 +264,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
                       rel="noreferrer"
                       onClick={(e) => {
                         handleclick(e);
-                        if (width < 600) {
+                        if (width < 900) {
                           ToggleMobileMenu(false);
                         } else {
                           ToggleMenu(false);
@@ -307,7 +307,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
                       }
                       onClick={(e) => {
                         handleclick(e);
-                        if (width < 600) {
+                        if (width < 900) {
                           ToggleMobileMenu(false);
                         } else {
                           ToggleMenu(false);

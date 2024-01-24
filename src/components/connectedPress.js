@@ -58,7 +58,12 @@ function ConnectedPress({ press, heading, type, color }) {
                   {width > 900 ? (
                     <div className="flex-row align-center listsentence">
                       <p>{press.year}, </p>
-                      <a to="_blank" href={press.url} style={{ color: color }}>
+                      <a
+                        target={"_blank"}
+                        href={press.url}
+                        style={{ color: color }}
+                        rel="noreferrer"
+                      >
                         {press.title},
                       </a>
                       <p> {press.place}</p>
@@ -69,7 +74,12 @@ function ConnectedPress({ press, heading, type, color }) {
                         <p>{press.place}, </p>
                         <p>{press.year}</p>
                       </div>
-                      <a to="_blank" href={press.url} style={{ color: color }}>
+                      <a
+                        target={"_blank"}
+                        rel="noreferrer"
+                        href={press.url}
+                        style={{ color: color }}
+                      >
                         {press.title}
                       </a>
                     </div>

@@ -509,7 +509,7 @@ export default function Projects({
         <>
           <div className={"fixed top flex-row wrap"}>
             <HeaderLogoButton projectName={""} />
-            <div className={"flex-row align-center wrapcenter buttonList"}>
+            <div className={"flex-row align-center buttonList"}>
               {(showFilteringTags &&
                 currentTags.length +
                   currentCategories.length +
@@ -634,52 +634,55 @@ export default function Projects({
                 }}
                 className={
                   sortingMenuOpen && !filtersHasChanged
-                    ? "active catButtonBig "
+                    ? "active catButtonBig applyButton"
                     : sortingMenuOpen && filtersHasChanged
-                    ? "active hasChanged catButtonBig"
+                    ? "active hasChanged catButtonBig applyButton"
                     : "catButtonBig noPadding"
                 }
-                style={{
-                  backgroundColor:
-                    filtersHasChanged && sortingMenuOpen
-                      ? "#ffeb01"
-                      : sortingMenuOpen
-                      ? "black"
-                      : "rgba(0,0,0,0)",
-                  color: filtersHasChanged ? "black" : "white",
-                }}
               >
-                <img
-                  alt="filter icon"
-                  className={
-                    sortingMenuOpen && filtersHasChanged
-                      ? "applySign"
-                      : currentTags.length > 0 ||
-                        currentCategories.length > 0 ||
-                        currentYears.length > 0 ||
-                        currentCollaborators.length > 0
-                      ? "plusSign"
-                      : "unused"
-                  }
-                  src={
-                    sortingMenuOpen && filtersHasChanged
-                      ? process.env.PUBLIC_URL + "/filter_list.png"
-                      : sortingMenuOpen
-                      ? process.env.PUBLIC_URL + "/assets/close.svg"
-                      : currentTags.length +
-                          currentCategories.length +
-                          currentYears.length +
-                          currentCollaborators.length >
-                        0
-                      ? process.env.PUBLIC_URL + "/assets/close.svg"
-                      : process.env.PUBLIC_URL + "/filter_list.png"
-                  }
-                ></img>
-
-                {sortingMenuOpen && filtersHasChanged ? (
+                {!sortingMenuOpen &&
+                currentTags.length +
+                  currentCategories.length +
+                  currentYears.length +
+                  currentCollaborators.length >
+                  0 ? (
                   <>
-                    {" "}
-                    <p>APPLY FILTERS </p>
+                    <img
+                      className="plusSign"
+                      alt="filter icon"
+                      src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                    ></img>
+                  </>
+                ) : !sortingMenuOpen &&
+                  currentTags.length +
+                    currentCategories.length +
+                    currentYears.length +
+                    currentCollaborators.length ===
+                    0 ? (
+                  <>
+                    <img
+                      className="openFilters"
+                      alt="filter icon"
+                      src={process.env.PUBLIC_URL + "/assets/applyBlack.svg"}
+                    ></img>
+                    {width > 900 && <p>FILTER BY</p>}
+                  </>
+                ) : sortingMenuOpen && !filtersHasChanged ? (
+                  <>
+                    <img
+                      className="plusSign"
+                      alt="filter icon"
+                      src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                    ></img>
+                    <p>CLOSE FILTER</p>
+                  </>
+                ) : sortingMenuOpen && filtersHasChanged ? (
+                  <>
+                    <img
+                      alt="filter icon"
+                      src={process.env.PUBLIC_URL + "/assets/applyWhite.svg"}
+                    ></img>
+                    <p>APPLY FILTER</p>
                     {currentTags.length +
                       currentCategories.length +
                       currentYears.length +
@@ -694,8 +697,6 @@ export default function Projects({
                       </p>
                     )}
                   </>
-                ) : sortingMenuOpen ? (
-                  <p>CLOSE FILTERS</p>
                 ) : null}
               </button>{" "}
             </div>
@@ -880,9 +881,11 @@ export default function Projects({
                 <img
                   src={process.env.PUBLIC_URL + "/assets/close.svg"}
                   alt="plussign"
+                  className={"absolute left"}
                   style={{ transform: "rotate(45deg)", filter: "invert(1)" }}
                 />
                 <p>VIEW ALL FILTERS</p>
+                <div></div>
               </button>
             )}{" "}
             {displayCategoryButton &&
@@ -901,11 +904,7 @@ export default function Projects({
                             ).length +
                               1)
                           }px`,
-                        backgroundColor: !currentCategories.includes(
-                          category.title
-                        )
-                          ? category.color
-                          : "#ffeb01",
+                        backgroundColor: category.color,
                       }}
                       className={`${isMenuIntro && "featured"} ${
                         currentCategories.includes(category.title) && "active"
@@ -929,7 +928,13 @@ export default function Projects({
                         setCategory({ category });
                       }}
                     >
-                      {category.title}
+                      <p>{category.title}</p>
+
+                      <img
+                        alt="filter icon"
+                        className={isMenuIntro && "absolute right"}
+                        src={process.env.PUBLIC_URL + "/close.png"}
+                      ></img>
                     </button>
                   )
               )}
@@ -940,11 +945,7 @@ export default function Projects({
                   !category.isFeatured && (
                     <button
                       style={{
-                        backgroundColor: !currentCategories.includes(
-                          category.title
-                        )
-                          ? category.color
-                          : "#ffeb01",
+                        backgroundColor: category.color,
                       }}
                       className={` ${
                         currentCategories.includes(category.title) && "active"
@@ -955,37 +956,37 @@ export default function Projects({
                         setCategory({ category });
                       }}
                     >
-                      {category.title}
+                      <p>{category.title}</p>
+
+                      <img
+                        alt="filter icon"
+                        className={"unused"}
+                        src={process.env.PUBLIC_URL + "/close.png"}
+                      ></img>
                     </button>
                   )
               )}
-          </div>
-          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
-            {" "}
             {displayTagButton &&
               tags.map((tag, index) => (
                 <button
                   className={` ${
                     currentTags.includes(tag) && "active"
                   } catButtonBig interactable tag`}
-                  style={{
-                    backgroundColor: currentTags.includes(tag)
-                      ? "#ffeb01"
-                      : "black",
-                    color: currentTags.includes(tag) ? "black" : "white",
-                  }}
                   key={index}
                   id={"tag_" + tag + ""}
                   onClick={() => {
                     setTag(tag);
                   }}
                 >
-                  {tag}
+                  <p>{tag}</p>
+
+                  <img
+                    alt="filter icon"
+                    className={"unused"}
+                    src={process.env.PUBLIC_URL + "/close.png"}
+                  ></img>
                 </button>
-              ))}
-          </div>
-          <div className={isMenuIntro ? "flex-column" : "flex-row column wrap"}>
-            {" "}
+              ))}{" "}
             {displayYearButton &&
               years &&
               years.map((year, index) => (
@@ -993,61 +994,51 @@ export default function Projects({
                   className={` ${
                     currentYears.includes(year) && "active"
                   } catButtonBig interactable tag`}
-                  style={{
-                    backgroundColor: currentYears.includes(year)
-                      ? "#ffeb01"
-                      : "black",
-                    color: currentYears.includes(year) ? "black" : "white",
-                  }}
                   key={index}
                   id={"year_" + year.toString()}
                   onClick={() => {
                     setYear(year);
                   }}
                 >
-                  {year}
+                  <p>{year}</p>
+
+                  <img
+                    alt="filter icon"
+                    className={"unused"}
+                    src={process.env.PUBLIC_URL + "/close.png"}
+                  ></img>
+                </button>
+              ))}
+            {displayYearButton &&
+              collaborators &&
+              collaborators.map((collaborator, index) => (
+                <button
+                  className={`${
+                    currentCollaborators.includes(collaborator) && "active"
+                  } catButtonBig interactable collaborator`}
+                  key={index}
+                  id={"collaborator_" + collaborator.toString()}
+                  onClick={() => {
+                    setCollaborator(collaborator);
+                  }}
+                >
+                  <div
+                    className="littelCircle"
+                    style={{
+                      backgroundColor: fullCollaborators.find(
+                        (_collaborator) => _collaborator.title === collaborator
+                      ).color,
+                    }}
+                  ></div>
+                  <p>{collaborator}</p>
+                  <img
+                    alt="filter icon"
+                    className={"unused"}
+                    src={process.env.PUBLIC_URL + "/close.png"}
+                  ></img>
                 </button>
               ))}
           </div>
-        </div>
-        <div
-          className={
-            isMenuIntro
-              ? "flex-column collaborators"
-              : "flex-row wrap collaborators"
-          }
-        >
-          {displayYearButton &&
-            collaborators &&
-            collaborators.map((collaborator, index) => (
-              <button
-                className={`${
-                  currentCollaborators.includes(collaborator) && "active"
-                } catButtonBig interactable tag`}
-                style={{
-                  backgroundColor: currentCollaborators.includes(collaborator)
-                    ? "#ffeb01"
-                    : "rgba(0,0,0,0)",
-                }}
-                key={index}
-                id={"collaborator_" + collaborator.toString()}
-                onClick={() => {
-                  setCollaborator(collaborator);
-                }}
-              >
-                <div
-                  className="littelCircle"
-                  style={{
-                    backgroundColor: fullCollaborators.find(
-                      (_collaborator) => _collaborator.title === collaborator
-                    ).color,
-                  }}
-                ></div>
-                <p>
-                  {collaborator} {collaborator.color}
-                </p>
-              </button>
-            ))}
         </div>
       </div>
 

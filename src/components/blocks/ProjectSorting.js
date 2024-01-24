@@ -460,9 +460,14 @@ export default function Projects({
     }
   }
   function removeAllQueries() {
+    console.log(currentCategories);
+
     currentCategories.forEach((category) => {
       removeCategory(category);
+      console.log("removes CAT:", category, currentCategories);
     });
+
+    setCurrentCategories([]);
 
     currentTags.forEach((tag) => {
       let button = document.getElementById("tag_" + tag);
@@ -672,7 +677,23 @@ export default function Projects({
                 ></img>
 
                 {sortingMenuOpen && filtersHasChanged ? (
-                  <p>APPLY FILTERS</p>
+                  <>
+                    {" "}
+                    <p>APPLY FILTERS </p>
+                    {currentTags.length +
+                      currentCategories.length +
+                      currentYears.length +
+                      currentCollaborators.length >
+                      0 && (
+                      <p>
+                        {" "}
+                        {currentTags.length +
+                          currentCategories.length +
+                          currentYears.length +
+                          currentCollaborators.length}
+                      </p>
+                    )}
+                  </>
                 ) : sortingMenuOpen ? (
                   <p>CLOSE FILTERS</p>
                 ) : null}
@@ -856,7 +877,12 @@ export default function Projects({
                   }px`,
                 }}
               >
-                ALL FILTERS
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                  alt="plussign"
+                  style={{ transform: "rotate(45deg)", filter: "invert(1)" }}
+                />
+                <p>VIEW ALL FILTERS</p>
               </button>
             )}{" "}
             {displayCategoryButton &&
@@ -1091,6 +1117,7 @@ export default function Projects({
                 image={
                   project.heroImage ? project.heroImage : project.mainImage
                 }
+                heading={project.title}
                 logo={project.logoImage}
                 time={project.time}
                 year={project.year}

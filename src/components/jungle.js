@@ -58,7 +58,8 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
     if (!hasOrientationBool) {
       hasOrientationBool = DeviceMotionEvent.permissionState === "granted";
     }
-    setOrientationRequestPermission(
+    setOrientationRequestPermission(hasOrientationBool);
+    setOrientationPermissionGranted(
       // DeviceMotionEvent.permissionState === "granted"
       hasOrientationBool
     );

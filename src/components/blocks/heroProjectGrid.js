@@ -3,10 +3,11 @@ import Image from "./image";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import BlockContent from "./BlockContent";
 
-function HeroProjectGrid({ image, logo, time, place, slug, year }) {
+function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
   let { height, width } = useWindowDimensions();
   const [isActive, setIsActive] = useState(false);
 
+  console.log(heading);
   return (
     <>
       {" "}
@@ -35,7 +36,12 @@ function HeroProjectGrid({ image, logo, time, place, slug, year }) {
                 <p>{year} </p>
               ) : null}
             </div>
-            <Image image={logo} height={height / 5} class={"hero-image"} />
+            {logo ? (
+              <Image image={logo} height={height / 5} class={"hero-image"} />
+            ) : (
+              <h1 className="heroHeading">{heading}</h1>
+            )}
+
             <p className="placeText">{place}</p>
           </a>
         </div>

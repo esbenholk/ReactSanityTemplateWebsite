@@ -360,6 +360,9 @@ a {
   backdrop-filter: blur(27.5px);
   max-height: 41px;
 }
+.catButtonBig:has(img) {
+  padding-left: 10px;
+}
 .catButtonBig.interact:hover {
   backdrop-filter: blur(60px);
   background-color: rgba(255, 255, 255, 0.5);
@@ -427,6 +430,8 @@ a {
   font-weight: normal;
   font-size: 15px;
   text-align: center;
+  font-weight: 700;
+  /* line-height: 15px; */
 }
 .year {
   padding: 7px 15px;
@@ -792,7 +797,9 @@ footer div {
   overflow: hidden;
   margin-bottom: -5px;
 }
-
+.hero-image {
+  transition: all 0.2s ease-in-out;
+}
 .hero span {
   position: relative;
   width: 100%;
@@ -856,9 +863,14 @@ footer div {
   color: #fff;
   text-align: center;
   font-size: 32px;
+  margin: 25px;
   font-style: normal;
   font-weight: 500;
   line-height: 40px; /* 125% */
+}
+.heroHeading {
+  font-weight: 700;
+  color: #fff;
 }
 .pillContent img {
   filter: invert(1);
@@ -928,6 +940,9 @@ footer div {
   display: flex;
   flex-direction: column;
   width: 596px;
+}
+.pressCard:is(:last-child) {
+  margin-right: 100px;
 }
 
 .showcaseGrid {
@@ -1028,7 +1043,8 @@ footer div {
 }
 
 .blur {
-  filter: blur(10px);
+  filter: blur(30px);
+  transform: scale(1.1, 1.1);
 }
 
 .showcaseGrid {
@@ -1091,9 +1107,19 @@ footer div {
   padding: 31px;
   border: 0px;
 }
+.sortingMenu .featured p {
+  color: #000;
+  text-align: center;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35.5px; /* 110.938% */
+}
 .sortingMenu .featured.allfilterButton {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: white;
+  color: var(--primary-color);
+  display: flex;
+  flex-direction: row;
 }
 .filterButton p {
   color: white;
@@ -1231,10 +1257,10 @@ iframe,
 .listsentence p,
 .listsentence a {
   margin-right: 5px;
-  font-weight: 700;
 }
 .listsentence a {
   text-decoration: underline;
+  font-weight: 700;
 }
 
 .page {
@@ -1357,12 +1383,30 @@ iframe,
     max-width: 70%;
   }
 
+  .pressCard span,
+  .pressCard img {
+    height: 180px;
+    width: 275px;
+    border-radius: 15px;
+    object-fit: cover;
+    border-radius: 5px;
+    background: linear-gradient(0deg, #d7d7d7 0%, #d7d7d7 100%),
+      lightgray -544.476px -137.788px / 113.296% 198.698% no-repeat, #f3c4ea;
+  }
+
+  .horizontalScroll {
+    gap: 10px;
+  }
   /* .gridView .showcaseCard {
     max-width: 50%;
   }
   .gridView .showcaseCard img,
   .gridView .showcaseCard span {
     max-width: 100%;
+  } */
+
+  /* .blockContainer:is(:first-child) {
+    margin-top: 100px;
   } */
 
   .modeButtonContainer {

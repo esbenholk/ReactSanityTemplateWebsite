@@ -15,6 +15,7 @@ function ConnectedProjects({ projects, heading, type }) {
                 image={
                   project.heroImage ? project.heroImage : project.mainImage
                 }
+                heading={project.title}
                 logo={project.logoImage}
                 time={project.time}
                 place={project.place}

@@ -42,12 +42,15 @@ export default function ConnectedCollaborators({
           `*[_type == "collaborator"] { title, year, color, time, mainImage, slug, description, tags, categories[]->{title, slug} }`
         )
         .then((data) => {
-          console.log("fetches all collaborators", data);
           setPressInstances(data);
         })
         .catch(console.error);
     }
   }, [press.category, press.collaborators]);
+
+  useEffect(() => {
+    connectedPressInstances.sort(() => Math.random() - 0.5);
+  }, [connectedPressInstances]);
 
   return (
     <>

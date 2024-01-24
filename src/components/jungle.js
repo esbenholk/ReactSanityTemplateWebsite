@@ -52,16 +52,15 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 
   useEffect(() => {
     setIsMobile(window.DeviceOrientationEvent && "ontouchstart" in window);
-    // let hasOrientationBool =
-    //   window.DeviceOrientationEvent &&
-    //   typeof window.DeviceOrientationEvent.requestPermission === "function";
-    // if (!hasOrientationBool) {
-    //   hasOrientationBool = ;
-    // }
+    let hasOrientationBool =
+      window.DeviceOrientationEvent &&
+      typeof window.DeviceOrientationEvent.requestPermission === "function";
+    if (!hasOrientationBool) {
+      hasOrientationBool = DeviceMotionEvent.permissionState === "granted";
+    }
     setOrientationRequestPermission(
       // DeviceMotionEvent.permissionState === "granted"
-      window.DeviceOrientationEvent &&
-        typeof window.DeviceOrientationEvent.requestPermission === "function"
+      hasOrientationBool
     );
   }, []);
 
@@ -69,7 +68,7 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
     DeviceMotionEvent.requestPermission().then((permissionState) => {
       if (permissionState === "granted") {
         setOrientationPermissionGranted(true);
-        window.load();
+        window.location.reload();
       }
     });
   }

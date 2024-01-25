@@ -54,10 +54,18 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
   useEffect(() => {
     setIsMobile(window.DeviceOrientationEvent && "ontouchstart" in window);
 
-    ///comes out to FALSE onload
-    setOrientationPermissionGranted(
-      DeviceMotionEvent.permissionState === "granted"
-    );
+    if (typeof DeviceMotionEvent.requestPermission === "function") {
+      DeviceMotionEvent.requestPermission().then((permissionState) => {
+        if (permissionState === "granted") {
+          setOrientationPermissionGranted(true);
+        }
+      });
+    } else {
+      ///comes out to FALSE onload - but should be true after granting
+      setOrientationPermissionGranted(
+        DeviceMotionEvent.permissionState === "granted"
+      );
+    }
 
     ///comes out to TRUE onload
     setOrientationRequestPermission(
@@ -131,6 +139,16 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
           />
         </Suspense>
       </Canvas>
+
+      <h1>
+        orientationPermissionGranted{" "}
+        {orientationPermissionGranted ? "true" : "false"}
+      </h1>
+      <h1>
+        orientationRequestPermission{" "}
+        {orientationRequestPermission ? "true" : "false"}
+      </h1>
+
       {orientationRequestPermission && !orientationPermissionGranted && (
         <PermissionButton
           onTouchEnd={() => {

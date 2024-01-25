@@ -140,15 +140,6 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
         </Suspense>
       </Canvas>
 
-      <h1>
-        orientationPermissionGranted{" "}
-        {orientationPermissionGranted ? "true" : "false"}
-      </h1>
-      <h1>
-        orientationRequestPermission{" "}
-        {orientationRequestPermission ? "true" : "false"}
-      </h1>
-
       {orientationRequestPermission && !orientationPermissionGranted && (
         <PermissionButton
           onTouchEnd={() => {

@@ -716,7 +716,7 @@ export default function Projects({
             </div>
           </div>
           {!sortingMenuOpen && width > 600 && (
-            <div className={"fixed modeButtonContainer header-padding"}>
+            <div className={"fixed modeButtonContainer"}>
               <button
                 className="modeButton catButtonBig"
                 onClick={() => {

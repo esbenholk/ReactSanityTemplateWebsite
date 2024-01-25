@@ -53,14 +53,13 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 
   useEffect(() => {
     setIsMobile(window.DeviceOrientationEvent && "ontouchstart" in window);
-    // let hasOrientationBool =
-    //   window.DeviceOrientationEvent &&
-    //   typeof window.DeviceOrientationEvent.requestPermission === "function";
-    // if (!hasOrientationBool) {
-    let hasOrientationBool = DeviceMotionEvent.permissionState === "granted";
-    // }
 
-    setOrientationPermissionGranted(hasOrientationBool);
+    ///comes out to FALSE onload
+    setOrientationPermissionGranted(
+      DeviceMotionEvent.permissionState === "granted"
+    );
+
+    ///comes out to TRUE onload
     setOrientationRequestPermission(
       window.DeviceOrientationEvent &&
         typeof window.DeviceOrientationEvent.requestPermission === "function"
@@ -136,8 +135,6 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
         <PermissionButton
           onTouchEnd={() => {
             askingForPermission();
-            setOrientationPermissionGranted(true);
-            setIsMobile(true);
           }}
         />
       )}

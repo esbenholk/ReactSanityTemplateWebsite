@@ -215,7 +215,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
         <div
           className="top fixed right  menuContainer"
           style={{
-            maxWidth: `${location.pathname === "/" ? "80px" : "60px"}`,
+            maxWidth: `${location.pathname === "/" ? "90px" : "80px"}`,
             zIndex: 999999,
           }}
           onMouseEnter={() => {

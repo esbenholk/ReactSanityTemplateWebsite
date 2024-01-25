@@ -26,9 +26,14 @@ export default function LandingPage() {
   }, []);
 
   function updateJungleMenu(bool, name, color) {
+    const r = /\d+/;
+    const number = name.match(r);
+
     let navObject = info.junglenavigation.find((item) =>
-      item.title.includes(name.split("_")[0])
+      item.title.includes(number)
     );
+
+    console.log("udate jungle menu", bool, name, color);
     if (name !== "" && navObject && navObject.frameTitle) {
       let currentJungleItem = {
         description: navObject.frameDescription,
@@ -45,10 +50,14 @@ export default function LandingPage() {
   }
 
   function openJungleMenuLink(name) {
+    const r = /\d+/;
+    const number = name.match(r);
+
     let jungleNavigationItem = info.junglenavigation.find((jni) =>
-      jni.title.includes(name)
+      jni.title.includes(number)
     );
 
+    console.log("clicks", name, number, jungleMenuItem);
     if (jungleNavigationItem) {
       if (
         jungleNavigationItem.url &&
@@ -153,7 +162,7 @@ export default function LandingPage() {
               )}
             </NavLink>{" "}
             {jungleMenuItem.description && (
-              <div className="jungleMenuFrameDescription flex-row wrap align-center">
+              <div className="jungleMenuFrameDescription flex-row wrap align-center justify-content">
                 <p style={{ color: `#${jungleMenuItem.color}` }}>
                   {jungleMenuItem.description}
                 </p>

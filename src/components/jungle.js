@@ -12,6 +12,7 @@ import {
   DoubleSide,
   Mesh,
   MeshBasicMaterial,
+  MeshPhongMaterial,
 } from "three";
 
 import {
@@ -26,7 +27,7 @@ import {
 import { OBJLoader } from "three-stdlib";
 import { useLoader, Canvas, useThree, useFrame } from "@react-three/fiber";
 
-const objUrl = "../assets/jungle/jungle3.obj";
+const objUrl = "../assets/jungle/jungle4.obj";
 
 const particleUrl = "../assets/jungle/particleTexture.png";
 
@@ -58,10 +59,11 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
     if (!hasOrientationBool) {
       hasOrientationBool = DeviceMotionEvent.permissionState === "granted";
     }
-    setOrientationRequestPermission(hasOrientationBool);
-    setOrientationPermissionGranted(
-      // DeviceMotionEvent.permissionState === "granted"
-      hasOrientationBool
+
+    setOrientationPermissionGranted(hasOrientationBool);
+    setOrientationRequestPermission(
+      window.DeviceOrientationEvent &&
+        typeof window.DeviceOrientationEvent.requestPermission === "function"
     );
   }, []);
 
@@ -146,16 +148,22 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 function Frames({ updateJungleMenu, openJungleMenuLink }) {
   const [object, setJungleObj] = useState(useLoader(OBJLoader, objUrl));
   const { width } = useWindowDimensions();
+  const [frames, setFrames] = useState([]);
 
   useEffect(() => {
     if (object) {
-      let x = 0.5;
+      let x = 3.5;
       object.scale.set(x, x, x);
       object.rotation.set(0, -Math.PI / 1, 0);
       let tempArray = [];
+
       object.traverse(function (child) {
         if (child instanceof Mesh) {
-          if (child.name.includes("Cube") || child.name.includes("FRAME")) {
+          console.log(child.name);
+          if (
+            (child.name.includes("Cube") && !child.name.includes("click")) ||
+            (child.name.includes("FRAME") && !child.name.includes("click"))
+          ) {
             const mat = new MeshBasicMaterial({
               color: 0xff0000,
               wireframe: false,
@@ -164,6 +172,17 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
               denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
             );
             child.material = mat;
+
+            tempArray.push(child);
+          } else if (child.name.includes("click")) {
+            const mat = new MeshPhongMaterial({
+              color: 0xff0000,
+              wireframe: false,
+              opacity: 0,
+              transparent: true,
+            });
+
+            child.material = mat;
           } else {
             child.material = new MeshBasicMaterial({
               color: 0x000000,
@@ -171,9 +190,11 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
               side: DoubleSide,
             });
           }
-          tempArray.push(child);
         }
       });
+
+      setFrames(tempArray);
+
       setJungleObj(object);
     }
   }, [object]);
@@ -198,11 +219,22 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
           );
         }}
         onPointerOver={(ev) => {
-          console.log("object in scene", ev);
           if (ev.object.name.includes("Cube")) {
-            ev.object.material.color = new Color(
+            let color = new Color(
               denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
             );
+            ev.object.material.color = color;
+
+            const r = /\d+/;
+            const number = ev.object.name.match(r);
+
+            const frame = frames.find((frame) =>
+              frame.name.includes("frame" + number)
+            );
+            if (frame) {
+              frame.material.color = color;
+              console.log("has frame p:", frame);
+            }
           }
         }}
         onClick={(ev) => {
@@ -239,7 +271,7 @@ function SkyBox({ cubeMapTextureUrls }) {
 function Particles() {
   const count = 200;
   const points = Array(count).fill(0);
-  const size = 2;
+  const size = 5;
   const positionFactor = 144;
   const positionFactor2 = 300;
   const rotationSpeed = 0.03;

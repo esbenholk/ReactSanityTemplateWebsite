@@ -498,7 +498,7 @@ export default function Projects({
     <div className="projects">
       {mode !== "grid" && showFilteringTags && (
         <div
-          className="headingButton lightButton projectTitle fixed top center"
+          className="catButtonBig lightButton projectTitle fixed top center"
           id="headLinePlace"
         >
           <p></p>
@@ -509,7 +509,19 @@ export default function Projects({
         <>
           <div className={"fixed top flex-row wrap"}>
             <HeaderLogoButton projectName={""} />
-            <div className={"flex-row align-center buttonList"}>
+
+            <div
+              className={`flex-row align-center buttonList ${
+                mode !== "grid" &&
+                currentTags.length +
+                  currentCategories.length +
+                  currentYears.length +
+                  currentCollaborators.length >
+                  1
+                  ? "confined"
+                  : ""
+              }`}
+            >
               {(showFilteringTags &&
                 currentTags.length +
                   currentCategories.length +
@@ -634,10 +646,10 @@ export default function Projects({
                 }}
                 className={
                   sortingMenuOpen && !filtersHasChanged
-                    ? "active catButtonBig applyButton"
+                    ? "active catButtonBig applyButton "
                     : sortingMenuOpen && filtersHasChanged
-                    ? "active hasChanged catButtonBig applyButton"
-                    : "catButtonBig noPadding"
+                    ? "active hasChanged catButtonBig applyButton "
+                    : "catButtonBig "
                 }
               >
                 {!sortingMenuOpen &&
@@ -648,7 +660,7 @@ export default function Projects({
                   0 ? (
                   <>
                     <img
-                      className="plusSign"
+                      className="plusSign round"
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/close.svg"}
                     ></img>
@@ -661,7 +673,9 @@ export default function Projects({
                     0 ? (
                   <>
                     <img
-                      className="openFilters"
+                      className={
+                        width > 900 ? "openFilters" : "openFilters round"
+                      }
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/applyBlack.svg"}
                     ></img>
@@ -670,7 +684,7 @@ export default function Projects({
                 ) : sortingMenuOpen && !filtersHasChanged ? (
                   <>
                     <img
-                      className="plusSign"
+                      className="plusSign closeButton"
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/close.svg"}
                     ></img>
@@ -701,10 +715,10 @@ export default function Projects({
               </button>{" "}
             </div>
           </div>
-          {!sortingMenuOpen && width > 800 && (
-            <div className={"fixed top modeButtonContainer header-padding"}>
+          {!sortingMenuOpen && width > 600 && (
+            <div className={"fixed modeButtonContainer header-padding"}>
               <button
-                className="modeButton"
+                className="modeButton catButtonBig"
                 onClick={() => {
                   if (mode === "grid") {
                     setMode("scroll");
@@ -716,10 +730,11 @@ export default function Projects({
                 <img
                   src={
                     process.env.PUBLIC_URL + mode === "grid"
-                      ? "assets/gridIcon.svg"
+                      ? "assets/gridLight.svg"
                       : "assets/scrollIcon.svg"
                   }
                   alt="mode icon"
+                  className="round"
                 />
               </button>
             </div>

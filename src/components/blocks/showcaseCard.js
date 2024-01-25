@@ -50,7 +50,7 @@ export default function ShowcaseCard({ post, mode }) {
           />
         )}
       </a>
-      <div className="pressCardContent">
+      <div className="pressCardContent showCardContent">
         <h4>
           <strong>{post.title}</strong>
         </h4>

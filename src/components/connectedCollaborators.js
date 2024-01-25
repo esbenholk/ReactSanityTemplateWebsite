@@ -89,8 +89,11 @@ export default function ConnectedCollaborators({
         </div>
       ) : (
         <div>
-          {heading ? <p className="headlinep">{heading}</p> : null}
-
+          {heading ? (
+            <div className="blockItemOpenRight">
+              <p className="headlinep">{heading}</p>
+            </div>
+          ) : null}
           <div className="flex-row wrap fold block showcaseGrid">
             {connectedPressInstances &&
               connectedPressInstances.map((project, index) => (

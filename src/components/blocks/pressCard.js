@@ -20,9 +20,9 @@ export default function PostCard({ post }) {
       </a>
 
       <div className="pressCardContent">
-        <h4>
+        <h5>
           <strong>{post.title}</strong>
-        </h4>
+        </h5>
         {post.description && (
           <div className="smallp">
             <BlockContent blocks={post.description} />

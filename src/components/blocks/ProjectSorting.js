@@ -552,7 +552,7 @@ export default function Projects({
                         <img
                           alt="filter icon"
                           className={"unused"}
-                          src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                          src={process.env.PUBLIC_URL + "assets/close.svg"}
                         ></img>
                         <p>Clear All</p>
                       </button>
@@ -730,6 +730,7 @@ export default function Projects({
                     <img
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/applyWhite.svg"}
+                      className="iconThatShouldChangeInNIghtMode"
                     ></img>
                     <p>APPLY FILTER</p>
                     {currentTags.length +
@@ -925,7 +926,9 @@ export default function Projects({
                 <img
                   src={process.env.PUBLIC_URL + "/assets/PlusLight.svg"}
                   alt="plussign"
-                  className={"absolute left iconThatShouldChangeInNIghtMode"}
+                  className={
+                    "allfilterplus absolute left iconThatShouldChangebackInNightMode"
+                  }
                 />
                 <p>VIEW ALL FILTERS</p>
                 <div></div>

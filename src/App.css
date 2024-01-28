@@ -18,6 +18,7 @@ body {
   --paddingSideValue: 35px;
   --padding: var(--paddingValue) var(--paddingValue);
   --button2-color: black;
+  --whiteTurningBlack: white;
 
   background-color: var(--secondary-color);
 }
@@ -417,9 +418,9 @@ a {
 }
 
 .catButtonBig.active:has(.closeButton) {
-  outline: 0px solid var(--third-color);
-  background-color: var(--primary-color) !important;
-  color: var(--third-color);
+  outline: 0px solid var(--whiteTurningBlack);
+  background-color: var(--button2-color) !important;
+  color: var(--whiteTurningBlack);
 }
 .catButtonBig.collaborator {
   background-color: rgba(0, 0, 0, 0);
@@ -453,6 +454,7 @@ a {
   font-size: 17px;
   text-align: center;
   white-space: nowrap;
+  color: inherit;
 }
 .catButtonBig.category p {
   color: black;
@@ -1240,14 +1242,14 @@ footer div {
   color: var(--third-color);
 }
 .sortingMenu .featured.allfilterButton {
-  background-color: var(--third-color);
-  color: var(--primary-color);
+  background-color: var(--button2-color);
+  color: var(--whiteTurningBlack);
   display: flex;
   flex-direction: row;
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid var(--whiteTurningBlack);
 }
 .sortingMenu .featured.allfilterButton p {
-  color: var(--primary-color);
+  color: var(--whiteTurningBlack);
 }
 
 .filterButton p {
@@ -1417,6 +1419,9 @@ iframe,
   min-height: 40px;
   width: 40px;
   padding: 0;
+}
+.catButtonBig:has(.openFilters) {
+  color: var(--button2-color);
 }
 
 .logoImage {
@@ -2205,6 +2210,7 @@ iframe,
     --secondary-color: #171614;
     --third-color: #171614;
     --button2-color: white;
+    --whiteTurningBlack: black;
   }
 }
 
@@ -2214,6 +2220,7 @@ body.dark {
   --third-color: black;
   --button-color: #171614;
   --button2-color: white;
+  --whiteTurningBlack: black;
 }
 
 body.dark .iconThatShouldChangeInNIghtMode {
@@ -2222,6 +2229,9 @@ body.dark .iconThatShouldChangeInNIghtMode {
 
 body.dark .iconThatShouldChangebackInNightMode {
   filter: invert(0) !important ;
+}
+.allfilterplus {
+  filter: invert(1);
 }
 
 body.dark .headingButton {

@@ -143,7 +143,7 @@ export default function Header({
           projectName !== "" ? (
             <>
               <div
-                className="circleIcon header-padding interactable"
+                className="circleIcon header-padding interactable return"
                 style={{
                   backgroundImage: `url(${
                     process.env.PUBLIC_URL + "/assets/returnArrow.svg"
@@ -276,7 +276,7 @@ export default function Header({
                 }`}
                 style={{ zIndex: 999999 + 20 }}
               >
-                <MenuImage width={90} image={info.burgerTop} />
+                <MenuImage width={320} image={info.burgerTop} />
               </div>
             )}
 
@@ -308,7 +308,7 @@ export default function Header({
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
-                      <MenuImage height={40} image={menuItem.image} />
+                      <MenuImage width={320} image={menuItem.image} />
                     </a>
                   </>
                 ) : (
@@ -351,7 +351,7 @@ export default function Header({
                       }}
                     >
                       <p className="link">{menuItem.title}</p>
-                      <MenuImage height={40} image={menuItem.image} />
+                      <MenuImage width={320} image={menuItem.image} />
                     </NavLink>
                   </>
                 )}
@@ -364,7 +364,7 @@ export default function Header({
                 }`}
                 style={{ zIndex: 999999 + 0 }}
               >
-                <MenuImage width={90} image={info.burgerBottom} />
+                <MenuImage width={320} image={info.burgerBottom} />
               </div>
             )}
           </div>

@@ -18,7 +18,7 @@ export default function ShowcaseCard({ post, mode }) {
       className={isLoaded ? "showcaseCard " : "showcaseCard hidden"}
       style={{ position: "relative" }}
     >
-      <div className="flex-row year gap">
+      <div className="flex-row">
         {post.categories && post.categories.length > 0 && (
           <NavLink to={"/timeline?" + post.categories[0].slug.current}>
             <p className="year catButtonSmall interact minip">

@@ -7,9 +7,9 @@
 body {
   --cluster-yellow: #ffeb01;
   --mobile-padding: 10px 10px;
-  --primary-color: #171614;
-  --secondary-color: #faf7e5;
-  --button-color: #eeeee0;
+  --primary-color: #181818;
+  --secondary-color: #f0f0ef;
+  --button-color: #f0f0ef;
   --third-color: white;
   --text-color: #d9d4af;
   --font-size: 20px;
@@ -343,7 +343,7 @@ a {
   border: 0px solid rgba(0, 0, 0, 0);
   display: inline-flex;
   padding: 2px 10px;
-  color: #000;
+  color: var(--primary-color);
   width: fit-content;
   height: fit-content;
   transition: all 0.2s ease-in-out;
@@ -370,7 +370,7 @@ a {
 .catButtonBig {
   border-radius: 40px;
   border: 0px solid rgba(0, 0, 0, 0);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0);
   display: inline-flex;
   padding: 7px 25px;
   color: #000;
@@ -514,6 +514,10 @@ a {
   min-height: 55px;
 }
 
+.headingButton p {
+  color: var(--primary-color);
+}
+
 .headingButton a,
 .headingButton p {
   font-weight: normal;
@@ -522,7 +526,7 @@ a {
   font-weight: 700;
 }
 .year {
-  padding: 7px 15px;
+  padding: 8px 10px;
 }
 .projectCategoryButton p {
   color: var(--primary-color);
@@ -543,7 +547,7 @@ a {
 }
 
 .modeButtonContainer {
-  right: 100px;
+  right: 170px;
   top: 30px;
 }
 
@@ -680,7 +684,11 @@ a {
   background-color: var(--cluster-yellow);
   transition: all 0.1s ease-in-out;
 }
+.circleIcon.return {
+  object-position: 0px 0px;
 
+  background-size: 40px 40px;
+}
 .circleIcon.logo {
   object-position: 0px 0px;
   background-size: 45px 45px;
@@ -745,7 +753,7 @@ footer div {
 .lightmodebutton {
   position: fixed;
   top: 0;
-  right: 100px;
+  right: 80px;
   z-index: 9;
 }
 .burger {
@@ -845,7 +853,7 @@ footer div {
 }
 
 .mobileMenu {
-  backdrop-filter: blur(40px);
+  backdrop-filter: blur(35px);
 }
 
 /* header */
@@ -1131,7 +1139,7 @@ footer div {
 .showcaseCard .year {
   position: absolute;
   z-index: 1;
-  top: 10px;
+  top: 33px;
   left: 10px;
 }
 .pressCard a,
@@ -1443,7 +1451,7 @@ iframe,
   position: absolute;
   right: 0;
   bottom: 0;
-  /* transform: translate(0, 100%); */
+  transform: translate(0, 100%);
   transition: transform 0.5s ease-in-out;
 }
 
@@ -1614,7 +1622,7 @@ iframe,
   .catButtonBig {
     border-radius: 40px;
     border: 0px solid rgba(0, 0, 0, 0);
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0);
     display: inline-flex;
     color: #000;
     padding: 7px 13px;
@@ -2205,20 +2213,36 @@ iframe,
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    --primary-color: #faf7e5;
-    --secondary-color: #171614;
-    --third-color: #171614;
+  body.dark {
+    --primary-color: #f0f0ef;
+    --secondary-color: #181818;
+    --third-color: black;
+    --button-color: #181818;
     --button2-color: white;
     --whiteTurningBlack: black;
+  }
+
+  body.dark .iconThatShouldChangeInNIghtMode {
+    filter: invert(1) !important;
+  }
+
+  body.dark .iconThatShouldChangebackInNightMode {
+    filter: invert(0) !important ;
+  }
+  .allfilterplus {
+    filter: invert(1);
+  }
+
+  body.dark .headingButton {
+    background-color: #171614;
   }
 }
 
 body.dark {
-  --primary-color: #faf7e5;
-  --secondary-color: #171614;
+  --primary-color: #f0f0ef;
+  --secondary-color: #181818;
   --third-color: black;
-  --button-color: #171614;
+  --button-color: #181818;
   --button2-color: white;
   --whiteTurningBlack: black;
 }
@@ -2235,5 +2259,5 @@ body.dark .iconThatShouldChangebackInNightMode {
 }
 
 body.dark .headingButton {
-  background-color: #171614;
+  background-color: black;
 }

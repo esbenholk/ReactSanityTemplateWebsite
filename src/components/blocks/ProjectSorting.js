@@ -943,7 +943,7 @@ export default function Projects({
                   src={process.env.PUBLIC_URL + "/assets/PlusLight.svg"}
                   alt="plussign"
                   className={
-                    "allfilterplus absolute left iconThatShouldChangebackInNightMode"
+                    "allfilterplus absolute left iconThatShouldChangeInNIghtMode"
                   }
                 />
                 <p>VIEW ALL FILTERS</p>

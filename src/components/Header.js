@@ -233,7 +233,7 @@ export default function Header({
         }}
       >
         {width < 900 && (
-          <div className="absolute bottom left">
+          <div className="absolute bottom left darkmodebutton">
             <DarkModeToggle />
           </div>
         )}

@@ -105,7 +105,7 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
   return (
     <>
       <Canvas
-        id="canvas"
+        id="jungleCanvas"
         style={{
           width: "100%",
           position: "relative",
@@ -155,6 +155,7 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
   const [object, setJungleObj] = useState(useLoader(OBJLoader, objUrl));
   const { width } = useWindowDimensions();
   const [frames, setFrames] = useState([]);
+  const [isOverElement, setIsOverElement] = useState(false);
 
   useEffect(() => {
     if (object) {
@@ -205,6 +206,15 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
     }
   }, [object]);
 
+  useEffect(() => {
+    console.log("adds class to body");
+    if (isOverElement) {
+      document.getElementById("jungleCanvas").classList.add("elementOver");
+    } else {
+      document.getElementById("jungleCanvas").classList.remove("elementOver");
+    }
+  }, [isOverElement]);
+
   return (
     <group scale={[1, 1, 1]}>
       <primitive
@@ -215,9 +225,12 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
             ev.object.name,
             ev.object.material.color.getHexString()
           );
+          setIsOverElement(true);
         }}
         onPointerLeave={(ev) => {
           // console.log("leave", ev.object);
+          setIsOverElement(false);
+
           updateJungleMenu(
             false,
             ev.object.name,
@@ -226,6 +239,8 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
         }}
         onPointerOver={(ev) => {
           if (ev.object.name.includes("Cube")) {
+            setIsOverElement(true);
+
             let color = new Color(
               denseCapColors[Math.floor(Math.random() * denseCapColors.length)]
             );

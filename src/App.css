@@ -37,6 +37,18 @@ svg {
 
 * {
   box-sizing: border-box;
+  cursor: url("../public/assets/Pointer_Default.cur"), auto;
+}
+
+img,
+.interactable,
+button,
+a {
+  cursor: url("../public/assets/Pointer_Hand.cur"), auto;
+}
+
+.elementOver canvas {
+  cursor: url("../public/assets/Pointer_Hand_giantd.cur"), auto !important;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -482,10 +494,10 @@ a {
 }
 .standardButton {
   border-radius: 40px;
-  border: 1.5px solid rgba(0, 0, 0, 1);
+  border: 1.5px solid var(--primary-color);
   display: inline-flex;
   padding: 2px 15px;
-  color: #000;
+  color: var(--primary-color);
   width: fit-content;
   height: fit-content;
   transition: all 0.2s ease-in-out;
@@ -758,9 +770,14 @@ footer div {
 /* ////////MENU HEADER/////////// */
 .lightmodebutton {
   position: fixed;
-  top: 0;
+  top: 15px;
   right: 80px;
   z-index: 9;
+}
+.darkmodebutton button,
+.lightmodebutton button {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px solid rgba(0, 0, 0, 0);
 }
 .burger {
   -webkit-transition: height 0.5s ease-in-out, margin-top 0.5s ease-in-out;
@@ -1101,10 +1118,10 @@ footer div {
 }
 
 .scrollView .showcaseCard {
-  width: 713px;
+  width: 900px;
 }
 .scrollView .showcaseCard span {
-  width: 713px;
+  width: 900px;
   max-width: 100%;
 }
 
@@ -1260,14 +1277,14 @@ footer div {
   color: var(--third-color);
 }
 .sortingMenu .featured.allfilterButton {
-  background-color: var(--button2-color);
-  color: var(--whiteTurningBlack);
+  background-color: var(--button-color);
+  color: var(--button2-color);
   display: flex;
   flex-direction: row;
-  outline: 2px solid var(--whiteTurningBlack);
+  outline: 2px solid var(--button2-color);
 }
 .sortingMenu .featured.allfilterButton p {
-  color: var(--whiteTurningBlack);
+  color: var(--button2-color);
 }
 
 .filterButton p {
@@ -2265,9 +2282,9 @@ body.dark .iconThatShouldChangeInNIghtMode {
 body.dark .iconThatShouldChangebackInNightMode {
   filter: invert(0) !important ;
 }
-.allfilterplus {
+/* .allfilterplus {
   filter: invert(1);
-}
+} */
 
 body.dark .headingButton {
   background-color: black;

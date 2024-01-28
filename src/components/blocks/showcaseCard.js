@@ -49,7 +49,7 @@ export default function ShowcaseCard({ post, mode }) {
           <Image
             image={post.mainImage}
             // height={width > 600 ? 450 : null}
-            width={width > 900 ? 713 : width - 26}
+            width={width > 900 ? 900 : width - 26}
             onLoad={updateSetIsLoaded}
           />
         )}

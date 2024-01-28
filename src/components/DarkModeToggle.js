@@ -6,7 +6,6 @@ export const DarkModeToggle = () => {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
   const [isDark, setIsDark] = useState();
-  console.log("darkmode info", info);
   useEffect(() => {
     if (isDark) {
       document.body.classList.add("dark");
@@ -25,9 +24,9 @@ export const DarkModeToggle = () => {
       }}
     >
       {isDark ? (
-        <MenuImage width={80} image={info.darkmodebutton} />
+        <MenuImage height={50} image={info.darkmodebutton} />
       ) : (
-        <MenuImage width={80} image={info.lightmodebutton} />
+        <MenuImage height={50} image={info.lightmodebutton} />
       )}
     </button>
   );

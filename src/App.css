@@ -1721,7 +1721,7 @@ iframe,
     width: fit-content;
     height: fit-content;
     max-width: 80%;
-    max-height: 80%;
+    /* max-height: 80%; */
     min-width: 150px;
     min-height: 200px;
     /* max-width: 80%; */
@@ -1729,7 +1729,7 @@ iframe,
     /* max-height: 70%; */
   }
   .jungleMenuFrameTitle {
-    padding: 5px 1opx 5px 5px;
+    padding: 5px 5px 5px 5px;
     position: absolute;
     /* top: -5px;
     left: -5px; */

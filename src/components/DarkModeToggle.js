@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AppContext from "../globalState";
+import { MenuImage } from "./menuItem";
 
 export const DarkModeToggle = () => {
+  const myContext = useContext(AppContext);
+  const info = myContext.siteSettings;
   const [isDark, setIsDark] = useState();
+  console.log("darkmode info", info);
   useEffect(() => {
     if (isDark) {
       document.body.classList.add("dark");
@@ -20,15 +25,9 @@ export const DarkModeToggle = () => {
       }}
     >
       {isDark ? (
-        <img
-          alt="filter icon"
-          src={process.env.PUBLIC_URL + "/assets/darkmodeicon.png"}
-        ></img>
+        <MenuImage width={80} image={info.darkmodebutton} />
       ) : (
-        <img
-          alt="filter icon"
-          src={process.env.PUBLIC_URL + "/assets/darkmodeicon.png"}
-        ></img>
+        <MenuImage width={80} image={info.lightmodebutton} />
       )}
     </button>
   );

@@ -544,7 +544,7 @@ export default function Projects({
                           backgroundColor: "black",
                           color: "white",
                         }}
-                        className="catButtonBig sortingButton interactable"
+                        className="catButtonBig sortingButton interactable colored"
                         onClick={(evt) => {
                           removeAllQueries();
                         }}
@@ -796,10 +796,14 @@ export default function Projects({
               <>
                 {" "}
                 <button
-                  className="catButtonBig"
+                  className="catButtonBig colored"
                   onClick={(evt) => {
                     removeAllQueries();
                     setFilterHasChanged(false);
+                  }}
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
                   }}
                 >
                   <img
@@ -839,6 +843,10 @@ export default function Projects({
             {currentCollaborators &&
               currentCollaborators.map((collaborator, index) => (
                 <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -851,6 +859,10 @@ export default function Projects({
             {currentTags &&
               currentTags.map((tag, index) => (
                 <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -863,6 +875,10 @@ export default function Projects({
             {currentYears &&
               currentYears.map((year, index) => (
                 <button
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -1154,7 +1170,7 @@ export default function Projects({
         <div className="flex-row wrap fold block showcaseGrid">
           {sortedPosts &&
             sortedPosts.map((project, index) => (
-              <ShowcaseCard post={project} key={index} />
+              <ShowcaseCard post={project} key={index} mode={mode} />
             ))}
         </div>
       )}

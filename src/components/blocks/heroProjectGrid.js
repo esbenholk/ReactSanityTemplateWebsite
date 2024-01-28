@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "./image";
 import useWindowDimensions from "../functions/useWindowDimensions";
 import BlockContent from "./BlockContent";
-
+import { NavLink } from "react-router-dom";
 function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
   let { height, width } = useWindowDimensions();
   const [isActive, setIsActive] = useState(false);
@@ -24,9 +24,9 @@ function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
             class={isActive ? "hero-image blur" : "hero-image "}
           />
 
-          <a
+          <NavLink
             className="heroContent flex-column"
-            href={slug}
+            to={"/" + slug}
             style={{ visibility: isActive ? "visible" : "hidden" }}
           >
             <div className="timeText">
@@ -43,21 +43,25 @@ function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
             )}
 
             <p className="placeText">{place}</p>
-          </a>
+          </NavLink>
         </div>
       ) : (
         <div className="pill">
-          <a className="pillContent" href={slug}>
+          <NavLink className="pillContent" to={"/" + slug}>
             <div className="timeText">
               <BlockContent blocks={time} />
             </div>
             {logo ? (
-              <Image image={logo} height={179 / 2} class={"hero-image "} />
+              <Image
+                image={logo}
+                height={179 / 2.2}
+                class={"hero-image iconThatShouldChangebackInNightMode"}
+              />
             ) : (
               <h1 className="heroHeading">{heading}</h1>
             )}
             <p>{place}</p>
-          </a>
+          </NavLink>
         </div>
       )}
     </>
@@ -69,17 +73,17 @@ export function Pill({ logo, time, place, slug, year }) {
 
   return (
     <div className="pill blockitem">
-      <a className="pillContent" href={slug}>
+      <NavLink className="pillContent" to={"/" + slug}>
         <div className="timeText">
           {time ? <BlockContent blocks={time} /> : year ? <p>{year} </p> : null}
         </div>
         <Image
           image={logo}
-          height={width > 900 ? 170 : 120}
+          height={width > 900 ? 170 : 179 / 2.2}
           class={"hero-image iconThatShouldChangeInNIghtMode"}
         />
         <p>{place}</p>
-      </a>
+      </NavLink>
     </div>
   );
 }

@@ -27,11 +27,15 @@ export default function ShowcaseCard({ post, mode }) {
           </NavLink>
         )}
       </div>
-      <a href={post.slug ? post.slug.current : post.url ? post.url : null}>
+      <NavLink
+        to={
+          post.slug ? "/" + post.slug.current : post.url ? "/" + post.url : null
+        }
+      >
         {mode === "grid" ? (
           <Image
             image={post.mainImage}
-            height={width > 900 ? 450 : null}
+            height={width > 900 ? 330 : null}
             width={
               width < 600
                 ? width - 26
@@ -49,7 +53,7 @@ export default function ShowcaseCard({ post, mode }) {
             onLoad={updateSetIsLoaded}
           />
         )}
-      </a>
+      </NavLink>
       <div className="pressCardContent showCardContent">
         <h4>
           <strong>{post.title}</strong>

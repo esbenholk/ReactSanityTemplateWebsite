@@ -127,7 +127,13 @@ function PageBlock({
         <>
           {pageBlock.content && (
             <div className="blockItem">
-              <div className="textBlock">
+              <div
+                className={
+                  pageBlock.type !== "description"
+                    ? "textBlock"
+                    : "textBlock mini"
+                }
+              >
                 <BlockContent
                   blocks={pageBlock.content}
                   heading={pageBlock.heading}
@@ -174,7 +180,13 @@ function PageBlock({
                 </div>
               )}
               {rowBlock.content && (
-                <div className="textContent">
+                <div
+                  className={
+                    rowBlock.type !== "description"
+                      ? "textContent"
+                      : "textContent mini"
+                  }
+                >
                   <BlockContent blocks={rowBlock.content} />
                 </div>
               )}
@@ -207,7 +219,11 @@ function PageBlockContainer({
       style={{
         background: `linear-gradient(to bottom, ${pageBlock.color1} 0%, ${pageBlock.color2} 100%)`,
       }}
-      className="blockContainer"
+      className={
+        pageBlock.type === "confined"
+          ? "blockContainer confined"
+          : "blockContainer free"
+      }
     >
       {pageBlock.title && pageBlock.title !== "" ? (
         <h2 className="blockItemOpenRight blockItemHeadline">
@@ -233,6 +249,8 @@ export default function PageBuilder({
   updatePageTitle,
   updateProjectTitle,
 }) {
+  console.log("pagebuilder", pageBuilder);
+
   return (
     <div>
       {pageBuilder.map((page, index) => (

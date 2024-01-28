@@ -95,7 +95,7 @@ export default function SinglePost({
                     {project.tags &&
                       project.tags.map((tag, index) => (
                         <NavLink
-                          className="catButtonSmall interactable"
+                          className="catButtonSmall colored interactable"
                           to={"/timeline?" + tag}
                           key={index}
                         >

@@ -1,7 +1,3 @@
-:root {
-  --cluster-yellow: #ffeb01;
-  --mobile-padding: 10px 10px;
-}
 * {
   margin: 0;
 }
@@ -9,6 +5,8 @@
   display: none;
 }
 body {
+  --cluster-yellow: #ffeb01;
+  --mobile-padding: 10px 10px;
   --primary-color: #171614;
   --secondary-color: #faf7e5;
   --button-color: #eeeee0;
@@ -19,20 +17,21 @@ body {
   --paddingValue: 100px;
   --paddingSideValue: 35px;
   --padding: var(--paddingValue) var(--paddingValue);
+  --button2-color: black;
+
+  background-color: var(--secondary-color);
 }
-body.light {
-  --primary-color: white;
-  --secondary-color: black;
-  --third-color: blue;
-  --font-size: 15px;
-  --margin-size: 15px;
-}
+
 body {
   margin: 0;
   font-family: "Arial", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--secondary-color);
+}
+
+svg {
+  fill: black;
 }
 
 * {
@@ -80,6 +79,13 @@ a.flex-row {
   align-items: center;
 }
 
+.blockContainer.confined {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.blockContainer.confined .block,
 .textBlock {
   max-width: 1200px;
   width: 100%;
@@ -253,7 +259,6 @@ h2 {
   font-style: normal;
   font-weight: 400;
   line-height: 52px;
-  margin: 5px 0 5px;
   white-space: wrap;
 }
 h2 strong {
@@ -298,9 +303,23 @@ h5 strong {
 a {
   text-decoration: none;
 }
+.mini p {
+  margin: 0;
+  min-height: var(--font-size);
+  letter-spacing: 0em;
+  text-align: left;
+  white-space: normal;
+  color: var(--primary-color);
+  font-family: Arial;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: fit-content;
+}
 
 .timelineYear {
-  color: #000;
+  color: var(--primary-color);
   /* text-align: center; */
   font-size: 45px;
   font-style: normal;
@@ -321,7 +340,6 @@ a {
 .catButtonSmall {
   border-radius: 40px;
   border: 0px solid rgba(0, 0, 0, 0);
-  background-color: var(--third-color);
   display: inline-flex;
   padding: 2px 10px;
   color: #000;
@@ -333,6 +351,9 @@ a {
   display: flex;
   align-items: center;
   backdrop-filter: blur(27.5px);
+}
+.catButtonSmall.colored {
+  background-color: var(--third-color);
 }
 .catButtonSmall.interact:hover {
   backdrop-filter: blur(60px);
@@ -365,6 +386,10 @@ a {
   transition: all 0.2s ease-in-out;
 }
 
+.applyButton {
+  padding-right: 20px;
+}
+
 .sortingMenu .catButtonBig {
   height: 60px;
   transition: all 0.2s ease-in-out;
@@ -387,7 +412,7 @@ a {
 
 .catButtonBig.active {
   outline: 2px solid var(--third-color);
-  background-color: var(--primary-color) !important;
+  background-color: var(--button2-color) !important;
   color: var(--third-color);
 }
 
@@ -427,8 +452,13 @@ a {
   font-weight: normal;
   font-size: 17px;
   text-align: center;
-  color: inherit;
   white-space: nowrap;
+}
+.catButtonBig.category p {
+  color: black;
+}
+.catButtonBig.active p {
+  color: var(--button-color);
 }
 .catButtonBig.featured a,
 .catButtonBig.featured p {
@@ -614,8 +644,6 @@ a {
 }
 
 .plusSign {
-  filter: invert(1);
-  transform: rotate(45deg);
   padding: 0;
 }
 .active .plusSign {
@@ -712,7 +740,12 @@ footer div {
   font-weight: 500;
 }
 /* ////////MENU HEADER/////////// */
-
+.lightmodebutton {
+  position: fixed;
+  top: 0;
+  right: 100px;
+  z-index: 9;
+}
 .burger {
   -webkit-transition: height 0.5s ease-in-out, margin-top 0.5s ease-in-out;
   transition: height 0.5s ease-in-out margin-top 0.5s ease-in-out;
@@ -768,6 +801,7 @@ footer div {
   overflow: hidden;
   white-space: nowrap;
   text-decoration: none;
+  margin-left: 5px;
 }
 .burgerLayer.interactable:hover {
   background-color: var(--button-color);
@@ -919,7 +953,7 @@ footer div {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .timeText p,
@@ -950,8 +984,11 @@ footer div {
   font-style: normal;
   font-weight: 400;
   min-height: 0;
-  margin: 0;
+  margin: 10px;
   color: var(--primary-color);
+}
+.pill:is(:first-of-type) {
+  margin-top: 20px;
 }
 .connectedprojectpill .pill {
   background-color: var(--primary-color);
@@ -1024,7 +1061,7 @@ footer div {
   max-width: 100%;
   transition: all 1s;
   visibility: visible;
-  padding-bottom: 40px;
+  padding-bottom: 65px;
 }
 
 .hidden {
@@ -1155,13 +1192,13 @@ footer div {
   display: none;
 }
 .buttonList {
-  max-width: 1000px;
+  max-width: 800px;
   flex-wrap: wrap;
   gap: 10px;
   transform: translate(0, 30px);
 }
 .buttonList:has(.lightButton) {
-  transform: translate(0, 25px);
+  transform: translate(0, 30px);
 }
 .buttonList.confined {
   max-width: 45%;
@@ -1187,7 +1224,7 @@ footer div {
   border: 0px;
 }
 .sortingMenu .featured p {
-  color: var(--primary-color);
+  color: black;
   text-align: center;
   font-size: 32px;
   font-style: normal;
@@ -1203,11 +1240,14 @@ footer div {
   color: var(--third-color);
 }
 .sortingMenu .featured.allfilterButton {
-  background-color: white;
+  background-color: var(--third-color);
   color: var(--primary-color);
   display: flex;
   flex-direction: row;
   outline: 2px solid var(--primary-color);
+}
+.sortingMenu .featured.allfilterButton p {
+  color: var(--primary-color);
 }
 
 .filterButton p {
@@ -1389,36 +1429,58 @@ iframe,
 }
 
 .jungleMenuFrame {
-  width: 374px;
-  height: 443px;
+  width: fit-content;
+  height: fit-content;
+  max-width: 50%;
+  /* max-height: 90%; */
+  min-width: 300px;
+  min-height: 350px;
   position: absolute;
   right: 0;
   bottom: 0;
-  transform: translate(0, 100%);
+  /* transform: translate(0, 100%); */
   transition: transform 0.5s ease-in-out;
+}
+
+.jungleMenuFrame span {
+  margin-bottom: -10px;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+.jungleMenuFrame img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  position: relative;
+  z-index: -99999;
+  object-fit: contain;
 }
 .jungleMenuFrame.open {
   transform: translate(0, 0);
 }
 .jungleMenuFrameDescription {
-  background-color: var(--primary-color);
+  background-color: #171614;
 }
 .jungleMenuFrameFrame {
   flex-grow: 1;
+  height: 100%;
   width: 100%;
   backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .jungleMenuFrameFrame .flex-column {
   height: 100%;
 }
 .jungleMenuFrameTitle {
-  padding: 5px;
+  padding: 5px 10px 5px 5px;
+
   position: absolute;
-  top: -15px;
-  left: -15px;
+  /* top: -15px;
+  left: -15px; */
 }
 .jungleMenuFrameTitle p {
-  color: var(--primary-color);
+  color: #171614;
   font-weight: 700;
 }
 .jungleMenuFrameDescription {
@@ -1471,12 +1533,7 @@ iframe,
 
 /* fonts on tablet */
 @media only screen and (max-width: 900px) {
-  body {
-    --primary-color: #171614;
-    --secondary-color: #faf7e5;
-    --button-color: #eeeee0;
-    --third-color: white;
-    --text-color: #d9d4af;
+  .mainContainer {
     --font-size: 24px;
     --margin-size: 15px;
     --paddingValue: 50px;
@@ -1489,12 +1546,12 @@ iframe,
   }
 
   .sortingMenu .featured p {
-    color: var(--primary-color);
     text-align: center;
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    max-width: 80%;
   }
   .sortingMenu .featured img {
     height: 30px;
@@ -1503,7 +1560,7 @@ iframe,
   }
 
   #headLinePlace {
-    margin-top: 37px;
+    margin-top: 30px;
   }
 
   .pressCard .smallp:is(:first-child) {
@@ -1543,7 +1600,7 @@ iframe,
     font-weight: 400;
     line-height: 15px; /* 125% */
     min-height: 0;
-    margin: 0;
+    margin: 5px;
   }
 
   .horizontalScroll {
@@ -1567,6 +1624,14 @@ iframe,
     height: 32px;
 
     transition: all 0.2s ease-in-out;
+  }
+
+  .applyButton {
+    padding-right: 20px;
+  }
+  .applyButton img {
+    min-width: 25px;
+    min-height: 25px;
   }
 
   .headingButton {
@@ -1613,16 +1678,21 @@ iframe,
   }
 
   .jungleMenuFrame {
-    width: 333px;
+    width: fit-content;
+    height: fit-content;
+    max-width: 80%;
+    max-height: 80%;
+    min-width: 150px;
+    min-height: 200px;
     /* max-width: 80%; */
-    height: 400px;
+    /* height: 400px; */
     /* max-height: 70%; */
   }
   .jungleMenuFrameTitle {
-    padding: 5px;
+    padding: 5px 1opx 5px 5px;
     position: absolute;
-    top: -5px;
-    left: -5px;
+    /* top: -5px;
+    left: -5px; */
   }
 
   footer {
@@ -1650,7 +1720,7 @@ iframe,
   }
   .tagbuttongrid {
     padding: 13px;
-    max-width: 100%;
+    max-width: 75%;
     padding-top: 100px;
   }
   .projectDetails {
@@ -1670,7 +1740,7 @@ iframe,
     padding: var(--paddingValue) 0 10px 13px;
   }
   .blockItemHeadline:is(:first-child) {
-    margin-top: 100px;
+    margin-top: 0px;
     margin-bottom: 20px;
   }
 
@@ -1791,12 +1861,7 @@ iframe,
 
 /* fonts on mobile */
 @media only screen and (max-width: 600px) {
-  body {
-    --primary-color: #171614;
-    --secondary-color: #faf7e5;
-    --button-color: #eeeee0;
-    --third-color: white;
-    --text-color: #d9d4af;
+  .mainContainer {
     --font-size: 24px;
     --margin-size: 15px;
     --paddingValue: 14px;
@@ -1942,9 +2007,24 @@ iframe,
     /* margin-left: 12px; */
     padding-left: 12px;
   }
-  .burger.open img {
+  .open.burgerBottom img,
+  .open.burgerTop img {
     visibility: hidden;
     /* transition: all 0s; */
+  }
+  .burger.open img:is(:first-child) {
+    padding-bottom: 50px;
+  }
+  .burger.open {
+    margin-right: 30px;
+  }
+  .tabletright {
+    right: 20px;
+  }
+  .miniwrap a,
+  .miniwrap p {
+    line-height: 15px;
+    min-height: 15px;
   }
 }
 
@@ -2117,4 +2197,33 @@ iframe,
 .empty:hover {
   background-color: rgba(0, 0, 0, 0);
   box-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --primary-color: #faf7e5;
+    --secondary-color: #171614;
+    --third-color: #171614;
+    --button2-color: white;
+  }
+}
+
+body.dark {
+  --primary-color: #faf7e5;
+  --secondary-color: #171614;
+  --third-color: black;
+  --button-color: #171614;
+  --button2-color: white;
+}
+
+body.dark .iconThatShouldChangeInNIghtMode {
+  filter: invert(1) !important;
+}
+
+body.dark .iconThatShouldChangebackInNightMode {
+  filter: invert(0) !important ;
+}
+
+body.dark .headingButton {
+  background-color: #171614;
 }

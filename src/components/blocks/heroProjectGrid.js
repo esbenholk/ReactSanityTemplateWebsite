@@ -52,7 +52,7 @@ function HeroProjectGrid({ image, logo, time, place, slug, year, heading }) {
               <BlockContent blocks={time} />
             </div>
             {logo ? (
-              <Image image={logo} height={179 / 2.5} class={"hero-image"} />
+              <Image image={logo} height={179 / 2} class={"hero-image "} />
             ) : (
               <h1 className="heroHeading">{heading}</h1>
             )}
@@ -75,8 +75,8 @@ export function Pill({ logo, time, place, slug, year }) {
         </div>
         <Image
           image={logo}
-          height={width > 900 ? 170 : 67}
-          class={"hero-image"}
+          height={width > 900 ? 170 : 120}
+          class={"hero-image iconThatShouldChangeInNIghtMode"}
         />
         <p>{place}</p>
       </a>

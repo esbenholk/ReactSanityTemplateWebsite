@@ -41,7 +41,7 @@ export default function CustomCarousel({ images, classsss, description }) {
                     clickHandler();
                     // setImageIndex(imageIndex - 1);
                   }}
-                  className="featuredCardArrow prevArrow"
+                  className="featuredCardArrow prevArrow iconThatShouldChangeInNIghtMode"
                 >
                   <img src={`../assets/arrowLeft.svg`} alt="prevArrow" />
                 </button>
@@ -51,7 +51,7 @@ export default function CustomCarousel({ images, classsss, description }) {
               hasNext && (
                 <button
                   // onClick={clickHandler}
-                  className="featuredCardArrow nextArrow"
+                  className="featuredCardArrow nextArrow iconThatShouldChangeInNIghtMode"
                   onClick={(e) => {
                     clickHandler();
                     // setImageIndex(imageIndex + 1);

@@ -158,7 +158,7 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
 
   useEffect(() => {
     if (object) {
-      let x = 3.5;
+      let x = 20;
       object.scale.set(x, x, x);
       object.rotation.set(0, -Math.PI / 1, 0);
       let tempArray = [];

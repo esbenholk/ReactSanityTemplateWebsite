@@ -5,6 +5,7 @@ import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { MenuImage } from "./menuItem";
 import useWindowDimensions from "./functions/useWindowDimensions";
 import { useParams } from "react-router-dom";
+import { DarkModeToggle } from "./DarkModeToggle";
 
 export function HeaderLogoButton({
   projectName,
@@ -69,7 +70,13 @@ export function HeaderLogoButton({
     </>
   );
 }
-export default function Header({ pageName, projectName, projectLogo }) {
+export default function Header({
+  pageName,
+  projectName,
+  projectLogo,
+  updateDarkMode,
+  isDarkMode,
+}) {
   const myContext = useContext(AppContext);
   const info = myContext.siteSettings;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -125,30 +132,10 @@ export default function Header({ pageName, projectName, projectLogo }) {
   }
   return (
     <div className="menu">
-      {mobileMenuOpen && (
-        <div
-          className="header-padding fixed absolute right"
-          onClick={() => {
-            ToggleMobileMenu(false);
-          }}
-          style={{
-            zIndex: 999999999999999,
-            position: "fixed",
-            top: "10px",
-            right: "0",
-          }}
-        >
-          <img
-            alt="closing icon for mobile menu"
-            src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}
-          ></img>
-        </div>
-      )}
-
       {/* top left corner shows logo if not */}
       <div
         className="flex-row top fixed left align-center space-between"
-        style={{ width: "100%" }}
+        // style={{ width: "100%" }}
       >
         <div className="flex-row align-center" id="header">
           {location.pathname !== "/" &&
@@ -159,7 +146,7 @@ export default function Header({ pageName, projectName, projectLogo }) {
                 className="circleIcon header-padding interactable"
                 style={{
                   backgroundImage: `url(${
-                    process.env.PUBLIC_URL + "/assets/returnArrow.png"
+                    process.env.PUBLIC_URL + "/assets/returnArrow.svg"
                   })`,
                 }}
                 onClick={() => {
@@ -198,9 +185,20 @@ export default function Header({ pageName, projectName, projectLogo }) {
         projectName !== null &&
         projectName !== "" ? (
           <>
-            <div className="headingButton lightButton projectTitle">
+            <div
+              className="headingButton lightButton projectTitle"
+              style={{
+                position: "fixed",
+                left: "50%",
+                transform: "translate(-50%,0)",
+              }}
+            >
               {projectLogo ? (
-                <img src={projectLogo} className="logoImage" alt="logo" />
+                <img
+                  src={projectLogo}
+                  className="logoImage iconThatShouldChangebackInNightMode"
+                  alt="logo"
+                />
               ) : (
                 <p>{projectName}</p>
               )}
@@ -210,13 +208,43 @@ export default function Header({ pageName, projectName, projectLogo }) {
           </>
         ) : null}
       </div>
+      {width > 900 && (
+        <div className="lightmodebutton desktop">
+          <DarkModeToggle />
+        </div>
+      )}
+
+      {/* mobile menu background */}
+      <div
+        onClick={() => {
+          ToggleMobileMenu(false);
+        }}
+        ref={mobileMenu}
+        className="mobileMenu"
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          left: 0,
+          bottom: 0,
+
+          display: "none",
+          zIndex: 9999999,
+        }}
+      >
+        {width < 900 && (
+          <div className="absolute bottom left">
+            <DarkModeToggle />
+          </div>
+        )}
+      </div>
 
       {info.headerMenu && (
         <div
-          className="top fixed right  menuContainer"
+          className="menuContainer top fixed right "
           style={{
             maxWidth: `${location.pathname === "/" ? "90px" : "80px"}`,
-            zIndex: 999999,
+            zIndex: 99999999999,
           }}
           onMouseEnter={() => {
             if (width > 900) {
@@ -342,21 +370,24 @@ export default function Header({ pageName, projectName, projectLogo }) {
           </div>
         </div>
       )}
-      {/* mobile menu background */}
-      <div
-        ref={mobileMenu}
-        className="mobileMenu"
-        style={{
-          position: "fixed",
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0,
-
-          display: "none",
-          zIndex: 99999,
-        }}
-      ></div>
+      {mobileMenuOpen && (
+        <div
+          className="header-padding fixed absolute right tabletright"
+          onClick={() => {
+            ToggleMobileMenu(false);
+          }}
+          style={{
+            zIndex: 999999999999999,
+            position: "fixed",
+            top: "10px",
+          }}
+        >
+          <img
+            alt="closing icon for mobile menu"
+            src={process.env.PUBLIC_URL + "/assets/closingIcon.png"}
+          ></img>
+        </div>
+      )}
     </div>
   );
 }

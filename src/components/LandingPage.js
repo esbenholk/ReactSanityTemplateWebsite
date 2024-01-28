@@ -145,22 +145,18 @@ export default function LandingPage() {
                 } solid`,
               }}
             >
-              {jungleMenuItem.title && (
-                <div
-                  style={{
-                    backgroundColor: `#${jungleMenuItem.color}`,
-                  }}
-                  className="jungleMenuFrameTitle"
-                >
-                  <p>{jungleMenuItem.title}</p>
-                </div>
-              )}
-              {jungleMenuItem.image && (
-                <div className="flex-column align-center justify-center">
-                  <Image image={jungleMenuItem.image} width={200} />
-                </div>
-              )}
+              {jungleMenuItem.image && <Image image={jungleMenuItem.image} />}
             </NavLink>{" "}
+            {jungleMenuItem.title && (
+              <div
+                style={{
+                  backgroundColor: `#${jungleMenuItem.color}`,
+                }}
+                className="jungleMenuFrameTitle"
+              >
+                <p>{jungleMenuItem.title}</p>
+              </div>
+            )}
             {jungleMenuItem.description && (
               <div className="jungleMenuFrameDescription flex-row wrap align-center justify-content">
                 <p style={{ color: `#${jungleMenuItem.color}` }}>

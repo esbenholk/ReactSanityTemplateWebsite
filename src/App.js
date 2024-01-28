@@ -110,7 +110,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className={"mainContainer"}>
       {siteSettings && (
         <>
           <HeadTags
@@ -130,7 +130,6 @@ function App() {
                   />
                 )}
                 <motion.div
-                  className="mainContainer"
                   ref={mainRef}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -166,7 +165,7 @@ function App() {
           </Suspense>
         </>
       )}
-    </>
+    </div>
   );
 }
 

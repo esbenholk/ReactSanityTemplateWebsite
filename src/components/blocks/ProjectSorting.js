@@ -498,7 +498,7 @@ export default function Projects({
     <div className="projects">
       {mode !== "grid" && showFilteringTags && (
         <div
-          className="catButtonBig lightButton projectTitle fixed top center"
+          className="catButtonBig lightButton headingButton projectTitle fixed top center"
           id="headLinePlace"
         >
           <p></p>
@@ -517,7 +517,8 @@ export default function Projects({
                   currentCategories.length +
                   currentYears.length +
                   currentCollaborators.length >
-                  1
+                  1 &&
+                !sortingMenuOpen
                   ? "confined"
                   : ""
               }`}
@@ -551,7 +552,7 @@ export default function Projects({
                         <img
                           alt="filter icon"
                           className={"unused"}
-                          src={process.env.PUBLIC_URL + "/close.png"}
+                          src={process.env.PUBLIC_URL + "/assets/close.svg"}
                         ></img>
                         <p>Clear All</p>
                       </button>
@@ -573,7 +574,15 @@ export default function Projects({
                             (e) => e.title === category
                           ).color,
                         }}
-                        className="catButtonBig interactable"
+                        className={
+                          currentTags.length +
+                            currentCategories.length +
+                            currentYears.length +
+                            currentCollaborators.length <
+                          1
+                            ? "catButtonBig interactable headingButton lightButton"
+                            : "catButtonBig interactable lightButton"
+                        }
                         key={index}
                         onClick={(evt) => {
                           removeCategory(category);
@@ -589,7 +598,15 @@ export default function Projects({
                           backgroundColor: "black",
                           color: "white",
                         }}
-                        className="catButtonBig interactable"
+                        className={
+                          currentTags.length +
+                            currentCategories.length +
+                            currentYears.length +
+                            currentCollaborators.length <
+                          1
+                            ? "catButtonBig interactable headingButton lightButton"
+                            : "catButtonBig interactable lightButton"
+                        }
                         key={index}
                         onClick={() => {
                           setCollaborator(collaborator);
@@ -605,7 +622,15 @@ export default function Projects({
                           backgroundColor: "black",
                           color: "white",
                         }}
-                        className="catButtonBig interactable"
+                        className={
+                          currentTags.length +
+                            currentCategories.length +
+                            currentYears.length +
+                            currentCollaborators.length <
+                          1
+                            ? "catButtonBig interactable headingButton lightButton"
+                            : "catButtonBig interactable lightButton"
+                        }
                         key={index}
                         onClick={() => {
                           setTag(tag);
@@ -621,7 +646,15 @@ export default function Projects({
                           backgroundColor: "black",
                           color: "white",
                         }}
-                        className="catButtonBig interactable"
+                        className={
+                          currentTags.length +
+                            currentCategories.length +
+                            currentYears.length +
+                            currentCollaborators.length <
+                          1
+                            ? "catButtonBig interactable headingButton lightButton"
+                            : "catButtonBig interactable lightButton"
+                        }
                         key={index}
                         onClick={() => {
                           setYear(year);
@@ -660,9 +693,9 @@ export default function Projects({
                   0 ? (
                   <>
                     <img
-                      className="plusSign round"
+                      className="plusSign round iconThatShouldChangeInNIghtMode"
                       alt="filter icon"
-                      src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                      src={process.env.PUBLIC_URL + "/assets/PlusLight.svg"}
                     ></img>
                   </>
                 ) : !sortingMenuOpen &&
@@ -674,7 +707,9 @@ export default function Projects({
                   <>
                     <img
                       className={
-                        width > 900 ? "openFilters" : "openFilters round"
+                        width > 900
+                          ? "openFilters iconThatShouldChangeInNIghtMode"
+                          : "openFilters round iconThatShouldChangeInNIghtMode"
                       }
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/applyBlack.svg"}
@@ -684,7 +719,7 @@ export default function Projects({
                 ) : sortingMenuOpen && !filtersHasChanged ? (
                   <>
                     <img
-                      className="plusSign closeButton"
+                      className="plusSign closeButton iconThatShouldChangeInNIghtMode"
                       alt="filter icon"
                       src={process.env.PUBLIC_URL + "/assets/close.svg"}
                     ></img>
@@ -734,7 +769,7 @@ export default function Projects({
                       : "assets/scrollIcon.svg"
                   }
                   alt="mode icon"
-                  className="round"
+                  className="round iconThatShouldChangeInNIghtMode"
                 />
               </button>
             </div>
@@ -760,10 +795,6 @@ export default function Projects({
               <>
                 {" "}
                 <button
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
                   className="catButtonBig"
                   onClick={(evt) => {
                     removeAllQueries();
@@ -773,7 +804,7 @@ export default function Projects({
                   <img
                     alt="filter icon"
                     className={"unused"}
-                    src={process.env.PUBLIC_URL + "/close.png"}
+                    src={process.env.PUBLIC_URL + "assets/close.svg"}
                   ></img>
                   <p>Clear All</p>
                 </button>
@@ -807,10 +838,6 @@ export default function Projects({
             {currentCollaborators &&
               currentCollaborators.map((collaborator, index) => (
                 <button
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -823,10 +850,6 @@ export default function Projects({
             {currentTags &&
               currentTags.map((tag, index) => (
                 <button
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -839,10 +862,6 @@ export default function Projects({
             {currentYears &&
               currentYears.map((year, index) => (
                 <button
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
                   className="catButtonBig"
                   key={index}
                   onClick={() => {
@@ -872,6 +891,15 @@ export default function Projects({
           zIndex: 9,
           overflowY: "scroll",
         }}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (sortingMenuOpen) {
+            setSortingMenuOpen(false);
+            setFilterHasChanged(false);
+            setIsMenuIntro(true);
+            setShowFilteringTags(true);
+          }
+        }}
       >
         <div className={isMenuIntro ? "flex-column gap" : "flex-row fold"}>
           <div
@@ -880,7 +908,8 @@ export default function Projects({
             {isMenuIntro && (
               <button
                 className="catButtonBig featured interactable allfilterButton"
-                onClick={(evt) => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setIsMenuIntro(false);
                   window.scrollTo(0, 0);
                 }}
@@ -894,10 +923,9 @@ export default function Projects({
                 }}
               >
                 <img
-                  src={process.env.PUBLIC_URL + "/assets/close.svg"}
+                  src={process.env.PUBLIC_URL + "/assets/PlusLight.svg"}
                   alt="plussign"
-                  className={"absolute left"}
-                  style={{ transform: "rotate(45deg)", filter: "invert(1)" }}
+                  className={"absolute left iconThatShouldChangeInNIghtMode"}
                 />
                 <p>VIEW ALL FILTERS</p>
                 <div></div>
@@ -926,7 +954,8 @@ export default function Projects({
                       } catButtonBig interactable category`}
                       key={index}
                       id={"category_" + category.title + ""}
-                      onClick={(evt) => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (
                           isMenuIntro &&
                           !currentCategories.includes(category.title)
@@ -947,8 +976,12 @@ export default function Projects({
 
                       <img
                         alt="filter icon"
-                        className={isMenuIntro && "absolute right"}
-                        src={process.env.PUBLIC_URL + "/close.png"}
+                        className={
+                          isMenuIntro
+                            ? "absolute right unused iconThatShouldChangeInNIghtMode"
+                            : "unused iconThatShouldChangeInNIghtMode"
+                        }
+                        src={process.env.PUBLIC_URL + "/assets/close.svg"}
                       ></img>
                     </button>
                   )
@@ -967,7 +1000,9 @@ export default function Projects({
                       } catButtonBig interactable category`}
                       key={index}
                       id={"category_" + category.title + ""}
-                      onClick={(evt) => {
+                      onClick={(e) => {
+                        e.stopPropagation();
+
                         setCategory({ category });
                       }}
                     >
@@ -975,8 +1010,8 @@ export default function Projects({
 
                       <img
                         alt="filter icon"
-                        className={"unused"}
-                        src={process.env.PUBLIC_URL + "/close.png"}
+                        className={"unused iconThatShouldChangeInNIghtMode"}
+                        src={process.env.PUBLIC_URL + "/assets/close.svg"}
                       ></img>
                     </button>
                   )
@@ -989,7 +1024,9 @@ export default function Projects({
                   } catButtonBig interactable tag`}
                   key={index}
                   id={"tag_" + tag + ""}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
+
                     setTag(tag);
                   }}
                 >
@@ -997,8 +1034,8 @@ export default function Projects({
 
                   <img
                     alt="filter icon"
-                    className={"unused"}
-                    src={process.env.PUBLIC_URL + "/close.png"}
+                    className={"unused iconThatShouldChangeInNIghtMode"}
+                    src={process.env.PUBLIC_URL + "/assets/close.svg"}
                   ></img>
                 </button>
               ))}{" "}
@@ -1011,7 +1048,9 @@ export default function Projects({
                   } catButtonBig interactable tag`}
                   key={index}
                   id={"year_" + year.toString()}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
+
                     setYear(year);
                   }}
                 >
@@ -1019,8 +1058,8 @@ export default function Projects({
 
                   <img
                     alt="filter icon"
-                    className={"unused"}
-                    src={process.env.PUBLIC_URL + "/close.png"}
+                    className={"unused iconThatShouldChangeInNIghtMode"}
+                    src={process.env.PUBLIC_URL + "/assets/close.svg"}
                   ></img>
                 </button>
               ))}
@@ -1033,7 +1072,9 @@ export default function Projects({
                   } catButtonBig interactable collaborator`}
                   key={index}
                   id={"collaborator_" + collaborator.toString()}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
+
                     setCollaborator(collaborator);
                   }}
                 >
@@ -1048,8 +1089,8 @@ export default function Projects({
                   <p>{collaborator}</p>
                   <img
                     alt="filter icon"
-                    className={"unused"}
-                    src={process.env.PUBLIC_URL + "/close.png"}
+                    className={"unused iconThatShouldChangeInNIghtMode"}
+                    src={process.env.PUBLIC_URL + "/assets/close.svg"}
                   ></img>
                 </button>
               ))}

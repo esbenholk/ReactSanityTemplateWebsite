@@ -12,7 +12,7 @@ export const MenuImage = ({ height, width, image }) => {
       }
       alt="menu icon"
       style={{
-        minHeight: height,
+        height: height,
         objectFit: "contain",
         maxWidth: "none",
       }}

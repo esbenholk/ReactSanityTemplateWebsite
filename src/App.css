@@ -768,6 +768,21 @@ footer div {
   font-weight: 500;
 }
 /* ////////MENU HEADER/////////// */
+
+.darkmodetoggle {
+  width: 100px;
+  height: 80px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+.darkmodetoggle img {
+  max-height: 100% !important;
+  max-width: 100% !important;
+}
+.mobileMenu .darkmodetoggle {
+  margin-bottom: 25px;
+  margin-left: 20px;
+}
 .lightmodebutton {
   position: fixed;
   top: 15px;
@@ -869,6 +884,7 @@ footer div {
   width: 50px;
 } */
 
+.burgerBottom.open,
 .burgerTop.open {
   /* padding-bottom: 10px; */
   margin-bottom: 0px;
@@ -1083,6 +1099,7 @@ footer div {
   flex-direction: column;
   width: 596px;
 }
+
 .pressCard:is(:last-child) {
   margin-right: 100px;
 }
@@ -1155,6 +1172,9 @@ footer div {
 .pressCardContent .smallp {
   margin-top: 9px;
   margin-bottom: 9px;
+}
+.pressCardContent h5 {
+  white-space: wrap;
 }
 
 .pressCard .year {
@@ -1469,8 +1489,8 @@ iframe,
 }
 
 .jungleMenuFrame {
-  width: fit-content;
-  height: fit-content;
+  /* width: fit-content;
+  height: fit-content; */
   max-width: 50%;
   /* max-height: 90%; */
   min-width: 300px;
@@ -1718,8 +1738,8 @@ iframe,
   }
 
   .jungleMenuFrame {
-    width: fit-content;
-    height: fit-content;
+    /* width: fit-content;
+    height: fit-content; */
     max-width: 80%;
     /* max-height: 80%; */
     min-width: 150px;

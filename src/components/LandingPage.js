@@ -100,7 +100,7 @@ export default function LandingPage() {
               }
             >
               {info.leftButtonLink.image ? (
-                <MenuImage width={80} image={info.leftButtonLink.image} />
+                <MenuImage width={283} image={info.leftButtonLink.image} />
               ) : (
                 <p>{info.leftButtonLink.title}</p>
               )}
@@ -122,7 +122,7 @@ export default function LandingPage() {
               }
             >
               {info.rightButtonLink.image ? (
-                <MenuImage width={80} image={info.rightButtonLink.image} />
+                <MenuImage width={283} image={info.rightButtonLink.image} />
               ) : (
                 <p>{info.rightButtonLink.title}</p>
               )}

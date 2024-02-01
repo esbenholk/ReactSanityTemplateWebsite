@@ -16,7 +16,7 @@ export const DarkModeToggle = () => {
 
   return (
     <button
-      className="header-padding"
+      className="darkmodetoggle"
       onClick={(e) => {
         console.log("is  dark");
         e.stopPropagation();
@@ -24,9 +24,9 @@ export const DarkModeToggle = () => {
       }}
     >
       {isDark ? (
-        <MenuImage height={50} image={info.darkmodebutton} />
+        <MenuImage height={482} image={info.darkmodebutton} />
       ) : (
-        <MenuImage height={50} image={info.lightmodebutton} />
+        <MenuImage height={428} image={info.lightmodebutton} />
       )}
     </button>
   );

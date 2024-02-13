@@ -33,7 +33,6 @@ export default function LandingPage() {
       item.title.includes(number)
     );
 
-    console.log("udate jungle menu", bool, name, color);
     if (name !== "" && navObject && navObject.frameTitle) {
       let currentJungleItem = {
         description: navObject.frameDescription,
@@ -57,7 +56,6 @@ export default function LandingPage() {
       jni.title.includes(number)
     );
 
-    console.log("clicks", name, number, jungleMenuItem);
     if (jungleNavigationItem) {
       if (
         jungleNavigationItem.url &&

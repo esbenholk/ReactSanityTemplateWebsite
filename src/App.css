@@ -840,6 +840,7 @@ footer div {
 .burgerBottom.closed {
   margin-top: -20px;
 }
+/* s */
 
 .burgerLayer p {
   width: 0;
@@ -876,7 +877,7 @@ footer div {
   margin-bottom: -10px;
   margin-top: -10px;
 }
-.burger.big .burgerBottom {
+.burger.big .burgerBottom.closed {
   margin-top: -20px;
 }
 

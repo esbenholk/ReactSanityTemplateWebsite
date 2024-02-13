@@ -48,13 +48,13 @@ function App() {
 
   // get sitesettings and page names (for slug redirection)
   useEffect(() => {
+    console.log("u r doing amazing sweety");
     sanityClient
       .fetch(
         `*[_type == "siteSettings" ]{junglenavigation[]{title, url, frameTitle, frameDescription, image}, darkmodebutton, lightmodebutton,greetings,mainImage{asset->{_id,url}, hotspot}, title,favicon{asset->{_id,url}}, title,  greeting, logo{asset->{_id,url}, hotspot}, institutions, breadContent,footerMenuSocials[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, ${pageBuilderquerystring}, burgerTop, burgerBottom, leftButtonLink{page->{slug}, project->{slug},url, title, image}, rightButtonLink{page->{slug}, project->{slug},url, title, image}, cubeMap, headerMenu[] {_type == "menuItem" => { _type, image, page->{slug}, project->{slug}, url, title}}, footerMenu {_type == "linkArrayColumns" => { _type,heading, columns[]{heading, links{external_links[]{title, image, url, page->{slug}, project->{slug}}}}}}}`
       )
       .then((data) => {
         setSiteSettings(data[0]);
-        console.log(data);
       })
       .catch(console.error);
 
@@ -68,6 +68,8 @@ function App() {
 
   ///get project data, set category names
   useEffect(() => {
+    console.log("xoxo ur webdev artist esben holk");
+
     sanityClient
       .fetch(
         ' *[_type == "project"]{ title, slug, description, year, mainImage, heroImage, buttons, tags, categories[]->{title, slug, color, isFeatured}, collaborators[]->{title, color, code, slug}}'

@@ -85,12 +85,12 @@ function Jungle({ cubeMap, updateJungleMenu, openJungleMenuLink }) {
 
   useEffect(() => {
     let tempArray = [];
-    tempArray.push(urlFor(cubeMap.posx.asset).height(1000).url());
-    tempArray.push(urlFor(cubeMap.negx.asset).height(1000).url());
-    tempArray.push(urlFor(cubeMap.posy.asset).height(1000).url());
-    tempArray.push(urlFor(cubeMap.negy.asset).height(1000).url());
-    tempArray.push(urlFor(cubeMap.posz.asset).height(1000).url());
-    tempArray.push(urlFor(cubeMap.negz.asset).height(1000).url());
+    tempArray.push(urlFor(cubeMap.posx.asset).height(1000).width(1000).url());
+    tempArray.push(urlFor(cubeMap.negx.asset).height(1000).width(1000).url());
+    tempArray.push(urlFor(cubeMap.posy.asset).height(1000).width(1000).url());
+    tempArray.push(urlFor(cubeMap.negy.asset).height(1000).width(1000).url());
+    tempArray.push(urlFor(cubeMap.posz.asset).height(1000).width(1000).url());
+    tempArray.push(urlFor(cubeMap.negz.asset).height(1000).width(1000).url());
 
     SetCubeMapTxtureUrls(tempArray);
   }, [
@@ -166,7 +166,6 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
 
       object.traverse(function (child) {
         if (child instanceof Mesh) {
-          console.log(child.name);
           if (
             (child.name.includes("Cube") && !child.name.includes("click")) ||
             (child.name.includes("FRAME") && !child.name.includes("click"))
@@ -207,7 +206,6 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
   }, [object]);
 
   useEffect(() => {
-    console.log("adds class to body");
     if (isOverElement) {
       document.getElementById("jungleCanvas").classList.add("elementOver");
     } else {
@@ -219,7 +217,6 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
     <group scale={[1, 1, 1]}>
       <primitive
         onPointerEnter={(ev) => {
-          // console.log("enter", ev.object);
           updateJungleMenu(
             true,
             ev.object.name,
@@ -254,7 +251,6 @@ function Frames({ updateJungleMenu, openJungleMenuLink }) {
             );
             if (frame) {
               frame.material.color = color;
-              console.log("has frame p:", frame);
             }
           }
         }}

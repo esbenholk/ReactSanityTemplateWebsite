@@ -14,6 +14,7 @@ export default function ConnectedCollaborators({
 
   useEffect(() => {
     if (press.collaborators != null) {
+      press.collaborators.sort(() => Math.random() - 0.5);
       setPressInstances(press.collaborators);
     } else if (press.category != null && press.category.length > 0) {
       for (let index = 0; index < press.category.length; index++) {
@@ -49,6 +50,8 @@ export default function ConnectedCollaborators({
   }, [press.category, press.collaborators]);
 
   useEffect(() => {
+    console.log("sorts collaborators", connectedPressInstances);
+
     connectedPressInstances.sort(() => Math.random() - 0.5);
   }, [connectedPressInstances]);
 

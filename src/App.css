@@ -1175,6 +1175,7 @@ footer div {
   margin-bottom: 9px;
 }
 .pressCardContent h5 {
+  max-width: 100%;
   white-space: wrap;
 }
 

@@ -1178,6 +1178,10 @@ footer div {
   max-width: 100%;
   white-space: wrap;
 }
+.pressCardContent h5 strong {
+  max-width: 100%;
+  white-space: wrap;
+}
 
 .pressCard .year {
   position: absolute;

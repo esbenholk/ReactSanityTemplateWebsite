@@ -305,6 +305,8 @@ h4 {
 h4 strong {
   font-weight: 700;
 }
+
+.pressCardh5,
 h5 {
   color: var(--primary-color);
   font-family: Arial;
@@ -313,6 +315,7 @@ h5 {
   font-weight: 400;
   white-space: wrap;
 }
+.pressCardh5 strong,
 h5 strong {
   font-weight: 700;
 }
@@ -1180,12 +1183,12 @@ footer div {
   margin-top: 9px;
   margin-bottom: 9px;
 }
-.pressCardContent h5 {
+.pressCardContent .pressCardh5 {
   max-width: 100%;
   white-space: wrap;
   text-wrap: wrap;
 }
-.pressCardContent h5 strong {
+.pressCardContent .pressCardh5 strong {
   max-width: 100%;
   white-space: wrap;
   text-wrap: wrap;
@@ -1646,11 +1649,11 @@ iframe,
     max-width: 100%;
   }
 
-  .pressCardContent h5 {
+  .pressCardContent .pressCardh5 {
     max-width: 325px;
     white-space: wrap !important;
   }
-  .pressCardContent h5 strong {
+  .pressCardContent .pressCardh5 strong {
     max-width: 325px;
     white-space: wrap !important;
   }
@@ -1932,6 +1935,7 @@ iframe,
     line-height: 24px; /* 120% */
   }
 
+  .pressCardh5,
   h5 {
     font-family: Arial;
     font-size: 16px;
@@ -2057,6 +2061,7 @@ iframe,
     line-height: 20px; /* 125% */
   }
 
+  .pressCardh5,
   h5 {
     font-family: Arial;
     font-size: 14px;
@@ -2064,12 +2069,12 @@ iframe,
     font-weight: 400;
   }
 
-  .pressCardContent h5 {
+  .pressCardContent .pressCardh5 {
     max-width: 325px;
     white-space: wrap !important;
     text-wrap: wrap;
   }
-  .pressCardContent h5 strong {
+  .pressCardContent .pressCardh5 strong {
     max-width: 325px;
     text-wrap: wrap;
     white-space: wrap !important;

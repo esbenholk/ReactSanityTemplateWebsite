@@ -1168,6 +1168,7 @@ footer div {
   margin-top: 8px;
   margin-left: 8px;
   margin-right: 8px;
+  max-width: 100%;
 }
 
 .pressCardContent .smallp {
@@ -1635,7 +1636,16 @@ iframe,
   .pressCardContent {
     margin-left: 8px;
     margin-right: 8px;
-    /* margin-bottom: 0px; */
+    max-width: 100%;
+  }
+
+  .pressCardContent h5 {
+    max-width: 100%;
+    white-space: wrap;
+  }
+  .pressCardContent h5 strong {
+    max-width: 100%;
+    white-space: wrap;
   }
   .smallp p {
     line-height: 15px;
@@ -1645,6 +1655,9 @@ iframe,
     max-width: 70%;
   }
 
+  .pressCard {
+    width: 325px;
+  }
   .pressCard span,
   .pressCard img {
     height: 200px;
@@ -2042,6 +2055,15 @@ iframe,
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+  }
+
+  .pressCardContent h5 {
+    max-width: 100%;
+    white-space: wrap;
+  }
+  .pressCardContent h5 strong {
+    max-width: 100%;
+    white-space: wrap;
   }
 }
 

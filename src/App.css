@@ -1645,11 +1645,11 @@ iframe,
   }
 
   .pressCardContent h5 {
-    max-width: 100%;
+    max-width: 325px;
     white-space: wrap !important;
   }
   .pressCardContent h5 strong {
-    max-width: 100%;
+    max-width: 325px;
     white-space: wrap !important;
   }
   .smallp p {
@@ -2067,6 +2067,7 @@ iframe,
     white-space: wrap !important;
   }
   .pressCardContent h5 strong {
+    max-width: 325px;
     white-space: wrap !important;
   }
 }

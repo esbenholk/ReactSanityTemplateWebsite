@@ -1183,10 +1183,12 @@ footer div {
 .pressCardContent h5 {
   max-width: 100%;
   white-space: wrap;
+  text-wrap: wrap;
 }
 .pressCardContent h5 strong {
   max-width: 100%;
   white-space: wrap;
+  text-wrap: wrap;
 }
 
 .pressCard .year {
@@ -2065,9 +2067,11 @@ iframe,
   .pressCardContent h5 {
     max-width: 325px;
     white-space: wrap !important;
+    text-wrap: wrap;
   }
   .pressCardContent h5 strong {
     max-width: 325px;
+    text-wrap: wrap;
     white-space: wrap !important;
   }
 }

@@ -313,7 +313,7 @@ h5 {
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
-  line-height: 15px;
+
   white-space: wrap;
 }
 .pressCardh5 strong,
@@ -1662,6 +1662,7 @@ iframe,
 
   .pressCardContent .pressCardh5 {
     max-width: 325px;
+    line-height: 15px;
     white-space: wrap !important;
   }
   .pressCardContent .pressCardh5 strong {
